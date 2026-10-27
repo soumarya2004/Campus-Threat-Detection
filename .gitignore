@@ -20,6 +20,7 @@ predictions/
 # Model checkpoints and downloaded weights
 weights/
 *.pt
+!runs/detect/person1_clean/yolo11n_clean_v2/weights/best.pt
 *.onnx
 *.engine
 
