@@ -1,0 +1,8 @@
+# Person 1 — YOLO dangerous-item detector
+ultralytics==8.4.175
+opencv-python==5.0.0.93
+numpy==2.5.2
+PyYAML==6.0.3
+
+# Testing
+pytest==9.1.1
