@@ -104,7 +104,7 @@ Local artifacts include:
 - Annotated test output: `outputs/synthetic_test_annotated.mp4`
 - Video inference JSON report: `outputs/synthetic_test_annotated.json`
 
-Large checkpoints, local datasets, and generated outputs are excluded from Git according to the repository's ignore rules.
+The cleaned checkpoint `runs/detect/person1_clean/yolo11n_clean_v2/weights/best.pt` is committed to Git. The local dataset, other training artifacts (such as `args.yaml` and `results.csv`), and generated outputs may be excluded from Git according to the repository's ignore rules.
 
 ## 7. Limitations
 
