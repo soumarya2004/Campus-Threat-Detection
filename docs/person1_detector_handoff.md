@@ -159,7 +159,7 @@ The detector does not independently perform person detection, persistent trackin
 - `runs/detect/person1_clean/yolo11n_clean_v2/weights/best.pt` — committed cleaned checkpoint
 - `scripts/run_video_inference.py` — video inference and reporting utility
 - `scripts/inspect_video_detections.py` — class-level video detection inspection utility
-- `scripts/inspect_suspicious_frames.py` — targeted frame inspection utility; currently configured for `outputs/knife.mp4` and frames 150, 200, and 350
+- `scripts/inspect_suspicious_frames.py` — configurable frame inspection utility; defaults to `outputs/rifle.mp4` and frames 40, 80, and 120.
 - `tests/` — automated tests
 - `reports/person1_model_evaluation.md` — original model/run evaluation
 - `reports/person1_clean_model_evaluation.md` — cleaned model evaluation
