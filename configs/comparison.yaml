@@ -1,0 +1,32 @@
+# Compute comparison only. These runs never select settings using the test set.
+data: configs/dataset_grouped.yaml
+split: val
+seed: 42
+samples: 64
+repetitions: 3
+warmup_batches: 2
+image_size: 640
+confidence: 0.25
+nms_iou: 0.7
+max_detections: 300
+batch_sizes: [1, 4, 8]
+cpu_threads: 8
+models:
+  - name: coco_yolo11n
+    path: yolo11n.pt
+    sha256: 0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1
+    class_count: 80
+    class_zero: person
+    source: https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n.pt
+  - name: coco_yolo11s
+    path: yolo11s.pt
+    sha256: 85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5
+    class_count: 80
+    class_zero: person
+    source: https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11s.pt
+  - name: selected_items_yolo11n
+    path: models/dangerous_items_yolo11n.pt
+    sha256: 7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc
+    class_count: 5
+    class_zero: machete
+    source: models/model_card.json

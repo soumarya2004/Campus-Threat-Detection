@@ -1,0 +1,180 @@
+{
+  "created_at_utc": "2026-11-17T14:14:54.376496+00:00",
+  "purpose": "Standalone Person 1 runtime and consumer-contract rehearsal; no P3/P4 code required. Not an accuracy evaluation.",
+  "source": {
+    "path": "C:\\Projects\\campus-threat-detection\\outputs\\rifle.mp4",
+    "sha256": "e86bf22cfa5d2449e18fcf118935fc454d1cff9f57a05b81f83b73f19c552e2f"
+  },
+  "timestamp_source": "OpenCV CAP_PROP_POS_MSEC after decoding, in seconds; missing or stalled timestamps fail this strict rehearsal.",
+  "class_namespaces": {
+    "items": {
+      "0": "machete",
+      "1": "knife",
+      "2": "baseball bat",
+      "3": "rifle",
+      "4": "gun"
+    },
+    "people": {
+      "0": "person"
+    }
+  },
+  "models": {
+    "items": {
+      "model_path": "C:\\Projects\\campus-threat-detection\\models\\dangerous_items_yolo11n.pt",
+      "confidence_threshold": 0.45,
+      "image_size": 640,
+      "nms_iou": 0.7,
+      "max_detections": 300,
+      "device_requested": "cpu",
+      "device_resolved": "cpu",
+      "class_names": {
+        "0": "machete",
+        "1": "knife",
+        "2": "baseball bat",
+        "3": "rifle",
+        "4": "gun"
+      },
+      "model_status": "ready",
+      "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc"
+    },
+    "people": {
+      "model_path": "C:\\Projects\\campus-threat-detection\\yolo11n.pt",
+      "confidence_threshold": 0.35,
+      "image_size": 640,
+      "nms_iou": 0.7,
+      "max_detections": 300,
+      "device_requested": "cpu",
+      "device_resolved": "cpu",
+      "class_names": {
+        "0": "person"
+      },
+      "model_status": "ready",
+      "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    }
+  },
+  "checks": {
+    "frames_checked": 60,
+    "passed_frames": 60,
+    "failed_frames": 0,
+    "item_boxes": 25,
+    "person_boxes": 60,
+    "dropped_detections": {
+      "items": 0,
+      "people": 0
+    }
+  },
+  "errors": [],
+  "sample_packets": [
+    {
+      "items": {
+        "frame_id": 0,
+        "timestamp": 0.0,
+        "detections": [],
+        "inference_time_ms": 47.27580000007947,
+        "model_status": "ok",
+        "error": null,
+        "dropped_detections": 0
+      },
+      "people": {
+        "frame_id": 0,
+        "timestamp": 0.0,
+        "detections": [
+          {
+            "bbox": [
+              178.21633911132812,
+              233.45628356933594,
+              350.3824768066406,
+              687.63916015625
+            ],
+            "class_id": 0,
+            "class_name": "person",
+            "confidence": 0.9454954862594604
+          }
+        ],
+        "inference_time_ms": 31.979699999965305,
+        "model_status": "ok",
+        "error": null,
+        "dropped_detections": 0
+      }
+    },
+    {
+      "items": {
+        "frame_id": 1,
+        "timestamp": 0.041666666666666664,
+        "detections": [],
+        "inference_time_ms": 30.558199999859426,
+        "model_status": "ok",
+        "error": null,
+        "dropped_detections": 0
+      },
+      "people": {
+        "frame_id": 1,
+        "timestamp": 0.041666666666666664,
+        "detections": [
+          {
+            "bbox": [
+              177.36001586914062,
+              233.17794799804688,
+              349.9550476074219,
+              687.569091796875
+            ],
+            "class_id": 0,
+            "class_name": "person",
+            "confidence": 0.946598470211029
+          }
+        ],
+        "inference_time_ms": 29.36160000012933,
+        "model_status": "ok",
+        "error": null,
+        "dropped_detections": 0
+      }
+    },
+    {
+      "items": {
+        "frame_id": 2,
+        "timestamp": 0.08333333333333333,
+        "detections": [],
+        "inference_time_ms": 27.904600000056234,
+        "model_status": "ok",
+        "error": null,
+        "dropped_detections": 0
+      },
+      "people": {
+        "frame_id": 2,
+        "timestamp": 0.08333333333333333,
+        "detections": [
+          {
+            "bbox": [
+              176.6676788330078,
+              233.28660583496094,
+              349.863525390625,
+              687.4340209960938
+            ],
+            "class_id": 0,
+            "class_name": "person",
+            "confidence": 0.9434040188789368
+          }
+        ],
+        "inference_time_ms": 29.26249999995889,
+        "model_status": "ok",
+        "error": null,
+        "dropped_detections": 0
+      }
+    }
+  ],
+  "stop_reason": "max_frames",
+  "startup_and_warmup_seconds": 1.682798000000048,
+  "timing": {
+    "processing_seconds": 3.384476199999881,
+    "processing_fps": 17.72800175105445,
+    "combined_prediction_mean_ms": 55.54965333334773,
+    "combined_prediction_p50_ms": 54.48309999985668,
+    "combined_prediction_p95_ms": 61.43765500000882,
+    "scope": "Sequential item and person predictions. Processing includes decoding, JSON serialization and consumer checks; excludes setup, drawing, display and final report writing."
+  },
+  "passed": true,
+  "payloads": {
+    "path": "C:\\Projects\\campus-threat-detection\\outputs\\solo\\frames.jsonl",
+    "sha256": "5839e26f8c915b7df8ab03c4ab813884a6e1574497daf3800bdc65848ccdef46"
+  }
+}

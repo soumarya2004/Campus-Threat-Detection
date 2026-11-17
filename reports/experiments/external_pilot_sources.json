@@ -1,0 +1,52 @@
+{
+  "created_at_utc": "2026-11-11T11:35:58.133389+00:00",
+  "purpose": "Small exploratory external-video pilot; not a campus benchmark. Source selection occurred before model predictions.",
+  "sampling_plan": "12 uniformly spaced temporal midpoint frames from each full clip, before viewing model predictions. Keep every sampled frame unless unreadable/label-ambiguous; record any exclusion before inference.",
+  "model": "models/dangerous_items_yolo11n.pt",
+  "model_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+  "confidence": 0.45,
+  "image_size": 640,
+  "labeling": "Assistant visual annotation before predictions; provisional until independently reviewed by a human.",
+  "independence_limit": "Externally sourced here; complete absence of older public scenes from original training data is not established. Arrival source is dated after the original dataset release.",
+  "sources": [
+    {
+      "source_id": "steak",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Knife_Skills-_Slicing_Steak_For_Stir_Fry.webm",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Knife_Skills-_Slicing_Steak_For_Stir_Fry.webm",
+      "author": "Serious Eats",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "source_date": "2011-09-01",
+      "local_file": "data/external/public_video_pilot/steak.webm",
+      "page_sha256": "d557fb7342ee1da499843700bc5d1e1260afa46cc94483dc316e6f6e5b5921d0",
+      "sha256": "8d2c407f64daa0d2224a042a18a1a6cd68907ad5c35315c1a7c6416bdc4ff1db",
+      "bytes": 4853523
+    },
+    {
+      "source_id": "scissors",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Aerra%27s_Films_of_the_Ordinary_IV_--_Scissors_Cutting_Card_Stock.webm",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Aerra%27s_Films_of_the_Ordinary_IV_--_Scissors_Cutting_Card_Stock.webm",
+      "author": "Aerra Carnicom",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_date": "2025-07-16",
+      "local_file": "data/external/public_video_pilot/scissors.webm",
+      "page_sha256": "2a009e12a188b55078b99735004671995519db16e0a7d2aa9efa96502b02f776",
+      "sha256": "06d2a4355d6d157bae34da5372b2cc6f36379e50c541f24017367dc047cb86fe",
+      "bytes": 1006547
+    },
+    {
+      "source_id": "arrival",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ankunft_WikiCon_2026_in_Regensburg.webm",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Ankunft_WikiCon_2026_in_Regensburg.webm",
+      "author": "Martin Thurnherr",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_date": "2026-09-18",
+      "local_file": "data/external/public_video_pilot/arrival.webm",
+      "page_sha256": "59ce73071745b75ae2c48c6449d2348d43447e544c8834c1ee4e7c55d9384093",
+      "sha256": "9d84a6f0e722562316e536c88df03a40c35b2f220099688b4578e0712f9c3316",
+      "bytes": 14279687
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "pretrained_model": "C:\\Projects\\campus-threat-detection\\yolo11n.pt",
+  "pretrained_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "dataset_yaml_sha256": "bd70f2abf05fe8c39161c4fdbcaaaaf6055d28a4cb93c19eed57855ccc2a83c3",
+  "ultralytics_version": "8.4.175",
+  "settings": {
+    "data": "C:\\Projects\\campus-threat-detection\\data\\processed\\dangerous_items_grouped_v1\\data.yaml",
+    "project": "C:\\Projects\\campus-threat-detection\\runs\\detect\\grouped",
+    "name": "yolo11n_grouped_v1",
+    "epochs": 50,
+    "patience": 12,
+    "imgsz": 640,
+    "batch": 16,
+    "workers": 2,
+    "device": "0",
+    "amp": true,
+    "seed": 0,
+    "deterministic": true,
+    "optimizer": "auto",
+    "cache": false,
+    "plots": true,
+    "exist_ok": false,
+    "val": true
+  },
+  "note": "Fresh pretrained initialization; historical fine-tuned checkpoints are not used.",
+  "output_dir": "C:\\Projects\\campus-threat-detection\\runs\\detect\\grouped\\yolo11n_grouped_v1"
+}

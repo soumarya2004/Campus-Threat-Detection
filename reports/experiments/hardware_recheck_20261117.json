@@ -1,0 +1,44 @@
+{
+  "observed_at_utc": "2026-11-17T14:51:10.5987543Z",
+  "scope": "Fresh GPU availability check after earlier failure; historical evidence remains unchanged",
+  "torch": {
+    "version": "2.11.0+cu128",
+    "cuda_runtime": "12.8",
+    "cuda_available": true,
+    "visible_cuda_device_count": 1
+  },
+  "windows_display_devices": [
+    {
+      "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+      "status": "OK",
+      "present": true,
+      "problem": "CM_PROB_NONE"
+    },
+    {
+      "name": "AMD Radeon(TM) 780M Graphics",
+      "status": "OK",
+      "present": true,
+      "problem": "CM_PROB_NONE"
+    }
+  ],
+  "nvidia_smi": {
+    "command": "nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader,nounits",
+    "exit_code": 0,
+    "output": "NVIDIA GeForce RTX 5060 Laptop GPU, 617.42, 8151"
+  },
+  "environment_check": {
+    "command": "python src/utils/check_environment.py --require-cuda",
+    "result": "Passed CPU tensor/NMS and CUDA NMS on NVIDIA GeForce RTX 5060 Laptop GPU",
+    "exit_code": 0
+  },
+  "legion_space": {
+    "observed_mode": "Hybrid Mode",
+    "smart_igpu_mode": "Auto",
+    "automatically_release_gpu_resources": false,
+    "setting_changed_by_assistant": false
+  },
+  "interpretation": "The GPU is present and CUDA works now. The earlier disappearance is not diagnosed; Auto remained selected, so this observation does not establish it as the cause.",
+  "fresh_benchmark": "reports/experiments/gpu_benchmark_20261117.json",
+  "standalone_gpu": "reports/experiments/standalone_gpu_20261117.json",
+  "previous_snapshot": "reports/experiments/hardware_access_20261117.json"
+}

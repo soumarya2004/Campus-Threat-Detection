@@ -1,0 +1,1488 @@
+{
+  "purpose": "Pre-inference heuristic overlap screen; no detector predictions or labels were used.",
+  "training_population": "data/processed/dangerous_items_grouped_v1/images/train",
+  "training_images": 3267,
+  "pilot_frames": 36,
+  "algorithm": {
+    "name": "63-bit perceptual DCT hash",
+    "grayscale_resize": "32x32 INTER_AREA",
+    "coefficients": "top-left 8x8 DCT, DC coefficient excluded",
+    "bit_rule": "coefficient > median of the 63 coefficients",
+    "distance": "Hamming distance; smaller is more similar",
+    "selection": "three nearest training images for every pilot frame, irrespective of distance"
+  },
+  "exact_file_matches": 0,
+  "exact_decoded_pixel_matches": 0,
+  "source_minimum_distances": {
+    "arrival": 14,
+    "scissors": 14,
+    "steak": 14
+  },
+  "contact_sheets": [
+    "outputs/external_pilot/overlap_review/arrival_nearest_pairs.jpg",
+    "outputs/external_pilot/overlap_review/scissors_nearest_pairs.jpg",
+    "outputs/external_pilot/overlap_review/steak_nearest_pairs.jpg"
+  ],
+  "visual_review": {
+    "status": "assistant_visual_review_completed_before_detector_inference",
+    "coverage": "All 36 pilot frames paired with their single nearest training candidate were inspected across three contact sheets. Second and third nearest candidates are recorded but were not individually inspected.",
+    "reviewer": "Codex subagent visual inspection; not an independent human review",
+    "finding": "No obvious duplicate image or same-scene match was observed among the 36 reviewed nearest pairs.",
+    "by_source": {
+      "arrival": "12 pairs reviewed. Pilot shows a pavement with blue footprints; nearest candidates show different people, objects and settings.",
+      "scissors": "12 pairs reviewed. Pilot shows hands cutting cardstock; nearest candidates show different people, tools or weapon compositions.",
+      "steak": "12 pairs reviewed. Pilot shows steak cutting on a board; nearest candidates show different people or object arrangements. The candidate featuring blades on a wooden background is a visibly different scene."
+    },
+    "conclusion_limit": "The heuristic and this candidate review did not reveal overlap; they cannot establish that the source recordings are absent from all training or pretrained data."
+  },
+  "limitations": [
+    "Perceptual hash is a candidate-screening heuristic, not proof of source independence.",
+    "Crops, rotation, perspective, changed backgrounds and different frames from one recording may evade it.",
+    "Only the selected 3267 fine-tuning training images were searched; validation, test, excluded raw data and general pretrained data were not searched.",
+    "Visually similar compositions may produce close hashes without being the same image or scene. No universal match threshold is asserted."
+  ],
+  "records": [
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000037.png",
+      "sha256": "11a5cbf0462fd6c07490486ec55f33e9386a4ade5b5c805ad58cd89a39ef45d9",
+      "decoded_pixels_sha256": "1787b562b11f6acc60d0f0c73016fe9f5f8965c2e7ea9b3e516257dc178b5379",
+      "phash63": 579323322934851063,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0ee3f76a-0416.jpg",
+          "sha256": "ca7364e788c5039b89ebe3ac98c616e9ed010b0f5e73a10fff74537a2dd3c45e",
+          "decoded_pixels_sha256": "ea43c53d9505e7377bb008aa36431d4106eec30f5fd9fcc87e18ed83a571b997",
+          "phash63": 1825685242232041969,
+          "width": 620,
+          "height": 349,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/40150181-2641.jpg",
+          "sha256": "c176f6fc87e2d80d699a4b6df55a672afd866f8ddfe699047bea192fb2c3557d",
+          "decoded_pixels_sha256": "bd386a0aac2b4c5b91436ded79f44d18fcca5bf4b8f00d8d40ee2cd70c553fd1",
+          "phash63": 12014500594955619,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/8ad54ae8-0400.jpg",
+          "sha256": "767c87d6d3367665864b2c2b0c981fb0d8a9581b04fca1973412d6f68d55dcd7",
+          "decoded_pixels_sha256": "0b52e3bca4b85be01ad8bed3d941446cfb10aa8f3ea420d6ea500cb94a9f2b1c",
+          "phash63": 38583951677554661,
+          "width": 1920,
+          "height": 1080,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000111.png",
+      "sha256": "f49fc9957f12c59d363db1bf97d646fed9ed568a4a6b47e134b05186dc1a428b",
+      "decoded_pixels_sha256": "c43ebc8e77a538c9a25cdf1777cd5b1919a0579f368378fb959d8c94fd86aa68",
+      "phash63": 1518931704123645534,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/c117a5a8-0588.jpg",
+          "sha256": "adc10cb65dc18c0c694d7918d235f2b46daef22f036b6eee5aeadd4d67785b64",
+          "decoded_pixels_sha256": "404f6ec94331d916a6cebaaee7104ea63445e88ae506ee9c9d3f7fc9af5e1be0",
+          "phash63": 37370712162475551,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/4d50ec2a-0049.JPG",
+          "sha256": "0c505c2b5a62da37edd44d4f6c6413250a044b3cb7cb21e12832f057c49d8f21",
+          "decoded_pixels_sha256": "6b38a40f1b0eb5606cbf493a154f5668a79895ebae4fface24d7ac23e66f91b2",
+          "phash63": 6248060055751363742,
+          "width": 1620,
+          "height": 1080,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/6fd2532d-3405.jpg",
+          "sha256": "b44d1e5e9917da6bae0baba1264902fe80535682ffc4896d17484f790e76d3f2",
+          "decoded_pixels_sha256": "aa73a2476143d43dc8468dce8684a9dd29f0e7957d40b5373601a05c13fc3d65",
+          "phash63": 8085206333001800564,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000185.png",
+      "sha256": "e90dfde7ca064a06911c07781c993e7f24e7893cc4fc8588cf1e871d0a9c4d7b",
+      "decoded_pixels_sha256": "7aab5ae12296577723d912a20947357c5bfd48402313b3a439b2e40180ce5b83",
+      "phash63": 5859538576555600815,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/647b1f13-1323.jpg",
+          "sha256": "546ac24284844527becc7f3d60f395e6b6bb0b54d9d019b571b18fc4c8aecb42",
+          "decoded_pixels_sha256": "a83ae9faa0475f7155c28d164905884049698386b6e66864615b4ce28b62bfb1",
+          "phash63": 6716276953415576487,
+          "width": 904,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/cb89befb-0938.jpg",
+          "sha256": "b1afa52fa55dbcba0669c30e7fe23462fdb76272766375071ce6f0e0ccdee435",
+          "decoded_pixels_sha256": "791d35cd60de83aef01a03902658acb25832eb035c9f6b39522ab6e231bc1336",
+          "phash63": 6716276953415576487,
+          "width": 902,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/a21fdcf9-0700.jpg",
+          "sha256": "076820bc92ae8e77e13c31620866747b8ffd202d451c2d6405e2a31353450e17",
+          "decoded_pixels_sha256": "b2ee4781a180c831f2bbba1c0602b99e7efe2fbf1838e2c7e8deafb2c3c6a57e",
+          "phash63": 1320500177089808779,
+          "width": 600,
+          "height": 681,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000259.png",
+      "sha256": "f921c73c2619d785a67d618f05493c4470b8a46b3f2fb627e8e72558885527e5",
+      "decoded_pixels_sha256": "8fc60a44b8559bccbab9a97c0d6b9c29afee7939a975ec2ad44689e0f9313aaa",
+      "phash63": 5859538580848455597,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/2a9ff501-1222.jpg",
+          "sha256": "a568e572da0a7af92548161aff77e601d5e12f616236b6d0cfeab1ef128fe814",
+          "decoded_pixels_sha256": "b92cb4c1eee5223f92dffe5b7d11e321b357e820fd0cb0fb48127d44f52e7102",
+          "phash63": 1544808405760318643,
+          "width": 800,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/647b1f13-1323.jpg",
+          "sha256": "546ac24284844527becc7f3d60f395e6b6bb0b54d9d019b571b18fc4c8aecb42",
+          "decoded_pixels_sha256": "a83ae9faa0475f7155c28d164905884049698386b6e66864615b4ce28b62bfb1",
+          "phash63": 6716276953415576487,
+          "width": 904,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/ca512e76-2434.jpg",
+          "sha256": "d81a8c46d1f2d64e4fc92c947817e9df7e52c9fec0b7a12757eeb83731b03da4",
+          "decoded_pixels_sha256": "947317b56e47037e0e52317cbc7adc94e4218ed5ff1431386a19340f4e73e517",
+          "phash63": 4571410131343912494,
+          "width": 600,
+          "height": 720,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000333.png",
+      "sha256": "ccaf157846820212cf97bc2f20914959babb0bbad0b259e00ee0455350c762eb",
+      "decoded_pixels_sha256": "9b584fd769d2fd197464881d55739939e6eea5195c22efd28285579e8bca7818",
+      "phash63": 4702122272707260335,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/db9593f9-3146.jpg",
+          "sha256": "9ced49098478ef8fe973e695cd4981d9a8290dcc8fa94f9109e6d5ad962028ae",
+          "decoded_pixels_sha256": "662ac0a4a310aab0df7383236ca750ede0488c94e0e5d9f809f99b57e8f88e81",
+          "phash63": 4742655507278427967,
+          "width": 600,
+          "height": 875,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/ca512e76-2434.jpg",
+          "sha256": "d81a8c46d1f2d64e4fc92c947817e9df7e52c9fec0b7a12757eeb83731b03da4",
+          "decoded_pixels_sha256": "947317b56e47037e0e52317cbc7adc94e4218ed5ff1431386a19340f4e73e517",
+          "phash63": 4571410131343912494,
+          "width": 600,
+          "height": 720,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/de8efe1d-2370.jpg",
+          "sha256": "cddd8f740fa22e20838414d01fa86eeac009d354ede7bd3b48e9080b5e247397",
+          "decoded_pixels_sha256": "b83a537d8729c06249e2d965288eb5759451f4ed318003a86efa762d57ae2124",
+          "phash63": 4919025145623395599,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000407.png",
+      "sha256": "2cae3302734b96c32c46cdc2a3699cad66e6e719da7f0aaa18e46c4f561dbc93",
+      "decoded_pixels_sha256": "8a12ea8c72b0481d59acb4ae4bacd69b2e89125c9e486c71c46f29eaa9e5dacd",
+      "phash63": 6147786549184114475,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0338fa46-3908.jpg",
+          "sha256": "9506f50bc2a00db69951bc484f82cd34919dfda7953d23e9cf7594e06e6d53ed",
+          "decoded_pixels_sha256": "ff269d23fb83a7cf50464b902363045783548a8776dd9272d4ae976dda36beff",
+          "phash63": 2114988765524829747,
+          "width": 845,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/1340008a-3975.jpg",
+          "sha256": "2ad324bff6d4a2f81dfe3b51da83ea7d2d6de00b3218d877284521d396bc9504",
+          "decoded_pixels_sha256": "fbe73e6fb1b3b2df41a9a634f6ef01653235b63e49e494a49b760ff9cb28f675",
+          "phash63": 4940820952077777977,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/25e1e7f8-0229.jpg",
+          "sha256": "b728b28b7c0dc4646efd39184aa1640cc8fcedc3ac35c0977a7cbdb7850ec8b7",
+          "decoded_pixels_sha256": "fef43c499d638014f17d057f383483db13ca68d152827f66a2f9a33a99cd6ed3",
+          "phash63": 7953798150019065631,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000482.png",
+      "sha256": "5f0ddc433ea1db16efda71fe4199ea1e1e2725840b615617ec40b9eea2f94249",
+      "decoded_pixels_sha256": "466daa47f7a7712001631c15c7b0676290e6891df7bd0b5f50d204cfb14009e0",
+      "phash63": 1226393152594599775,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/75ec78f0-2479.jpg",
+          "sha256": "8362ec215e96ce6849fbba9ef85c17cef27e5acad28a6fc0ead4ced0f79feea5",
+          "decoded_pixels_sha256": "4e94060ac556144349f5a5957437ae55da82bd19a90caa27871dbc50f6316f8e",
+          "phash63": 7029564184112029266,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/7f124920-2777.jpg",
+          "sha256": "3afa4df87b558bbe527f74d84af5e93e2dc22b20765f3eb68f913a01fc88f3c9",
+          "decoded_pixels_sha256": "522d89cc5806848a42b3ea409402687281e4d81956797a4941633a79ef84a4fc",
+          "phash63": 2397830460859137355,
+          "width": 991,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/cafbc722-3476.jpg",
+          "sha256": "06b8eca81a37d7b196db52db2de3d0d707d567ec924ac64068529a00e8b4acbf",
+          "decoded_pixels_sha256": "ef11c83a83ac247aa304440a02b5d588f9669f159111a0c24e1c8b8530bf62fa",
+          "phash63": 4183430171576192089,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000556.png",
+      "sha256": "8ea395909474f5d97f26ba102dd0f7e7fc9cb6d7fb83f2b27ffd1541c5b080c0",
+      "decoded_pixels_sha256": "73f8a243bb70855cb78d33c4ecba1e45f77217ea0391de333de1e83430364412",
+      "phash63": 1590358182911172442,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/1c3ae7bd-0009.jpg",
+          "sha256": "7239934f33313ee635dbba2384bc06435e4a4ee661c642b81b9c6efcd5f91bb2",
+          "decoded_pixels_sha256": "d5b7175969ad490b0eee1e6716af723fda37324e93a2ae29806c8c841ce491c7",
+          "phash63": 1410302641729990425,
+          "width": 1000,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/46e1dc8d-0313.jpg",
+          "sha256": "273b9a67fef29afd69ae19ab306a3936e1a33bc873407dfe66713c63045e87a7",
+          "decoded_pixels_sha256": "81747ff1fa7f5dacb2ce97d3a6265a174c758a30291cba54c654c13aabdeadfb",
+          "phash63": 1428317040339087129,
+          "width": 1000,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/812b84a4-0218.jpg",
+          "sha256": "14876261e1d79811867100097e5f362d156ea87dee4a9bffe49bcf12ad382556",
+          "decoded_pixels_sha256": "494401cbf29f483ef06c9f8a614437d2c21cb416d9caf81bbf23835bcb16daff",
+          "phash63": 1356259429021794200,
+          "width": 1000,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000630.png",
+      "sha256": "abf907de04c8850838415823a82e330f1d58cd8e2145e7fceb79c7f11e403c18",
+      "decoded_pixels_sha256": "e54011d2fb99a634a9d332dcf0d608348ae105462c3fa0ba293b7e97f2c81aad",
+      "phash63": 1663888811967031983,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/647b1f13-1323.jpg",
+          "sha256": "546ac24284844527becc7f3d60f395e6b6bb0b54d9d019b571b18fc4c8aecb42",
+          "decoded_pixels_sha256": "a83ae9faa0475f7155c28d164905884049698386b6e66864615b4ce28b62bfb1",
+          "phash63": 6716276953415576487,
+          "width": 904,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/8db4a779-1119.jpg",
+          "sha256": "8df58da3c6045d6aae45c0dd94149498919e06e954b90e5046832c8897252500",
+          "decoded_pixels_sha256": "7c3e24d9068f0bba1458a78933c7295bf2da47eab52c6426a1ced723e42120b2",
+          "phash63": 537740418449861665,
+          "width": 893,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/91c339b7-3648.jpg",
+          "sha256": "70c034aa90446bd9ee2b13820cbba2118fd3f008255e641034ae280cace1bf62",
+          "decoded_pixels_sha256": "ece9f4adfdb10763c1d7107ddb063930ef704a52724c7c1de013088a6307783e",
+          "phash63": 4580952527512456748,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000704.png",
+      "sha256": "c43667fdc5ba480ff34ba029b00fb98d3e17824c855e906b421bd5629c1bda59",
+      "decoded_pixels_sha256": "af60667bfd73340a21ecb744d4f6b59e09201b43c002d80307ca11b0a1def613",
+      "phash63": 1407101234259631678,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/f3ba8288-0154.JPG",
+          "sha256": "7943a5f224c18219f9ca995997e07e03a186841d01c66206154ea2eedcec16b7",
+          "decoded_pixels_sha256": "9cff1260af228228155f1f8e327420182a01acf6d67535a8b7479be57281cf49",
+          "phash63": 3726180718331236022,
+          "width": 1620,
+          "height": 1080,
+          "hamming_distance_of_63": 14
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/712b3a74-2149.jpg",
+          "sha256": "e1c69bd46d8806ff3f817a59370cfe8cb2dcaeafe13e042df9a67d9c0147e368",
+          "decoded_pixels_sha256": "23146bd7183084dcefa9d7599dfc770a182750fe48f8af55b474b3f8c423ea5b",
+          "phash63": 8692385977477241902,
+          "width": 800,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/939c381e-1985.jpg",
+          "sha256": "6d01ea904a70d118aa71d9b5f90cc3bd85809796fcc36deb4f858c96b12ddd7d",
+          "decoded_pixels_sha256": "bd99f9d3c441e32960e41be819fe308f45de066b6e624ded774484bf8aec4087",
+          "phash63": 4928951318579985882,
+          "width": 750,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000778.png",
+      "sha256": "fc27c71cf41ba67e2b1f15c3ed2a6bd2ae0fe7aea74fb89e3e016a31de7cc600",
+      "decoded_pixels_sha256": "29e5f52d5a9b25c51ddfc7b949eb6f3b57702dc8ec07f80ef04ed2c78cc71796",
+      "phash63": 1573186764763270959,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/a9a1346b-2306.jpg",
+          "sha256": "ec9dd321c22dd1573b61bf9c47c4c0037e63e22d895b20b4eae439a619983d94",
+          "decoded_pixels_sha256": "ea3479b07f8b5498b4b82f2f89656f7ee48edd814ef7ebad2154b98482e4de6b",
+          "phash63": 3860032996221333190,
+          "width": 902,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/d1c72e8c-0565.jpg",
+          "sha256": "3babab04304470b3ebefeb186bad26046f93bbc7fc3c7384c496a6e3955e445f",
+          "decoded_pixels_sha256": "56eec773917e7f0cb9792d4d55a296c8a8ca98565502a3665fb33cfb4052bf1b",
+          "phash63": 6150429462562286383,
+          "width": 843,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/3bff12e6-0201.jpg",
+          "sha256": "afaeb269debfc2675b2a04100e0a07a65266d3cf80cc986c2799a1eb1af0465a",
+          "decoded_pixels_sha256": "dea1c1e4485bd2d5643173b1a390c01e04a062ad746617f9c0e788beea6055d9",
+          "phash63": 348988322393916447,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "arrival",
+      "image": "outputs/external_pilot/samples/arrival/images/arrival_00000852.png",
+      "sha256": "8ba98ea62231242d940a1eff2a660c5cb091828554d8172ddbc5ad0497704de9",
+      "decoded_pixels_sha256": "a4c8714dcceea3ce2109a288f284b7bf7bed818cd85a5c3a6c13f9aefff0edbb",
+      "phash63": 295898911181194131,
+      "width": 1080,
+      "height": 1920,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/449b5b0a-3770.jpg",
+          "sha256": "c07814022a218aa8e19e96641df789cc4374c93c8610104ebe043e1e66efb885",
+          "decoded_pixels_sha256": "4eeefcbb78297d3e6a446e834a48e648eb362f768dcf2620ee8dadbfe994d88f",
+          "phash63": 1089605877916365010,
+          "width": 600,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/07d9cfc0-0164.jpg",
+          "sha256": "170c82623f662c143e0869f678ab9ec0672efc7ed733d25af0a63488791f6793",
+          "decoded_pixels_sha256": "6a19842392efbd1c7075c5ef416754b8cfd1fc9256e51e81b4121f66740f172e",
+          "phash63": 289557761485228371,
+          "width": 994,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/09f53881-0057.jpg",
+          "sha256": "9e3afb3f922c06b32133fd842f2eb2ede5f75fea10c931f897b06bebed5cac86",
+          "decoded_pixels_sha256": "e3e86851773f112a8bf8b6963119d1ec4aafbbe5694d91bb8315ef0dba6ac8f3",
+          "phash63": 295196227665847091,
+          "width": 994,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000011.png",
+      "sha256": "207e42dbafa0d35529da32206356dc8834e071f8fd2b8f68453c334b572ed6bd",
+      "decoded_pixels_sha256": "44b62474c2ba80b8e96d8ccfb76e325d1c10c78a2d56e10eb782d76f112b2fea",
+      "phash63": 906865939215373653,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/839a6377-0340.jpg",
+          "sha256": "204fb2598d5ab4a8fce276419ac32a5a9c7648ae146b80e08ca079fc7630a5c3",
+          "decoded_pixels_sha256": "99f93c645fc8fd6cf4bb56312c77838b977f08e93c29d1be3aec5882cce30d64",
+          "phash63": 5383373187622089877,
+          "width": 902,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0204d258-1184.jpg",
+          "sha256": "363a8fe5e26d89492abdd9b07bdd02e14d501d6db93b7e24747eb8959102e5bb",
+          "decoded_pixels_sha256": "e93b0cfdb922d51834145357b7746a7b398613f8e5497914ee675c490556a17c",
+          "phash63": 59762642377719508,
+          "width": 600,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/51a96a38-2536.jpg",
+          "sha256": "7e143b408c790fa2f6a235c0ebdacc861d6e4608f79ef9a8be6680409edfbd9e",
+          "decoded_pixels_sha256": "597bedf5a5e3d7f85575537812fa048c15f12d1e76a3e9d4e9bf13829778afbe",
+          "phash63": 1045892321014406541,
+          "width": 800,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000034.png",
+      "sha256": "7da69a45806a265eb94ee6d3cf690f7ce2e33f17498b21ba08d7ea39dce34b05",
+      "decoded_pixels_sha256": "87a5cd43504951309b4b4d1af8c316b4c41101a4319b48b687b5f1205e5c52a5",
+      "phash63": 906865939215373653,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/839a6377-0340.jpg",
+          "sha256": "204fb2598d5ab4a8fce276419ac32a5a9c7648ae146b80e08ca079fc7630a5c3",
+          "decoded_pixels_sha256": "99f93c645fc8fd6cf4bb56312c77838b977f08e93c29d1be3aec5882cce30d64",
+          "phash63": 5383373187622089877,
+          "width": 902,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0204d258-1184.jpg",
+          "sha256": "363a8fe5e26d89492abdd9b07bdd02e14d501d6db93b7e24747eb8959102e5bb",
+          "decoded_pixels_sha256": "e93b0cfdb922d51834145357b7746a7b398613f8e5497914ee675c490556a17c",
+          "phash63": 59762642377719508,
+          "width": 600,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/51a96a38-2536.jpg",
+          "sha256": "7e143b408c790fa2f6a235c0ebdacc861d6e4608f79ef9a8be6680409edfbd9e",
+          "decoded_pixels_sha256": "597bedf5a5e3d7f85575537812fa048c15f12d1e76a3e9d4e9bf13829778afbe",
+          "phash63": 1045892321014406541,
+          "width": 800,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000057.png",
+      "sha256": "ab51ab9fefb59e4029040cf0e1850034f7ed0caf9521241f71ea454af1b26b84",
+      "decoded_pixels_sha256": "9db6dd4a37fed11a32e3ca57fce37daf6fa30dd587dcd6b7a0ff1439da27eff7",
+      "phash63": 3581222407656885304,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0c44c13f-3151.jpg",
+          "sha256": "e32f046df627359713b537999b4fcc3850495365cae551b1d231390838e85b13",
+          "decoded_pixels_sha256": "948806acfced4842fe94d959bdd73f157b226c4e7e078b5d8ddd48f800c6989b",
+          "phash63": 7040198570456960076,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/102e2009-0104.jpg",
+          "sha256": "5434e43e580bb10959a84e7a126e2f072d8ef1534e65cb419dd2db21fe65030e",
+          "decoded_pixels_sha256": "87359bec6276e939abcfed87e7ae81673a474ebbc78519ada803199c6dd55203",
+          "phash63": 3599299169875664056,
+          "width": 925,
+          "height": 1390,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/46e80560-3965.jpg",
+          "sha256": "f8dceef570c89198be5479d689c135847e5a0b64feedaea88a8fc89d6fa4bafb",
+          "decoded_pixels_sha256": "72a27019e6be0a52f7dc73bd5508a886ab475f4de5779a143768794589a540d4",
+          "phash63": 3500242264647421168,
+          "width": 600,
+          "height": 743,
+          "hamming_distance_of_63": 16
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000080.png",
+      "sha256": "75df0dbe9805b6f5ad0b470c7f48b1ad08c9c352cdb53f0b828f7266f6e29035",
+      "decoded_pixels_sha256": "7a7b524b234098650568778d7b2012b6376832ce53e806d80f42587e17ca73d0",
+      "phash63": 8334910379428967235,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/9b7b74ac-2185.jpg",
+          "sha256": "02e91b757c08adca7ab58ce12ad732698b21ab25025681f66c8cd187cd85f23d",
+          "decoded_pixels_sha256": "a02a94dfb9a8cfeb2c81b21f7393e224660d8a63a1596c46d1c213c44b2ee58f",
+          "phash63": 8339413369976548135,
+          "width": 886,
+          "height": 600,
+          "hamming_distance_of_63": 14
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/be1cdcad-3271.jpg",
+          "sha256": "2e75575e3f50decc6998e677943bb02b174a68c13f662e1705d8ebcf9a84accb",
+          "decoded_pixels_sha256": "29be29b86ae7561f9f98cb21ca1261d7a969fcd97f690014dee7a3fa07c4ebdc",
+          "phash63": 3718228119106380643,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 14
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/30a57fc0-0544.jpg",
+          "sha256": "e031448ce868eb5ee08ead5a9b0e2ef42b7499e695d9f1a297406e8ebb40e003",
+          "decoded_pixels_sha256": "ca2ec934a98c8792e227433eae08734dfe40e22a147e5b00dd43caeca9e7529f",
+          "phash63": 6040114644569384911,
+          "width": 1000,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000103.png",
+      "sha256": "f8d06a5e6102a6e29805a4c4d6f78f863694acb98c43dee48dd8a865751147e6",
+      "decoded_pixels_sha256": "94d826921d9ac3c38c1dbc8cb32a4e392c5032d8e8be4882f6fc7a0d20bdc412",
+      "phash63": 2230066409237679321,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/603620d9-0103.jpg",
+          "sha256": "538c0bb09fe4c7fdf6071ee448e8062da730c22082e72664a538eb10683f63d2",
+          "decoded_pixels_sha256": "4635f465401db23c4b0c17c503f5eecaafce1b90d1cad6592673b5305105e5d5",
+          "phash63": 2301552234865323081,
+          "width": 480,
+          "height": 480,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/f80bf174-2521.jpg",
+          "sha256": "96d77c740e98c179f0a4e48c45f902afb1255ba93e966a211851bcc341a4f2c6",
+          "decoded_pixels_sha256": "549b8127800761d30ed0f582993749c1adf4db783ff2e3c292b69e5122385ee7",
+          "phash63": 4495368267541663448,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/1d551238-3622.jpg",
+          "sha256": "447fdca67358f28bdbdf11ddf05c9c21dbfe280158f4cd746cd23800995939b4",
+          "decoded_pixels_sha256": "4935f62535a37e6f2a6bb4369c328214d095ca14e1d52fd2e15fa59871225770",
+          "phash63": 8400489966700108907,
+          "width": 782,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000126.png",
+      "sha256": "510bf24291fe1c349721aeebaf9ca8c7c89a05ef942d52fb02a188953292a2b2",
+      "decoded_pixels_sha256": "dbc89ee68957a029777a64cacecf776294929c797d9a4f71cc1dc8a6afc696d5",
+      "phash63": 933120350335649657,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/9dfe0038-2643.jpg",
+          "sha256": "7dced8cf375c11ac877f6526ffbf61ac69c7c10f91046868646f4f0fd1cd03c8",
+          "decoded_pixels_sha256": "caed4e165aab3f729db18a8f21e50ac6210714cbbd2cc988e09048b3b27e326f",
+          "phash63": 3520016274064795417,
+          "width": 600,
+          "height": 900,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/192f0d06-2574.jpg",
+          "sha256": "187e3f654bda2dfb0bc216b1e2aeb1f90d7ef59e53bd0c3aa27e0eae7b183d31",
+          "decoded_pixels_sha256": "48d15b4987d67792da2c58393377082422a1b63d5159ceeda89a40937260f6e8",
+          "phash63": 14561604586276685,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/48c6939c-0649.jpg",
+          "sha256": "e37819f5c315f60b83f655c8a14d523f385ac421d4271392d6d0a02ab86e3113",
+          "decoded_pixels_sha256": "3618cd4baa53d87e6f65d0e1a1a2eb0a71a3ba7f14eecd6cf9929a4988479a6a",
+          "phash63": 7983503983219344749,
+          "width": 600,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000150.png",
+      "sha256": "c846fd48cc8d926fb0f824dd1310470f7cf2241d781821f437156f4f774d3e02",
+      "decoded_pixels_sha256": "d5eccfee242a3a9be9bee55c6d39ad9bc09a0c30a6ca1aacdaf54f22a71b97fc",
+      "phash63": 3946009499807335994,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/6841eee5-0159.JPG",
+          "sha256": "211c4af187dd31017419a13e2359afa31b0f7964b6acf6a45c52698db0070b02",
+          "decoded_pixels_sha256": "bdd2b9ab0399ac95da4b8cfdbfbf9d3c0811b8ce30551b33b14c10c36ef75e90",
+          "phash63": 8269183132394397519,
+          "width": 1620,
+          "height": 1080,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/1145a803-3873.jpg",
+          "sha256": "121c93983494af991feb199e43baddf12e98cf5f0b87bb3e5040c1277f37d10a",
+          "decoded_pixels_sha256": "61b7d2616c8b81d32991803d6c1359a2633a8e19e7d8c367481a6d064b82e74f",
+          "phash63": 4415377270614385426,
+          "width": 841,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/883bb79c-3642.jpg",
+          "sha256": "3ce1f80113c5d434afc2c0670d7f96fa59fb6b7e53df0609709fa296803471ec",
+          "decoded_pixels_sha256": "2169289f949f15cf9a83a5ebdc36cccabee4f98a9f9cad8582d6b733d113794d",
+          "phash63": 6535299090468114106,
+          "width": 800,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000173.png",
+      "sha256": "dfe2f403540500c1391aa5ad140d0ab7e5299b74d18aa2f5165d542fc512b2dc",
+      "decoded_pixels_sha256": "1302032a7ed10344b5d92a42ecf4d46dbb28b51335bb43f54b2d54ad317945d2",
+      "phash63": 3016485778248706929,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/6d39bcbc-2197.jpg",
+          "sha256": "cd5d8cd260cd230a0155ff3d564a99e63adb9baa3ab7ce414074eb0d153e0673",
+          "decoded_pixels_sha256": "af6c5fdb7530b6d3da70bbfb51a1dc3ab2f812f2ac8dd224c8501f092503e660",
+          "phash63": 4273249675028245075,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/80252285-0178.jpg",
+          "sha256": "cc8e79814cbde69b5d64021eba571113dff63d0b91d7081944c99a6ac122f537",
+          "decoded_pixels_sha256": "b41c8b1562d0d36de3773a4d4d332b9b5aa41f5c02eda286498a76b4b1b8dc85",
+          "phash63": 7507649905487931761,
+          "width": 913,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/649a7379-3910.jpg",
+          "sha256": "eb5ed58c31a6d36593c1d7553c324e05ce8e9a3eb7a00f3405c59b5882d46202",
+          "decoded_pixels_sha256": "96bca88005a8cf5d417e885ed53d86bea433633e141209ef746bfa60e71deee4",
+          "phash63": 3585047817217604212,
+          "width": 800,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000196.png",
+      "sha256": "3610033fbf343776207f0ae5e9d14b0489f4a57f325412e1bca3383da2973e0d",
+      "decoded_pixels_sha256": "1a711ab0b19d409f6b02e40b321caeeb44bfc91375aa185cdac32dea7a06881a",
+      "phash63": 3286666562794977096,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/ca800512-2298.jpg",
+          "sha256": "b01b438810a55a4d66fb6dc6623f8bc7574c7d0ccb14485fb1f064d5d87cc5f6",
+          "decoded_pixels_sha256": "7cb93f3c40b8fd1422228892bb1e1a4695c8d87259834f434cd74ec781d17ed7",
+          "phash63": 7905104682420020292,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/f56b83a1-0837.jpg",
+          "sha256": "cc5f8a0302dfbabbaf75087e43d800f5982c2d35a43b5f08929e16d272ac894e",
+          "decoded_pixels_sha256": "108567867630fe5f150009eaa21ffb97a1a1d9511df26f8f103625ba78db886a",
+          "phash63": 7896098099438380876,
+          "width": 902,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/1bb46431-0234.jpg",
+          "sha256": "2fb3cb7727c909517f840ec5d83386cbbeba73b13bf1ca2b74041e282dafd959",
+          "decoded_pixels_sha256": "695a4d12d4f1197a66308b1aa8cc3c7202c1ffbbfa9c842cde38cf551aa16484",
+          "phash63": 3394746599699969803,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000219.png",
+      "sha256": "cb96ca83fa4cdf038f2bf9496d8c886119f2956b64b85e804cfec41e09b8a70f",
+      "decoded_pixels_sha256": "b3071861d80dedc345f210e7cc949b773ecc430d51a259155563baf13c1234cf",
+      "phash63": 2710062830510176210,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/dcfc4cb1-3997.jpg",
+          "sha256": "b52c5318829829d5d58ec6cbb1124f9d35926421439b0dfe0e0b7e51fda5404e",
+          "decoded_pixels_sha256": "6a61ee7d4aad5444f3a87e3d05b4bec0dc9ba464aeab0dec8083008bd98da0e4",
+          "phash63": 7463761565698106466,
+          "width": 600,
+          "height": 900,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/f7291118-2105.jpg",
+          "sha256": "5a9fffc93d0ff6e858adc6b3dc8d6a536642f96acc95e28af4bf92358e468ddf",
+          "decoded_pixels_sha256": "710f91b4f0f86af8a45daa348272b1d7ceab048568260342798ac8ff602a3113",
+          "phash63": 7247025497782907705,
+          "width": 855,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/2ee24a23-0426.jpg",
+          "sha256": "3a2102ede08e973a5f11b99351db5e03924c46040b01f885156ec231fd7afdd3",
+          "decoded_pixels_sha256": "9e4b7edb18d3c874a3d63811104ad6beaad64e8dff37786999889aad08897566",
+          "phash63": 7391700330536661937,
+          "width": 994,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000242.png",
+      "sha256": "3dfdc0ba1c062f4cef345654acee4b52d0a330e9462c46ef4d770f0e24afad73",
+      "decoded_pixels_sha256": "b9d5bf8bf2859a3e1f78edd7cb1a1a43657251198326f842bbf9807cf8991689",
+      "phash63": 1784284124125056569,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0905169f-2451.jpg",
+          "sha256": "089e2bf350d1287c7b0a7243722cfe8b78204d0f37dea9486708cff8b7e56145",
+          "decoded_pixels_sha256": "afd600d0a0452b573221ee1fadd072026ac67b716ce29be585bd6f14ba788a9b",
+          "phash63": 4090332170647204461,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/17736cbb-0118.jpg",
+          "sha256": "b540d257ef20cacaf8ecab81dffbc23ff39a1017502d521471db6dc49757cda9",
+          "decoded_pixels_sha256": "6c2918a1be582668de1ac702206ec2601952505437f07b3dd90f85519b8e5027",
+          "phash63": 5602925101744311417,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/255abae4-0227.jpg",
+          "sha256": "9d379f70455e7e8a1e2bbb991bcac8fe73602ac0daef2d1c0b3b84c7db577a8e",
+          "decoded_pixels_sha256": "1646a04b8b6d4944c328b63f1d374365a14e439e397ae8efbbf51b4a7d2ec4d9",
+          "phash63": 1793208797128219704,
+          "width": 1920,
+          "height": 1281,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "scissors",
+      "image": "outputs/external_pilot/samples/scissors/images/scissors_00000265.png",
+      "sha256": "e5d2bee3ffbb3a7da6d9e3b120da50a5e840877bd4dbbcdf26cd4f9b9a525c47",
+      "decoded_pixels_sha256": "770ae39b8f9c503eb69bbdfd1309ae0044fbb7d049669185617e2a8c6f4f4612",
+      "phash63": 2054552809604594411,
+      "width": 1920,
+      "height": 1080,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/35761bbe-3277.jpg",
+          "sha256": "aa1bd06db4872ad22f6f714f8cf0f7dce8f6f40ca0c757711220223b0513c80c",
+          "decoded_pixels_sha256": "bb9008617c6f5490f08ab8a5f9b715aaff1acabd5a1ca3d6ca580949aa6ab836",
+          "phash63": 910164204599802858,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/3fa0a439-0174.JPG",
+          "sha256": "605c00ba5faea2db43da54fb74b2cb1a05fbb288aed7c38ff19a7ee25764f472",
+          "decoded_pixels_sha256": "72ef355e46c8c14e673585b596ae7849b867c1a3a9cbb6b420336487f60fb018",
+          "phash63": 1048279771318001384,
+          "width": 1620,
+          "height": 1080,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0905169f-2451.jpg",
+          "sha256": "089e2bf350d1287c7b0a7243722cfe8b78204d0f37dea9486708cff8b7e56145",
+          "decoded_pixels_sha256": "afd600d0a0452b573221ee1fadd072026ac67b716ce29be585bd6f14ba788a9b",
+          "phash63": 4090332170647204461,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 22
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000074.png",
+      "sha256": "39763ef97637edbe957b0249dc3e38f2cd75222cb83c25139af09692372fa918",
+      "decoded_pixels_sha256": "b456ec984ddb329fe00d34ab7c7bbb2540d0a3c79a0990981ded78384ff3913a",
+      "phash63": 7671554734180550289,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/3843dfb8-3238.jpg",
+          "sha256": "da8b5281133707ef4801e6e79096dabfb44c1faa26494412a7aa2995cbda9e4a",
+          "decoded_pixels_sha256": "81d00c6dd41398c68915ec2d9852cd5173b23bdcbc0b9c6db8ab0189d54658fe",
+          "phash63": 7663600607907570333,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/dede0bbb-0658.jpg",
+          "sha256": "cb6a75ffe81eac18dabbd26383862232abeab396197d99777d28018186cc32c5",
+          "decoded_pixels_sha256": "1a53c47d1030e9da99648ba3bc3ded1780b120cafdb866b2f110bc735bf6ae0d",
+          "phash63": 7707053914592132113,
+          "width": 906,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/3d8a5535-0105.jpg",
+          "sha256": "799734bd8ddad759eb3824c0bf81eaa2c9dec54761dbd65b2f23442403414f2a",
+          "decoded_pixels_sha256": "e1010940e4823f9cb912c217d10d6750111332dea75426ef260823df1ab58740",
+          "phash63": 4225683059412653717,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000222.png",
+      "sha256": "b530fc105e070ecba3503dfc3f3501bac0bdd39a2ed988e2c48ae6246fdc3afc",
+      "decoded_pixels_sha256": "6c378ee7f95b8fcd6c9264d6a34c3e573f86f26b5ebbc990be2c2d6c933a2969",
+      "phash63": 2478824420073944877,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/10d9c69b-0309.jpg",
+          "sha256": "284f844113d3b8d63301ace3101a7033f867978e8a2ca91008626be0ecc82c75",
+          "decoded_pixels_sha256": "4e3c7a6f0c65788d22224966c05243c898f97a549692e449562071687b3ff38a",
+          "phash63": 7661350487082587557,
+          "width": 1000,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/69fdbb40-0072.jpg",
+          "sha256": "639cc9e828e01292cf53552f1ebd598f013ce4c9c3e5e0ed5af3bf5b1658ec9d",
+          "decoded_pixels_sha256": "e284289916cf56641d21e8b23fad1c77ff53d3c9a7d96a83919ebc6ddc5ca883",
+          "phash63": 7741288126358918505,
+          "width": 846,
+          "height": 480,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/232c4c59-1091.jpg",
+          "sha256": "caec48357c0302535e891cef7aa9630496c142b34759d03b05e8683af989ebd0",
+          "decoded_pixels_sha256": "a138f907f1249d44d5eb138cab3ad4f94353d7b2d3406de33a25f5de21946475",
+          "phash63": 4278636927203321385,
+          "width": 801,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000371.png",
+      "sha256": "4ebc5bc1bb76447e38dee51579b6fc2c4d8d1c1d5b9257135852c9b33fcd06e3",
+      "decoded_pixels_sha256": "afa03325d3006f09687d4e86256e93e79c1b2e5c88f11757266801598f0c0323",
+      "phash63": 4052313663294002962,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/5aba4d08-3510.jpg",
+          "sha256": "40d5e4c0f94175e9a6e7a2389e8401783634e2aa63f80ca03a0c7c2d54ec3fd1",
+          "decoded_pixels_sha256": "aacb0096f946bbebebffe0464d337a47d56c5b14b08627e1ff43221f816deb64",
+          "phash63": 4151418111114839824,
+          "width": 600,
+          "height": 710,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/9db582de-1293.jpg",
+          "sha256": "e553c47f8d9e1a4714d5f6d7c989e106cb3c111330e513acf3b8644430f436d3",
+          "decoded_pixels_sha256": "3a83f75840bbd25722752672a371d0b751b8d7105f4a364f9983f8a61a7395ce",
+          "phash63": 1456605580190413587,
+          "width": 895,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/2e80f844-3786.jpg",
+          "sha256": "6c77f4609f803cb178013e116be49c677a4db6c959ef4174607a0a51f5749c74",
+          "decoded_pixels_sha256": "c5fccd648c38c24834a96a4784cc580fdd36951b2e09d3676da1362a47e35672",
+          "phash63": 3620029126642160198,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000520.png",
+      "sha256": "613eec4e07cf0f6f39c330e3ef8c9ad08dd6a168edd509b2bfc5d64e9690c63c",
+      "decoded_pixels_sha256": "6960f4b533e351dcd7ad9e25760628de3cc93211c2931dde7c39d3e828ef47ff",
+      "phash63": 1300100360352872893,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/83443826-1295.jpg",
+          "sha256": "4ccd3f5b707da55b68d77a32374e5e93dfd352a522290f0767ba77332dd4310c",
+          "decoded_pixels_sha256": "019e718c1d6167aecd31ce576097e2c4e6b069e597dd1ed95cde9f446e0dd76c",
+          "phash63": 3503450263684952433,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/ef6b436b-0301.jpg",
+          "sha256": "f57375dafe195c232de4a6a5823f0991829130ab8b754a5359c62ebc50cc4e1f",
+          "decoded_pixels_sha256": "807b842cf04297c033eae21909ce0fb8562c9b9978246270a968e401f777100a",
+          "phash63": 6489271600710023477,
+          "width": 841,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/22b459c6-0941.jpg",
+          "sha256": "fa38cac68ff0c1f5ed6b7c5730237f7ea8d5c2f001fde2c102a98745d49fe7bf",
+          "decoded_pixels_sha256": "bf57475976e455e64480bd84f77bfea0db2f667565a39d345506d72a1f372eef",
+          "phash63": 1747622002541506025,
+          "width": 799,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000668.png",
+      "sha256": "408e95965b606d315cbccc635f062c81dcc68cffb769abe298438cb2243a3e07",
+      "decoded_pixels_sha256": "5e4c0caf58ab930d6c54e4614b2d82e7711a6aec41a8fd0f202836e98fe869ec",
+      "phash63": 3632933567288747061,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/232c4c59-1091.jpg",
+          "sha256": "caec48357c0302535e891cef7aa9630496c142b34759d03b05e8683af989ebd0",
+          "decoded_pixels_sha256": "a138f907f1249d44d5eb138cab3ad4f94353d7b2d3406de33a25f5de21946475",
+          "phash63": 4278636927203321385,
+          "width": 801,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/ec57eb5a-3470.jpg",
+          "sha256": "90aa391e5a10caeeb598d36548d27382d5856fe474230515987d3cb36d1fd9a6",
+          "decoded_pixels_sha256": "91d5da0085f5628bab3a1efdfaaa19f29f3b15434934129ffa8a147a985bcc4b",
+          "phash63": 3775084751658847333,
+          "width": 600,
+          "height": 646,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/fc4a8ae3-0024.jpg",
+          "sha256": "9af722d964ce1ed68f9c73f91288c9e99470fe93fab17f7f2d3e06b3b4265bc1",
+          "decoded_pixels_sha256": "1af86b2512e2b6d5b445586262961bb354f2e80210a0d6e58ce5622744cbba83",
+          "phash63": 3705562640022899833,
+          "width": 551,
+          "height": 551,
+          "hamming_distance_of_63": 16
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000817.png",
+      "sha256": "203916d5e6b2fecc58ca7be8b0e2a1840047532c5852afd44e368719b44ae0b2",
+      "decoded_pixels_sha256": "976609ef15cfd55c1d466c2f7d2d4f32af1673e039ce67b808600254bfc7b0f8",
+      "phash63": 2965985168585475396,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/5ec90d7d-1589.jpg",
+          "sha256": "52d246cbdc933b5b4d980dbf31399c7f64adaaa19a29ace822fdd77da976ad54",
+          "decoded_pixels_sha256": "fe06f1e16dff2183070d6db1ff09fd7720dc5c6e6c10de76aea4c21e2a6d878e",
+          "phash63": 3065772166602085772,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/4d403fb3-3182.jpg",
+          "sha256": "3fcf6cbf309ac6e877b5d11ca4c03bc656cd92852cb46ab24c7cba43e930c228",
+          "decoded_pixels_sha256": "08e9080585b185cf03cbbad0e24e692bb7469051696eea47828b786c4ce9264a",
+          "phash63": 3254320540987840164,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/712acf54-0100.jpg",
+          "sha256": "19916939c18996cc7947d2dfff052aa644cc16acc97453852b177d2e35183adb",
+          "decoded_pixels_sha256": "140e88fbaca11d453bb61a47131804f6c21bba70e7f87cd6acb43266275e8a44",
+          "phash63": 2904761920937801061,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00000965.png",
+      "sha256": "d0cce90c0edf99d98465c180c9e8d5bb393bfaf35670bfdae08393bd057c023b",
+      "decoded_pixels_sha256": "693498a8fc6afa7f499219698f21877e5398444735a0294b633da31b07dd9995",
+      "phash63": 8316892440385101766,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/0529db21-1544.jpg",
+          "sha256": "8bad68f09a17df3701b7cc4b9e56c7c2b6e2758b0f5b3d5bb46ff09b4358d4dd",
+          "decoded_pixels_sha256": "5eec1f9895d8f847732b9aec1065c53e204542b16c3d1afc51d25622e5bff249",
+          "phash63": 7147662990060898150,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 14
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/f8ae40e9-0262.jpg",
+          "sha256": "58d9349681448fbc8646f8544167c73e7df2af26a30b9b3b3f39a1297c833829",
+          "decoded_pixels_sha256": "a7fd0fea672ff1ac301b984af4ce7130b1729f060ea541520f5ffca5988669b9",
+          "phash63": 8819035002852919503,
+          "width": 600,
+          "height": 902,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/5497df8c-3143.jpg",
+          "sha256": "636394d3f2faf6594f3a880df13b681c2fdf612fb218df4c678d7336a09091e6",
+          "decoded_pixels_sha256": "46f4de5315755dde82438db5523a66e2eccb66bd4b9442b82bbd0e5f5bb2bdc8",
+          "phash63": 4566862911609442252,
+          "width": 799,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00001114.png",
+      "sha256": "02356b5d07b3e37b82da67700cb6b3c7e46f3aaadec454f9566325a7b9ec2fd0",
+      "decoded_pixels_sha256": "3bf81cb0d7d5effd060ea29c101c0ff2d9f4c743c823ce514eef0155c5829d18",
+      "phash63": 8243424160370629318,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/870907b2-3700.jpg",
+          "sha256": "2c28eb2edd7db3f0a67b38468a68cee5ad03f60f235b5e7cdd969f8c7e0c8207",
+          "decoded_pixels_sha256": "b4aa2bd5efab2530d2eec345ac17a84f9209dcce70e2fca080ce79d8df654348",
+          "phash63": 4250519062302133964,
+          "width": 600,
+          "height": 900,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/a3926f89-2173.jpg",
+          "sha256": "525d4cb3017858677347e8653c46ffcf747aa765810ac7ba19b3f3301587e257",
+          "decoded_pixels_sha256": "48d617040306e2b2def643592ecdb1fbe9bafcdeeab31448805cfc30527a4325",
+          "phash63": 8135407590950149321,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/16fd731a-3216.jpg",
+          "sha256": "7a0f39ce7be313b2c8144f351aa491cb676eff16aeeb31d1fdfa4018e2824a88",
+          "decoded_pixels_sha256": "22dcd35e4a4a98f9ecd48a25daa5e69fe70279bf6574e18376d0903a1ba398ec",
+          "phash63": 7572176679428659686,
+          "width": 851,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00001262.png",
+      "sha256": "ff2d3ee9b8572e48f9954bfe44f06a3b39d9bb2b1be240fddb3b41c4cac93272",
+      "decoded_pixels_sha256": "813cc26fd20d3eecac2e9f35a5b9052e6fa90c73a49dcc9969711fc003d8f625",
+      "phash63": 2392416829755390409,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/27ccc787-3820.jpg",
+          "sha256": "068bbee486c671fbaaf64c88122665db5761adef1bab0fae514745f8ec7c4126",
+          "decoded_pixels_sha256": "a02ecfee9d39d87ff07c99cc4a02545fc509024aa81277cfde3f809ef116dac5",
+          "phash63": 7031137611126958228,
+          "width": 600,
+          "height": 808,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/3c478d9a-0427.jpg",
+          "sha256": "0002143ceb27fdcad32568ea2f96711a2f5a1a547710f120c7175ed9d9f3c06a",
+          "decoded_pixels_sha256": "0bccd59ebb62b42843f134563d0fdf83544dded7c19cae712f1a04d1884c441f",
+          "phash63": 4887024022738206665,
+          "width": 1000,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/cb4816e9-0043.jpg",
+          "sha256": "cd1a42d809dc8e9189e31e4e082694324635c1f2e1c68803c93d4e76814feadc",
+          "decoded_pixels_sha256": "426283c29da2f5856dc4ec913c82b0520a94f7230c16b1a7f48e97348db0ebdf",
+          "phash63": 5175254270042992073,
+          "width": 1000,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00001411.png",
+      "sha256": "0d804178eb5ca6dfcfa5f263f58f6eeef2b517859aaea10d98b769893e9134fe",
+      "decoded_pixels_sha256": "b05acec66354622bb36fd6ad770061b7dd0ec6f1ae4cf699f569540f8c85010f",
+      "phash63": 8368830608567319547,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/4f7ed8d0-0899.jpg",
+          "sha256": "7bc90c033e614e7264eaa14f8779344b2e5a8c961ee7f115ad73eff7f08eb8d0",
+          "decoded_pixels_sha256": "4963c7d4bb6ca7663b622ebf751147a20661851552b3af8148150a95e1a94edc",
+          "phash63": 7252710859172190617,
+          "width": 900,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/b8ccbf47-1695.jpg",
+          "sha256": "7a64d2546ae89e54f84ec13ee7fa7aabff5d0269990c41493c45a0c02b3943a9",
+          "decoded_pixels_sha256": "e632bd8dcc3b55a0840ad09fe391e7f266c4e5613a7d06a0c2dc3f166aa7495e",
+          "phash63": 4910057959616609499,
+          "width": 600,
+          "height": 750,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/1534f83e-0294.jpg",
+          "sha256": "9af8b9943b6fc9e7215db706662fb3a6e852dc9bd291195135b2033b7f5c63c4",
+          "decoded_pixels_sha256": "da7ffa0dcd80177c8affd11fab97dcefbe83f050067bc49cc45b0cff527f9b46",
+          "phash63": 7270085343487178271,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 20
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00001560.png",
+      "sha256": "097123534334c5877e5ea19629b64ba6745c0afa73f8f1d0fc8e4c1681793ebc",
+      "decoded_pixels_sha256": "dfa5ff88ad6f0279ea30d9b006856aeb31c8fad62cf06adddff5fc7e9a023495",
+      "phash63": 3682119956296415258,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/6f804874-0327.jpg",
+          "sha256": "1f916f9bfc7bc6e63df320e069951731d64af3a8c23b148d055e26757d63a7a2",
+          "decoded_pixels_sha256": "b9342b27c4135efd5435f0d2e3048785bce6dbc14a6a7f59500d9147aa698f8c",
+          "phash63": 3682796702968228889,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 16
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/55219952-2123.jpg",
+          "sha256": "8ebff9de44ee2bb5630e54a62276a02a1518e54bf19733dfe9e7b96beb1b0a21",
+          "decoded_pixels_sha256": "375629cb310a0ef7aebad0ab5d011053be411a02763d3193963fe4efe4415f79",
+          "phash63": 7429141231835910450,
+          "width": 600,
+          "height": 699,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/60f569bc-2181.jpg",
+          "sha256": "0cf0b6e8a298b085f32b1a81585c57242c3f48cb2a4ab6fe75ef42d015a31459",
+          "decoded_pixels_sha256": "4f46bd7d05049e29a2c949a1c45b0dc86cb7336c550ca1093dc35eefda6bc421",
+          "phash63": 3689447120480013528,
+          "width": 837,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    },
+    {
+      "source_id": "steak",
+      "image": "outputs/external_pilot/samples/steak/images/steak_00001708.png",
+      "sha256": "683d5964fd03668b94563d0a5905b7aeb23cd536316cfc68d2a7078b1fba72ce",
+      "decoded_pixels_sha256": "983adb5987e2e2191a887ea9ae980dbb6cb74924e5bcbfccbd56c1083abc09c2",
+      "phash63": 7990161745227246832,
+      "width": 854,
+      "height": 480,
+      "nearest_three": [
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/401b3f93-2487.jpg",
+          "sha256": "d4d1a446cf8ef62b21b52c14a52ba91729d3d0cffcf33c396f2c01f5e5fd4b6b",
+          "decoded_pixels_sha256": "1bd6ab008973860bd31eb0475f321df8574b789bcca35f3db3343dbf0e803b38",
+          "phash63": 4529162173937449680,
+          "width": 600,
+          "height": 900,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/6655f140-1715.jpg",
+          "sha256": "07b68f6d60c80e003fb4031390fbfff498aa7f40634d71380f3f951f082f70a4",
+          "decoded_pixels_sha256": "ec6376ed8149f615a01e154e1efcb0886f8275aaf66a6d408c0110bc13a5bc56",
+          "phash63": 3379600241899418852,
+          "width": 609,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        },
+        {
+          "image": "data/processed/dangerous_items_grouped_v1/images/train/f813e2d2-0540.jpg",
+          "sha256": "d8e19770af41b06659504c9e5b1138e7c1e9d59a6698fcde528c2384aee4f613",
+          "decoded_pixels_sha256": "8465313ba03c5354eb92533ca94b26383c4d00a20f1fbe0811408779f842e109",
+          "phash63": 7359112203539937766,
+          "width": 1000,
+          "height": 600,
+          "hamming_distance_of_63": 18
+        }
+      ],
+      "exact_file_hash_matches": [],
+      "exact_decoded_pixel_matches": []
+    }
+  ],
+  "training_manifest": "reports/dataset/grouped_v1_manifest.csv",
+  "training_manifest_sha256": "b378f691bcd1cfbd891800e1187c2ea492dc23b6e84f66bb2b979cafac08e4d8"
+}

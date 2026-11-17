@@ -1,0 +1,384 @@
+{
+  "reviewed_on": "2026-11-17",
+  "reviewer": "Codex assistant visual review",
+  "status": "ASSISTANT_REVIEW_COMPLETE_HUMAN_APPROVAL_NOT_CLAIMED",
+  "scope": "Post-inference annotation diagnosis of an existing 36-frame pilot; not new footage or an independent accuracy study.",
+  "method": "All 36 raw frames inspected in source contact sheets, followed by all 12 knife-label overlays. Five ambiguous knife frames also inspected individually at native size. Original notes and aggregate results were known; this is not a blinded review. No model prediction overlays were used to edit labels.",
+  "annotation_manifest": "reports/experiments/external_pilot_annotations.json",
+  "annotation_manifest_sha256": "f6cec0aa7644c7234f5e62cacd2873815cf87035ca5288aa2478dcdaadbc0d6e",
+  "integrity_checks": {
+    "frames_checked": 36,
+    "images_and_labels_match_manifest": true,
+    "dimensions_and_boxes_valid": true,
+    "label_rows_match_manifest": true
+  },
+  "review_summary": {
+    "total_frames": 36,
+    "knife_positive_frames": 12,
+    "background_frames": 24,
+    "plausible_unflagged_knife_boxes": 6,
+    "existing_ambiguous_knife_boxes": 6,
+    "additional_convention_concern_within_ambiguous_boxes": [
+      "steak_00001411.png"
+    ],
+    "wrong_class_or_missing_target_found_in_background_frames": 0,
+    "annotations_changed": 0
+  },
+  "saved_evaluation": "outputs/external_pilot/evaluation_full.json",
+  "saved_evaluation_sha256": "98c50e214b16745fbb224144e5c75e33618f5023a36a991805c6b059df4428cc",
+  "ambiguity_diagnostic": {
+    "interpretation": "Post-hoc diagnostic of existing predictions, partitioned by the original pre-inference ambiguity flags; not a new accuracy estimate or corrected evaluation.",
+    "confidence_threshold": 0.45,
+    "matching_iou": 0.5,
+    "groups": {
+      "unflagged_positive": {
+        "images": 6,
+        "tp": 0,
+        "fp": 1,
+        "fn": 6
+      },
+      "ambiguous_positive": {
+        "images": 6,
+        "tp": 1,
+        "fp": 2,
+        "fn": 5
+      },
+      "background": {
+        "images": 24,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0
+      }
+    }
+  },
+  "conclusion": "Localization uncertainty remains, but the weakness is not confined to flagged labels: none of the six originally unflagged knife frames matched. Preserve the pilot result and report generalization limitations.",
+  "human_review_status": "No human review has been performed or simulated. A person may adjudicate the six flagged bounds using the supplied raw/label sheets before using these as reference-quality labels.",
+  "reproduction_command": "python scripts/review_external_annotations.py --evaluation outputs/external_pilot/evaluation_full.json --output outputs/external_label_review_reproduction",
+  "review_sheets_directory": "outputs/external_label_review_20261117",
+  "records": [
+    {
+      "image": "steak_00000074.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": false,
+      "assessment": "plausible_visible_extent",
+      "notes": "Broad knife blade extends from the upper crop to the lower image boundary. Box plausibly encloses visible metal; central right side is partly behind meat.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00000222.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": true,
+      "assessment": "ambiguous_boundary",
+      "notes": "A short dark knife segment is visible at the top, immediately left of the hand. Blur and hand occlusion make its lower boundary uncertain.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00000371.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": false,
+      "assessment": "plausible_visible_extent",
+      "notes": "Broad blade and a lower tip are visible on opposite sides of an occluding strip of tissue. One enclosing box is plausible.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00000520.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": true,
+      "assessment": "ambiguous_boundary",
+      "notes": "Blade is cropped at top and bottom, with tissue across its middle. Lower blade edge is blurred; original ambiguity flag is appropriate.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00000668.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": true,
+      "assessment": "ambiguous_boundary",
+      "notes": "Knife is almost edge-on. Its lower endpoint merges with the cut/hand; class presence is plausible but precise box height remains uncertain.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00000817.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": true,
+      "assessment": "ambiguous_boundary",
+      "notes": "Thin blurred blade is visible near the center above the cutting line. Its lower/right edge is difficult to separate from meat and motion blur.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00000965.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": false,
+      "assessment": "plausible_visible_extent",
+      "notes": "Broad dark blade with a distinct lower tip; top is cropped/partly held by the hand. Box follows visible extent plausibly.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00001114.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": false,
+      "assessment": "plausible_visible_extent",
+      "notes": "Visible upper blade and lower cutting tip next to the fingers. Box plausibly contains visible knife, including the partly occluded section.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00001262.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": false,
+      "assessment": "plausible_visible_extent",
+      "notes": "Narrow frontal blade descending from the top boundary to a visible tip; existing box fits the visible extent plausibly.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00001411.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": true,
+      "assessment": "possible_hidden_extent",
+      "notes": "Knife presence is clear. The original right boundary at x=800 includes substantial occluding-hand area and appears wider than visibly attributable metal. Review the visible-extent convention before accepting this localization label; no replacement coordinates issued.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00001560.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": true,
+      "assessment": "ambiguous_boundary",
+      "notes": "Long diagonal, edge-on knife with strong motion blur spans almost the full frame height. Its endpoint and width remain uncertain.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "steak_00001708.png",
+      "source_id": "steak",
+      "original_boundary_ambiguity": false,
+      "assessment": "plausible_visible_extent",
+      "notes": "Broad knife blade fills the lower frame and is partly covered by meat; box reaches the cropped image boundaries plausibly.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000011.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Almost blank tabletop at this sampled instant; no target object is visible. The generic original note mentions scissors, but none are visible here; empty target label remains appropriate.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000034.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Almost blank tabletop at this sampled instant; no target object is visible. The generic original note mentions scissors, but none are visible here; empty target label remains appropriate.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000057.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000080.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000103.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000126.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000150.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000173.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000196.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000219.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000242.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "scissors_00000265.png",
+      "source_id": "scissors",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "No visible object from the five target classes. Scissors, when visible, are outside the defined label set.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000037.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000111.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000185.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000259.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000333.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000407.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000482.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000556.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000630.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000704.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000778.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    },
+    {
+      "image": "arrival_00000852.png",
+      "source_id": "arrival",
+      "original_boundary_ambiguity": false,
+      "assessment": "background_consistent",
+      "notes": "Paving, parked cars, plants and street furniture; no visible target object. Distant small details cannot establish absence of subpixel objects.",
+      "annotation_changed": false,
+      "human_approved": false
+    }
+  ]
+}

@@ -1,0 +1,717 @@
+{
+  "schema_version": 1,
+  "sealed_before_inference_at_utc": "2026-11-11T11:42:45.306692+00:00",
+  "status": "PROVISIONAL_ASSISTANT_ANNOTATIONS_HUMAN_REVIEW_REQUIRED",
+  "annotation_method": "Visual review of unannotated sampled images before detector output. Knife frames individually reviewed, visible-extent boxes checked in a combined overlay. Second assistant reviewed last six knife coordinates. Background contact sheets visually reviewed. No prediction-assisted labels.",
+  "coverage": {
+    "source_videos": 3,
+    "sampled_frames": 36,
+    "included_frames": 36,
+    "excluded_frames": 0,
+    "knife_instances": 12,
+    "background_frames": 24,
+    "other_positive_classes": "not measured"
+  },
+  "bounding_box_convention": "xyxy visible extent in original pixels, clipped to frame. Do not infer off-frame or hidden parts. Some blade boundaries are ambiguous; flags retained rather than relabeling after inference.",
+  "selection_decision": "All fixed samples retained before predictions. No frame replacements or threshold adjustment.",
+  "sources_file": "reports/experiments/external_pilot_sources.json",
+  "overlap_screen": "reports/experiments/external_pilot_overlap_screen.json",
+  "records": [
+    {
+      "source_id": "steak",
+      "image": "steak_00000074.png",
+      "frame_index_zero_based": 74,
+      "nominal_timestamp_seconds": 2.469133333333333,
+      "decoder_reported_timestamp_ms": 2469.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "39763ef97637edbe957b0249dc3e38f2cd75222cb83c25139af09692372fa918",
+      "label_sha256": "b474b7f81e9aec8923abc5bf81ef884cdc2ff243998507f7526cb06edc3451eb",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            177,
+            0,
+            330,
+            480
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": false,
+      "notes": "Clearly visible broad kitchen-knife blade beside and partly beneath the steak. Metal extends to the top boundary, and the blade tip reaches the bottom boundary. The meat occludes a middle-right section. No off-frame handle extent is added.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00000222.png",
+      "frame_index_zero_based": 222,
+      "nominal_timestamp_seconds": 7.4074,
+      "decoder_reported_timestamp_ms": 7407.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "b530fc105e070ecba3503dfc3f3501bac0bdd39a2ed988e2c48ae6246fdc3afc",
+      "label_sha256": "c0ac6dbec720d9c001d08339221dc5da22c5880115f8984e65f5f0e4494e20be",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            448,
+            0,
+            524,
+            137
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": true,
+      "notes": "A dark, motion-blurred knife segment descends from the top edge immediately left of the hand. The lower knife boundary merges into the hand/meat occlusion around y125-137. The box includes the visibly attributable segment only; the lower endpoint and blurred right edge need review.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00000371.png",
+      "frame_index_zero_based": 371,
+      "nominal_timestamp_seconds": 12.379033333333334,
+      "decoder_reported_timestamp_ms": 12379.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "4ebc5bc1bb76447e38dee51579b6fc2c4d8d1c1d5b9257135852c9b33fcd06e3",
+      "label_sha256": "eae434687fddb374e1765408b1c058a0185918f6046940302ea66f3b452a3bb6",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            206,
+            0,
+            384,
+            407
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": false,
+      "notes": "The broad dark blade is visible from the cropped upper boundary to the tissue crossing its middle. A lower triangular metal tip remains visible below the tissue near x328-381, ending around y405. Both visible parts belong to the same knife; the box encloses them without extending beyond the frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00000520.png",
+      "frame_index_zero_based": 520,
+      "nominal_timestamp_seconds": 17.350666666666665,
+      "decoder_reported_timestamp_ms": 17351.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "613eec4e07cf0f6f39c330e3ef8c9ad08dd6a168edd509b2bfc5d64e9690c63c",
+      "label_sha256": "2fba14aa8a751f42d6d68739d809582aae8ce50427ee7c38b89a5dbffe2065a2",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            300,
+            0,
+            586,
+            480
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": true,
+      "notes": "The knife crosses the full image height diagonally, with a visible upper metal section and a broad lower blade separated by a tissue strip. Its upper and lower ends are cropped. Motion blur softens the lower-right boundary and a narrow upper-left metal edge; those bounds are approximate by a few pixels, not inferred hidden extent.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00000668.png",
+      "frame_index_zero_based": 668,
+      "nominal_timestamp_seconds": 22.288933333333333,
+      "decoder_reported_timestamp_ms": 22288.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "408e95965b606d315cbccc635f062c81dcc68cffb769abe298438cb2243a3e07",
+      "label_sha256": "125a8916453f63823ad392f381a4e37314cc162506b77380942e809e9c5ea3cd",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            436,
+            0,
+            501,
+            170
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": true,
+      "notes": "The knife is almost edge-on: a thin metallic line slopes from near x495 at the top to approximately x440 beside the steak and hand. Its lower visible endpoint is hard to separate from the dark cut and occlusion. This conservative box covers the attributable visible blade; no blade length underneath the hand is guessed. Review the lower boundary.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00000817.png",
+      "frame_index_zero_based": 817,
+      "nominal_timestamp_seconds": 27.260566666666666,
+      "decoder_reported_timestamp_ms": 27260.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "203916d5e6b2fecc58ca7be8b0e2a1840047532c5852afd44e368719b44ae0b2",
+      "label_sha256": "e663f3930b1d2d3bc6d11a0e0b2dce65b01974434521b583bb1c64d30c8fb5d2",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            386,
+            0,
+            439,
+            177
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": true,
+      "notes": "A narrow, motion-blurred silver blade is visible near the centre, descending from the top edge into the cut in the meat. The upper blade is clear; the lower/right metallic edge blends with pale tissue near y150-177. The tip boundary is uncertain and should be reviewed before treating this as a precise localization label. No off-frame handle or hidden blade extent is added.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00000965.png",
+      "frame_index_zero_based": 965,
+      "nominal_timestamp_seconds": 32.19883333333333,
+      "decoder_reported_timestamp_ms": 32198.999999999996,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "d0cce90c0edf99d98465c180c9e8d5bb393bfaf35670bfdae08393bd057c023b",
+      "label_sha256": "7eac036387b173b635cb046549da3f20bfedfc8d7880dc44eb919f81e8e6fe99",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            341,
+            0,
+            512,
+            385
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": false,
+      "notes": "Visible blade; top/handle truncated by frame and fingers.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00001114.png",
+      "frame_index_zero_based": 1114,
+      "nominal_timestamp_seconds": 37.17046666666667,
+      "decoder_reported_timestamp_ms": 37170.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "02356b5d07b3e37b82da67700cb6b3c7e46f3aaadec454f9566325a7b9ec2fd0",
+      "label_sha256": "8ae102f9ea1377462e159a1253ca0e3a3c4534a5c9d04433ea1e01815d3fec52",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            398,
+            0,
+            511,
+            272
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": false,
+      "notes": "Visible blade with lower cutting edge partly occluded by meat.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00001262.png",
+      "frame_index_zero_based": 1262,
+      "nominal_timestamp_seconds": 42.10873333333333,
+      "decoder_reported_timestamp_ms": 42108.00000000001,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "ff2d3ee9b8572e48f9954bfe44f06a3b39d9bb2b1be240fddb3b41c4cac93272",
+      "label_sha256": "b10edb4896362412e0066f4633b6834929e1129ad26ad21f46d6b886f4ebaf9d",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            320,
+            0,
+            375,
+            240
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": false,
+      "notes": "Near edge-on knife; top truncated and central edge partly behind fingers.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00001411.png",
+      "frame_index_zero_based": 1411,
+      "nominal_timestamp_seconds": 47.08036666666667,
+      "decoder_reported_timestamp_ms": 47080.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "0d804178eb5ca6dfcfa5f263f58f6eeef2b517859aaea10d98b769893e9134fe",
+      "label_sha256": "eb5259cc0853693c1329dac030bc85c0f1a225eeeb263f2b02ccc171108f99df",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            138,
+            0,
+            800,
+            255
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": true,
+      "notes": "Broad visible blade; handle/upper-right extent partly occluded by hand and image boundary.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00001560.png",
+      "frame_index_zero_based": 1560,
+      "nominal_timestamp_seconds": 52.052,
+      "decoder_reported_timestamp_ms": 52052.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "097123534334c5877e5ea19629b64ba6745c0afa73f8f1d0fc8e4c1681793ebc",
+      "label_sha256": "f057488d824a7ada850d94a084ebad975f38365979741e2bf215defde3c978a4",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            210,
+            0,
+            706,
+            480
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": true,
+      "notes": "Motion-blurred edge-on knife spans the frame diagonally; provisional bounds need human review.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "steak",
+      "image": "steak_00001708.png",
+      "frame_index_zero_based": 1708,
+      "nominal_timestamp_seconds": 56.99026666666667,
+      "decoder_reported_timestamp_ms": 56990.0,
+      "width": 854,
+      "height": 480,
+      "image_sha256": "683d5964fd03668b94563d0a5905b7aeb23cd536316cfc68d2a7078b1fba72ce",
+      "label_sha256": "559ddaeaa5076bdf3de56f1f8c5a0bb2a0098c82aca477d78fea8aad5b6bc864",
+      "annotations": [
+        {
+          "class_id": 1,
+          "bbox_xyxy": [
+            0,
+            241,
+            854,
+            480
+          ]
+        }
+      ],
+      "explicit_background_review": false,
+      "boundary_ambiguity": false,
+      "notes": "Knife blade across lower frame, partly covered by meat and truncated at image edges.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000011.png",
+      "frame_index_zero_based": 11,
+      "nominal_timestamp_seconds": 0.36666666666666664,
+      "decoder_reported_timestamp_ms": 367.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "207e42dbafa0d35529da32206356dc8834e071f8fd2b8f68453c334b572ed6bd",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000034.png",
+      "frame_index_zero_based": 34,
+      "nominal_timestamp_seconds": 1.1333333333333333,
+      "decoder_reported_timestamp_ms": 1133.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "7da69a45806a265eb94ee6d3cf690f7ce2e33f17498b21ba08d7ea39dce34b05",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000057.png",
+      "frame_index_zero_based": 57,
+      "nominal_timestamp_seconds": 1.9,
+      "decoder_reported_timestamp_ms": 1900.0000000000002,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "ab51ab9fefb59e4029040cf0e1850034f7ed0caf9521241f71ea454af1b26b84",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000080.png",
+      "frame_index_zero_based": 80,
+      "nominal_timestamp_seconds": 2.6666666666666665,
+      "decoder_reported_timestamp_ms": 2667.0000000000005,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "75df0dbe9805b6f5ad0b470c7f48b1ad08c9c352cdb53f0b828f7266f6e29035",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000103.png",
+      "frame_index_zero_based": 103,
+      "nominal_timestamp_seconds": 3.433333333333333,
+      "decoder_reported_timestamp_ms": 3433.0000000000005,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "f8d06a5e6102a6e29805a4c4d6f78f863694acb98c43dee48dd8a865751147e6",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000126.png",
+      "frame_index_zero_based": 126,
+      "nominal_timestamp_seconds": 4.2,
+      "decoder_reported_timestamp_ms": 4200.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "510bf24291fe1c349721aeebaf9ca8c7c89a05ef942d52fb02a188953292a2b2",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000150.png",
+      "frame_index_zero_based": 150,
+      "nominal_timestamp_seconds": 5.0,
+      "decoder_reported_timestamp_ms": 5000.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "c846fd48cc8d926fb0f824dd1310470f7cf2241d781821f437156f4f774d3e02",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000173.png",
+      "frame_index_zero_based": 173,
+      "nominal_timestamp_seconds": 5.766666666666667,
+      "decoder_reported_timestamp_ms": 5767.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "dfe2f403540500c1391aa5ad140d0ab7e5299b74d18aa2f5165d542fc512b2dc",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000196.png",
+      "frame_index_zero_based": 196,
+      "nominal_timestamp_seconds": 6.533333333333333,
+      "decoder_reported_timestamp_ms": 6533.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "3610033fbf343776207f0ae5e9d14b0489f4a57f325412e1bca3383da2973e0d",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000219.png",
+      "frame_index_zero_based": 219,
+      "nominal_timestamp_seconds": 7.3,
+      "decoder_reported_timestamp_ms": 7300.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "cb96ca83fa4cdf038f2bf9496d8c886119f2956b64b85e804cfec41e09b8a70f",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000242.png",
+      "frame_index_zero_based": 242,
+      "nominal_timestamp_seconds": 8.066666666666666,
+      "decoder_reported_timestamp_ms": 8067.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "3dfdc0ba1c062f4cef345654acee4b52d0a330e9462c46ef4d770f0e24afad73",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "scissors",
+      "image": "scissors_00000265.png",
+      "frame_index_zero_based": 265,
+      "nominal_timestamp_seconds": 8.833333333333334,
+      "decoder_reported_timestamp_ms": 8834.0,
+      "width": 1920,
+      "height": 1080,
+      "image_sha256": "e5d2bee3ffbb3a7da6d9e3b120da50a5e840877bd4dbbcdf26cd4f9b9a525c47",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Only scissors, hands and card/table are visible; scissors are outside the five trained classes.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000037.png",
+      "frame_index_zero_based": 37,
+      "nominal_timestamp_seconds": 1.2333333333333334,
+      "decoder_reported_timestamp_ms": 1234.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "11a5cbf0462fd6c07490486ec55f33e9386a4ade5b5c805ad58cd89a39ef45d9",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000111.png",
+      "frame_index_zero_based": 111,
+      "nominal_timestamp_seconds": 3.7,
+      "decoder_reported_timestamp_ms": 3700.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "f49fc9957f12c59d363db1bf97d646fed9ed568a4a6b47e134b05186dc1a428b",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000185.png",
+      "frame_index_zero_based": 185,
+      "nominal_timestamp_seconds": 6.166666666666667,
+      "decoder_reported_timestamp_ms": 6167.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "e90dfde7ca064a06911c07781c993e7f24e7893cc4fc8588cf1e871d0a9c4d7b",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000259.png",
+      "frame_index_zero_based": 259,
+      "nominal_timestamp_seconds": 8.633333333333333,
+      "decoder_reported_timestamp_ms": 8634.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "f921c73c2619d785a67d618f05493c4470b8a46b3f2fb627e8e72558885527e5",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000333.png",
+      "frame_index_zero_based": 333,
+      "nominal_timestamp_seconds": 11.1,
+      "decoder_reported_timestamp_ms": 11100.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "ccaf157846820212cf97bc2f20914959babb0bbad0b259e00ee0455350c762eb",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000407.png",
+      "frame_index_zero_based": 407,
+      "nominal_timestamp_seconds": 13.566666666666666,
+      "decoder_reported_timestamp_ms": 13567.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "2cae3302734b96c32c46cdc2a3699cad66e6e719da7f0aaa18e46c4f561dbc93",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000482.png",
+      "frame_index_zero_based": 482,
+      "nominal_timestamp_seconds": 16.066666666666666,
+      "decoder_reported_timestamp_ms": 16067.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "5f0ddc433ea1db16efda71fe4199ea1e1e2725840b615617ec40b9eea2f94249",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000556.png",
+      "frame_index_zero_based": 556,
+      "nominal_timestamp_seconds": 18.533333333333335,
+      "decoder_reported_timestamp_ms": 18534.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "8ea395909474f5d97f26ba102dd0f7e7fc9cb6d7fb83f2b27ffd1541c5b080c0",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000630.png",
+      "frame_index_zero_based": 630,
+      "nominal_timestamp_seconds": 21.0,
+      "decoder_reported_timestamp_ms": 21000.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "abf907de04c8850838415823a82e330f1d58cd8e2145e7fceb79c7f11e403c18",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000704.png",
+      "frame_index_zero_based": 704,
+      "nominal_timestamp_seconds": 23.466666666666665,
+      "decoder_reported_timestamp_ms": 23467.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "c43667fdc5ba480ff34ba029b00fb98d3e17824c855e906b421bd5629c1bda59",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000778.png",
+      "frame_index_zero_based": 778,
+      "nominal_timestamp_seconds": 25.933333333333334,
+      "decoder_reported_timestamp_ms": 25934.0,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "fc27c71cf41ba67e2b1f15c3ed2a6bd2ae0fe7aea74fb89e3e016a31de7cc600",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    },
+    {
+      "source_id": "arrival",
+      "image": "arrival_00000852.png",
+      "frame_index_zero_based": 852,
+      "nominal_timestamp_seconds": 28.4,
+      "decoder_reported_timestamp_ms": 28400.000000000004,
+      "width": 1080,
+      "height": 1920,
+      "image_sha256": "8ba98ea62231242d940a1eff2a660c5cb091828554d8172ddbc5ad0497704de9",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "annotations": [],
+      "explicit_background_review": true,
+      "boundary_ambiguity": false,
+      "notes": "Outdoor paving, road/parked vehicles, plants and street furniture; no visible target class in the sampled frame.",
+      "human_review_needed": true
+    }
+  ]
+}

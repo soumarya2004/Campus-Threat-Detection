@@ -1,0 +1,24 @@
+{
+  "observed_on": "2026-11-17",
+  "timezone": "Asia/Calcutta",
+  "torch": {
+    "version": "2.11.0+cu128",
+    "cuda_runtime": "12.8",
+    "cuda_available": false,
+    "visible_cuda_device_count": 0,
+    "cpu_threads": 8,
+    "logical_cpu_count": 16
+  },
+  "nvidia_smi": {
+    "command": "nvidia-smi",
+    "result": "NVIDIA-SMI has failed because you do not have sufficient permissions. Please try running as an administrator."
+  },
+  "windows_visible_devices": [
+    {"name": "AMD Radeon(TM) 780M Graphics", "class": "Display", "status": "OK"},
+    {"name": "Integrated Camera", "class": "Camera", "status": "OK"}
+  ],
+  "live_camera_check": "reports/experiments/live_camera_20261117.json",
+  "cuda_peak_memory_bytes": null,
+  "interpretation": "The current process cannot access a CUDA GPU. This does not identify a driver fault or establish the machine's complete physical GPU inventory. No fresh GPU timing/memory result is claimed.",
+  "available_measurement_command": "python scripts/benchmark_detector.py --image path/to/image.jpg --device 0 --runs 100 --warmup 10 --output outputs/benchmarks/gpu.json"
+}

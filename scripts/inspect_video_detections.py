@@ -1,62 +1,78 @@
-import cv2
+"""Print detection counts for a clip without writing an annotated video."""
+
+import argparse
 from collections import Counter
-from ultralytics import YOLO
+from pathlib import Path
+import sys
 
-VIDEO = "outputs/rifle.mp4"
-MODEL = "runs/detect/person1_clean/yolo11n_clean_v2/weights/best.pt"
-CONFIDENCE = 0.35
+import cv2
 
-model = YOLO(MODEL)
-cap = cv2.VideoCapture(VIDEO)
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 
-if not cap.isOpened():
-    raise SystemExit(f"Could not open video: {VIDEO}")
+from src.models.object_detector import YOLOObjectDetector
 
-counts = Counter()
-frames_with_detections = Counter()
-total_frames = 0
-frames_with_any_detection = 0
 
-while True:
-    ok, frame = cap.read()
-    if not ok:
-        break
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("video", type=Path, help="Input video")
+    parser.add_argument("--model", type=Path, help="Override the configured checkpoint")
+    parser.add_argument(
+        "--confidence", type=float, help="Override the configured confidence threshold"
+    )
+    parser.add_argument("--device", help="Inference device, for example cpu or 0")
+    args = parser.parse_args()
+    if not args.video.is_file():
+        parser.error(f"Video does not exist: {args.video}")
 
-    total_frames += 1
-    result = model.predict(
-        frame, conf=CONFIDENCE, device=0, verbose=False
-    )[0]
+    capture = cv2.VideoCapture(str(args.video))
+    detector = None
+    counts = Counter()
+    frames_by_class = Counter()
+    total_frames = 0
+    frames_with_detections = 0
+    errors = 0
+    try:
+        if not capture.isOpened():
+            raise RuntimeError(f"Could not open video: {args.video}")
+        detector = YOLOObjectDetector(
+            model_path=args.model,
+            confidence_threshold=args.confidence,
+            device=args.device,
+        )
+        while True:
+            ok, frame = capture.read()
+            if not ok:
+                break
+            result = detector.predict(frame, frame_id=total_frames)
+            total_frames += 1
+            if result["model_status"] != "ok":
+                errors += 1
+                if errors <= 5:
+                    print(f"Frame {total_frames}: {result['error']}", file=sys.stderr)
+                continue
+            classes = [item["class_name"] for item in result["detections"]]
+            counts.update(classes)
+            frames_by_class.update(set(classes))
+            frames_with_detections += bool(classes)
 
-    if len(result.boxes):
-        frames_with_any_detection += 1
+        if total_frames == 0:
+            raise RuntimeError("No frames were decoded.")
+        print(f"Frames processed: {total_frames}")
+        print(f"Frames with detections: {frames_with_detections}")
+        print(f"Frames with inference errors: {errors}")
+        for name, count in counts.most_common():
+            print(f"{name}: {count} detections across {frames_by_class[name]} frames")
+        print("Detection counts are predictions, not verified true positives.")
+        return 1 if errors else 0
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+    finally:
+        capture.release()
+        if detector is not None:
+            detector.close()
 
-    classes_seen = set()
 
-    for box in result.boxes:
-        class_id = int(box.cls.item())
-        confidence = float(box.conf.item())
-        name = model.names[class_id]
-
-        counts[name] += 1
-        classes_seen.add(name)
-
-        # Print every 50th frame's detections for inspection.
-        if total_frames % 50 == 0:
-            print(
-                f"Frame {total_frames}: "
-                f"{name}, confidence={confidence:.3f}"
-            )
-
-    for name in classes_seen:
-        frames_with_detections[name] += 1
-
-cap.release()
-
-print("\n--- Detection inspection ---")
-print(f"Frames processed: {total_frames}")
-print(f"Frames with detections: {frames_with_any_detection}")
-print("\nDetection count by class:")
-
-for name, count in counts.most_common():
-    print(f"{name}: {count} detections across "
-          f"{frames_with_detections[name]} frames")
+if __name__ == "__main__":
+    raise SystemExit(main())

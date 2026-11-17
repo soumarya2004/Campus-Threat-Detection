@@ -1,0 +1,4440 @@
+{
+  "created_at_utc": "2026-11-17T14:16:48.832236+00:00",
+  "purpose": "Validation-image model-size/batch compute comparison; not a weapon accuracy comparison or a camera FPS claim.",
+  "plan": {
+    "data": "configs/dataset_grouped.yaml",
+    "split": "val",
+    "seed": 42,
+    "samples": 64,
+    "repetitions": 3,
+    "warmup_batches": 2,
+    "image_size": 640,
+    "confidence": 0.25,
+    "nms_iou": 0.7,
+    "max_detections": 300,
+    "batch_sizes": [
+      1,
+      4,
+      8
+    ],
+    "cpu_threads": 8,
+    "models": [
+      {
+        "name": "coco_yolo11n",
+        "path": "yolo11n.pt",
+        "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "class_count": 80,
+        "class_zero": "person",
+        "source": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n.pt"
+      },
+      {
+        "name": "coco_yolo11s",
+        "path": "yolo11s.pt",
+        "sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+        "class_count": 80,
+        "class_zero": "person",
+        "source": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11s.pt"
+      },
+      {
+        "name": "selected_items_yolo11n",
+        "path": "models/dangerous_items_yolo11n.pt",
+        "sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+        "class_count": 5,
+        "class_zero": "machete",
+        "source": "models/model_card.json"
+      }
+    ]
+  },
+  "plan_sha256": "8adeb895387972f83a809cd51307c982a0162940b43f1a30677a6429a592939f",
+  "sample": {
+    "dataset_yaml": "C:\\Projects\\campus-threat-detection\\configs\\dataset_grouped.yaml",
+    "dataset_yaml_sha256": "2e801cf29f53afe92c572c709300a8664eec616d18dfc8436d4168b0c1334003",
+    "split_content_sha256": "973f7cf6bb24729c7906942f5b1e1eb69e214c340ef1ad80b2901c5ad3387172",
+    "images": 64,
+    "class_names": {
+      "0": "machete",
+      "1": "knife",
+      "2": "baseball bat",
+      "3": "rifle",
+      "4": "gun"
+    }
+  },
+  "sample_manifest": [
+    {
+      "image": "ef31c181-0624.jpg",
+      "image_sha256": "a923a9cf92f0d2e7f85e4436503f84a9a8395ec3adf12f492b80a04f1c4b6406",
+      "label_sha256": "d3c3d9c8d14b065ca977b760d84448b930f5cf6811547a28abf1ceb95744901d"
+    },
+    {
+      "image": "2a51f5b2-0343.jpg",
+      "image_sha256": "475729b87f639cfd16bb6102a02b096e833efeeea4318166b5d8e794b0271564",
+      "label_sha256": "f27045d06cf2ed17b5332c0d270246c35e1cc27e497290de9a3041aeb601b83e"
+    },
+    {
+      "image": "0acbb319-2944.jpg",
+      "image_sha256": "e84d0fb1ef240cd0cca8ed837b8535a2847f90d316a569f149e80f5efc1e8608",
+      "label_sha256": "fcf9cf09ffb70cfced00ae73a0c0d7af4b4913a5a1620f8012f1b0dffbcdcf7f"
+    },
+    {
+      "image": "6e534393-3608.jpg",
+      "image_sha256": "575bc5a0cf783bffdbdacd0ca73a44a54f83a7b040e0ced11cb5a59235077044",
+      "label_sha256": "9f9ed2731ba5aa0d5b5c1e33e687c7d40ed6ea5f1dc3ce07cc47ef56b9b8eb98"
+    },
+    {
+      "image": "63747e85-0410.jpg",
+      "image_sha256": "af869e85f742e543da82b9b5e6378e9fcf0f531bb9eeea3a5aa54f05111060aa",
+      "label_sha256": "7dacda6314cdcc4209ca44260f56b083e70402671ba3fc757bbf3d8b79447d80"
+    },
+    {
+      "image": "5adec0e0-2245.jpg",
+      "image_sha256": "2bace299215a84edba6dda87b9b9870bc5d1bc0e4c0c308b9906179025200dc4",
+      "label_sha256": "4d5ad110daa4f2ecd3842c14cbedea19bab8ce7715edacb0e328f95ab0fce3ee"
+    },
+    {
+      "image": "3827057e-0480.jpg",
+      "image_sha256": "04b86f36e61fa15c7ede41f93aef84d21ddb6bc0504073b041f66a99d1a437f6",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "image": "2821cb95-0118.jpg",
+      "image_sha256": "df425eb580acbb430b9edfafee270aee8766ca75c515c0bc9146b0436505f32f",
+      "label_sha256": "18dca7268d8c503cef2a4d7ec95512cadf268423faefdde9ef7596f790243399"
+    },
+    {
+      "image": "fc83ea22-0306.jpg",
+      "image_sha256": "f8dba515bf192ca7955d3eb8eff4fdd95e1cfa38676b4b1ed50bed912ae79fe5",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "image": "ce8f225a-0766.jpg",
+      "image_sha256": "eebe8f9ba7ad296b79887e2cc812600aa90ac5b432a04d1fe8c1d1cd5576e4cf",
+      "label_sha256": "e85cf3b6982fbf07ce5b2beb2169d3a3ffa86846fa06e07e98c53100a728beae"
+    },
+    {
+      "image": "223660d6-3152.jpg",
+      "image_sha256": "67c72ddd370aab0ee8b12c7e60a35da7919d3ed060b6001d4dfecf68211346c6",
+      "label_sha256": "c3b0dbcc6f091cee3a7d6526bb25d91333a0739688329b8266751bd7e93d11bc"
+    },
+    {
+      "image": "dd88afc4-3505.jpg",
+      "image_sha256": "ce34c94fa830c2708a494350d9b2973ada3f015c3e64dc3418d32489d3e84125",
+      "label_sha256": "168b4ec97e70db5935a7aa5bdd6f68359425f2f8322a9502c01d29baf0835d9c"
+    },
+    {
+      "image": "A8_8c42b80b-0550.jpg",
+      "image_sha256": "653d32df89e5e4cc09ebbe58ce2d42c5bf34e1df3d4aed0dc38bb7f4c70926f8",
+      "label_sha256": "f483cd55eea340b8edb6bf998895f23a7768f0a4ec9c746fa0a4683126fc0d40"
+    },
+    {
+      "image": "0ba88301-0674.jpg",
+      "image_sha256": "76a2661ab4a4bfe726e33831d75449b845066c99f0e163356fc937e3408da994",
+      "label_sha256": "806bc76ebd0bacce1d6440f6068fe20a0090751c1e7a9e4813fde4472417656c"
+    },
+    {
+      "image": "0b565942-2308.jpg",
+      "image_sha256": "0fc8c339fec77a85b2981e5318cc878cf1a9ed82800336f0d0a7a05493f7b3eb",
+      "label_sha256": "d6325200b04b43d93456eaaaf055cd23c07b79223c22b6648bc90f7cd67cc410"
+    },
+    {
+      "image": "23e5c53b-3120.jpg",
+      "image_sha256": "5368e2add48deb9207e27680ff43987c624bfd5d1fba7824834c8b23c5d882e5",
+      "label_sha256": "869fc3667ec7694661ceeefa90724a91731943ce2c6eeffc367f53f68549d805"
+    },
+    {
+      "image": "58b31d93-0473.jpg",
+      "image_sha256": "1291b61a0667a6f641900b12bcf3212cc57d2b546b416f18a80b4866c2254d7a",
+      "label_sha256": "ad08988c3004bf4c56576387804d9fa13c9b3acdc5834c27370155252a52d148"
+    },
+    {
+      "image": "5e0da990-1402.jpg",
+      "image_sha256": "0c64258d54fbd341d4109b69623c84715c8c0ad0dd7eaf2261cb520f9cfb73c9",
+      "label_sha256": "ffbc0a479b67417c4a579c0e03b922c6ddb97d704ba627eef4578edc4ba78cc2"
+    },
+    {
+      "image": "bfab0034-0953.jpg",
+      "image_sha256": "aa482aef4a2fe889b28feceacd506361b68d4811b6323b60098eb8d0b9f8b365",
+      "label_sha256": "3f112b90725371dee05857f6685c4919b5ba24dc26a6617ddb389dab770cdcb6"
+    },
+    {
+      "image": "e2765751-2296.jpg",
+      "image_sha256": "1225cf592ddcd8cc686f264d3571c47122e81ba5ccd1e434042a6aa474e3fd8a",
+      "label_sha256": "c1ca9691948903dac058d6d5f948cdad9220615bad8d4fb09c305a4c831bf787"
+    },
+    {
+      "image": "0b26f351-0097.jpg",
+      "image_sha256": "50e5f78d024008cebb97dfa9f90e3f4bcc3f0d91e01de5a70cf660c91c08f6b5",
+      "label_sha256": "b1404253c3cdd4fd4fc444784ad16d7fbf326c715328ce1ba57a9147ca363666"
+    },
+    {
+      "image": "d232ea10-3324.jpg",
+      "image_sha256": "e487af44ac3be8e8c9135d757989c133e3826ab2571ccab3301d3f762c8a4ede",
+      "label_sha256": "c6f2f5795086dfe5b443e7a78e611f75bd023d52feb702b31cc880425277457f"
+    },
+    {
+      "image": "51daa815-1466.jpg",
+      "image_sha256": "1ba543350746ed08710f1fcbe99a039752862683559c0c66154166f7b2fffa66",
+      "label_sha256": "7c30ccc8ad0daf26a69cc06ef54461ae5b5493744ff00256da812e5155da08dc"
+    },
+    {
+      "image": "f29e5db4-0823.jpg",
+      "image_sha256": "3ddd5347635fb7923903c112124bf8bb4de95f3e1af385232a88007f8e7621be",
+      "label_sha256": "f54225b1012f326cb1afc5c47a2372bcbf2fb4b410ce09964823e7648d4c4f6e"
+    },
+    {
+      "image": "A7_73cac4c7-0631.jpg",
+      "image_sha256": "f8289639879ad94d4f43b006d06d78332e870504e084141ae2f81e18ab3ff800",
+      "label_sha256": "952f775eab2e0ef0b954094642b4c7dc2b082e93d2bff4ad8751b6ee362023c9"
+    },
+    {
+      "image": "590564c4-2996.jpg",
+      "image_sha256": "579a60f791b6aeb4cbe59cfd862d8124d3db7a857acacf2029711ae157c5c4e2",
+      "label_sha256": "78ad0748b018d3f2caa2a2089bde47ef5475cfca39399db8f0bfe2e95b0e4e06"
+    },
+    {
+      "image": "a89cefb9-0273.jpg",
+      "image_sha256": "0a661752b8fdf86af5838eacc2e82ef9ac6eb4935f10d01c34050a17380e1486",
+      "label_sha256": "48db04d75b3fbda92eb775711166c46dc02f797cb63c5c71ad08188554cbc2a7"
+    },
+    {
+      "image": "dd5d45f4-1814.jpg",
+      "image_sha256": "a527a8d9bcf61a34c28ee53bf36a4a8db135572a14a20e701b11b2129bd8fa82",
+      "label_sha256": "00d3674a11c1feef9d525ed4bcb0a38a835f3252be87cde9bbde4b0fb1dd8865"
+    },
+    {
+      "image": "6f55b276-2688.jpg",
+      "image_sha256": "fc07d1999605c4ce5142bb17824afc3e41be3607489b33a528bdfea3351e00cd",
+      "label_sha256": "23f56bc54455e1f90b358408a5540577eb59cff0b64524081cde709b615d6129"
+    },
+    {
+      "image": "02840be8-0462.jpg",
+      "image_sha256": "8411befb428509a1c68caefeffcfc5c7692c027c0ec34560ffd5b71fde63b056",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "image": "44480bd8-0079.jpg",
+      "image_sha256": "33b9bdc5b7b5420e8dec9d2b2d6680cbc57dd15d0d4db82b36b441b4bbe81886",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "image": "83486263-2139.jpg",
+      "image_sha256": "9b7821d6b3eddb8549fef540a9219e67df77b8080dac76609a1f426249f848a0",
+      "label_sha256": "19e9c8011b1d946e37135ce4ce5ca15e6eafb88de4d4b1c8c00ccf897ee02df5"
+    },
+    {
+      "image": "3d867adc-0527.jpg",
+      "image_sha256": "8244e3140f1c7e99d5922398301c834a3b5a61847fb0f24ae45c5607b33ea9eb",
+      "label_sha256": "c53dfa695cba12a13feccefd1301613db6a93721693227c31fc2dc855f2f8456"
+    },
+    {
+      "image": "56601d58-3558.jpg",
+      "image_sha256": "13d9892271122c1eb9824b5b07bc1786af2e84b3b2b5582afdb9236184f9d638",
+      "label_sha256": "a42a639919ad9cd329c04011bf757aa689f1b619643b6fcefeca8be2fff76518"
+    },
+    {
+      "image": "8297190c-3870.jpg",
+      "image_sha256": "47eeb73bcf8bdd006d60cdd5ce064431ac1af65fe2b65a68e67e43e6f1e67682",
+      "label_sha256": "1fcd6957dc185b46e58d9867e63c436b433443f6a5f2c4d72c4d6ecbadf8bec6"
+    },
+    {
+      "image": "23c6f497-0008.jpg",
+      "image_sha256": "f1a857f0c71226c7ac17feab15663709743b04c2001370ac587124bfbc014f10",
+      "label_sha256": "986d2b5c1d385b8b912e918fec7106c8c2a68a1325ee667e4b68a054fa406c10"
+    },
+    {
+      "image": "98237367-0429.jpg",
+      "image_sha256": "6cfa47423ad03926bcf72a7dd170d61036a6a551abdb85676069ae14ec90febb",
+      "label_sha256": "93adcd29ae598fb9836686de83a2960dcb2a1a62c939f30dc3cce0e6ff0731ec"
+    },
+    {
+      "image": "2606b91b-3970.jpg",
+      "image_sha256": "de336b39db44ec662637aa63ce94d0bb1c50fb6b410998a24e02af347d7bb779",
+      "label_sha256": "92e088d8d5653be5256b6d5facdf4d12029bb09b10ff01f9de4d644e164482ec"
+    },
+    {
+      "image": "8eaf8f1a-0030.jpg",
+      "image_sha256": "58d0be0635c1aa941ee2cd27907e6798e81be772a4edbd37e0d75ff840c643cf",
+      "label_sha256": "e8f298fa0634d12c148e3e2f8b80cd66eb5bf61798b9ca76a3aec1c2144a859e"
+    },
+    {
+      "image": "85d4d006-3985.jpg",
+      "image_sha256": "06e012c1f37b1fb26e9d511580d77b7792782b0bd621a52a2a356b015051280a",
+      "label_sha256": "1b5cfb8e7856687d7143e4eecf3ab5a846053f8bb6e13f9e769711e8f6fbf58b"
+    },
+    {
+      "image": "e2e4e72c-1485.jpg",
+      "image_sha256": "0269ed9050ae42be8660d04cc25cb0fc22e4036f20a9c05ab10efc92212cb09f",
+      "label_sha256": "e726baa947170ae5f70eca7e56db7277fa95ee523dcf53a48862a7be4d66f30e"
+    },
+    {
+      "image": "69706f21-1679.jpg",
+      "image_sha256": "4a8e0d0c7e3d12aa6b508ac9c6d2af119a46f8e5c78b85b28412aee805f3995e",
+      "label_sha256": "88f33bc68b22936e677b8d7f5028ae10a33c41d5467fd2006e1e12742fe00895"
+    },
+    {
+      "image": "0fd3b8be-0222.jpg",
+      "image_sha256": "c3e0d16c2842cfc714caf89d5625d1e9321f3c29fd7729261610e6f53a36ccb8",
+      "label_sha256": "fc2f067d60d3f0095f3e45fa27b174dfa4a0b6ef1ff6f31818240355ab00d956"
+    },
+    {
+      "image": "ad64f37f-3313.jpg",
+      "image_sha256": "beb94cca3e30d34b36a44efaf0aa6285a0644f07b2d6dcbfe2580f9ba6c316c9",
+      "label_sha256": "78ffb46c12b012f00371bb1fbfad78c5bf8874464d4cb6a66b9f0276f1e606fb"
+    },
+    {
+      "image": "cc7a2708-1643.jpg",
+      "image_sha256": "1447217216510295054250951657829fbb13b55960b1ccec563f9007d7c97d49",
+      "label_sha256": "7856e8472e6591823ceca40e3f847bafc828070c39651c95bd35e5f22b0524fa"
+    },
+    {
+      "image": "2ebad8de-2350.jpg",
+      "image_sha256": "02efa4108c9f5a1c4a04b11bb9baf0eed44f4853c3fbe1ac930ee7a1a6e74aec",
+      "label_sha256": "d3e83114288c9bc95b4db2a6a3c8aec9321d91570a7b03e667e65a24766e3070"
+    },
+    {
+      "image": "95f98d00-3879.jpg",
+      "image_sha256": "74c3ca3d4c1b364927bef4585aec2f13515363e149c7b3ae1b1c9d99ad562f9d",
+      "label_sha256": "48db44a0f6c33e79fff78892e236fd9c8a6f36bb41cb8433a51208a8243f83b7"
+    },
+    {
+      "image": "1f15640d-2449.jpg",
+      "image_sha256": "b4712af4734ade3e6f6bed60696d1aebf946b9f37a6a9ecee2b446c4903c5c0e",
+      "label_sha256": "1c16d3812a002fc27bf206eaaf0ed6a2983ee474937606d7d8055b9069c2bfd2"
+    },
+    {
+      "image": "d01830a2-3132.jpg",
+      "image_sha256": "4d13046474e1a465da7701002229ed9d85bd21402a226eca5454eb5da0fe5afe",
+      "label_sha256": "8a88115c74350cec06320ccf27a9be77a81e19fa8c487627ae608462eb5e030e"
+    },
+    {
+      "image": "746da86a-3827.jpg",
+      "image_sha256": "10f3966e82ec5736ce4f827022ba5df8930bc6a22153cc1b95c9d48844f67c88",
+      "label_sha256": "4d27a4e0a1d53978bc341867c67c258fa3bfb38611fb2331aa7469a2eebbef25"
+    },
+    {
+      "image": "eba1300e-1237.jpg",
+      "image_sha256": "132028f3ffcac0fff96bee85792a0b5ffde3045293fe9847cd3b9bf753a110e9",
+      "label_sha256": "54e2a892ebd27d923767b2e7a6d311443422d1b62f9720b40f0f24faaaca08bb"
+    },
+    {
+      "image": "e8b4e979-0387.jpg",
+      "image_sha256": "cb249c115a1512a051009d412e9a7d339cf7f2385a25bb79a5fc130d3aafdd78",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "image": "8f775ffe-2140.jpg",
+      "image_sha256": "f20818fd879b410c27c68e7a2a5021dc042823c9c55e9fb5f2379559e9045ad4",
+      "label_sha256": "ef50f2a7846921f7f8cdd804f6e2c4c338de03d2a04db195570560f04ddb96ee"
+    },
+    {
+      "image": "d8548a8a-1135.jpg",
+      "image_sha256": "22f434e26b32495c80abac6745c60ef539936c04b56975a489d2b02a28dc234c",
+      "label_sha256": "cb33cec805bd72b504486131e4e522f3988c00e680a5b3fbd6bb218e94a5d77d"
+    },
+    {
+      "image": "4fb97d84-1239.jpg",
+      "image_sha256": "a2dbb674cef650494626ca1208d4b0bb8f70342e7f94e3043f268f779c6d0f75",
+      "label_sha256": "c9a40e400543163ebf16ad37f256affad7b76e8b446aaaa2a518a6dd8a7f8aef"
+    },
+    {
+      "image": "1a1c2a26-0552.jpg",
+      "image_sha256": "bd779e433199124bfe37f36cd9a6e624db0a0aa18aba0cbbe4441ed84f79b754",
+      "label_sha256": "83a5dc5c8c5138109b8093814a8c1367155b7beae4894634cd493142336ab1b7"
+    },
+    {
+      "image": "1074dd00-1508.jpg",
+      "image_sha256": "43e83a16044a78bf0a2fbbebf0bee6c2d30fe0e90141af47e23b36eba580ff80",
+      "label_sha256": "bb3df8b879c0d51e00fb5259375c0179e1e9a1f0d1747417f077562f96b5c9a7"
+    },
+    {
+      "image": "f8a8ddac-1057.jpg",
+      "image_sha256": "e01f2f67448d71ac780c24afd3574bf3904d411dc1b8419585b2759e9a580144",
+      "label_sha256": "e6258436b900404a868e2898ea5e57a3edc6369be1b3e947dfb09383e5df34a8"
+    },
+    {
+      "image": "5ca3e45f-0115.jpg",
+      "image_sha256": "dae503bae5b7b3e9a1ca83afdc1b058458ee3cbed280485198d6b06cda091a95",
+      "label_sha256": "62cf76333fc9885ddf8b5e230485750d0885f98108c2cd3f711d5f8b2c76e37c"
+    },
+    {
+      "image": "72930cdb-3988.jpg",
+      "image_sha256": "d79c126ead232a778abe487d267e99149ee588d3a3ed56b9f0f59531d372d2da",
+      "label_sha256": "2d6891718204c454a51025079997aed88f2c7b9d39d00c8dd1206deb84602157"
+    },
+    {
+      "image": "1f2eb2f0-3926.jpg",
+      "image_sha256": "fdbe93d397f978f5c1c83d29b3d6f37138a32d6ed52962691ae7d0fe3562aa5d",
+      "label_sha256": "110c66daf5dfec562b77e5f2b4e8ae7e2226c32020d8903207d1d1aa014bf3c7"
+    },
+    {
+      "image": "2794c990-2686.jpg",
+      "image_sha256": "4f012e3be17bd11be08b74fa60f02690762b24bbcf0b0b024ed12f30abdfd7b2",
+      "label_sha256": "72d14d725df4a3bb56f548b26ad92dfc8edd96635afdcb938684107bb89734b9"
+    },
+    {
+      "image": "aacafb9f-1774.jpg",
+      "image_sha256": "9aa25baeb62939665f159af6f670904728f523a98055f264608604d464fe01e9",
+      "label_sha256": "ebe6ffffc015967722b4ad0994203eb4bb2c59e59cda73223581ac49b4e7cb2a"
+    },
+    {
+      "image": "ed863940-3130.jpg",
+      "image_sha256": "a25422651d8792a1c192c97ed18f82bbefa09204168de460407d564f065428b8",
+      "label_sha256": "4a2b466b88c168da0e90c91e4f95d4b509b11688d8f5f6cc4aa0f40563f20a4d"
+    }
+  ],
+  "environment": {
+    "python": "3.12.10",
+    "torch": "2.11.0+cu128",
+    "ultralytics": "8.4.175",
+    "device": "cpu",
+    "cpu_threads": 8,
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD"
+  },
+  "timing_scope": "Completed predict calls including preprocess, forward pass and postprocess; decoded images already in RAM; rect=False gives square inputs; imports, loading, warm-up, decoding, plotting and serialization excluded.",
+  "models": [
+    {
+      "name": "coco_yolo11n",
+      "checkpoint": "yolo11n.pt",
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "checkpoint_bytes": 5613764,
+      "parameters": 2624080,
+      "class_names": {
+        "0": "person",
+        "1": "bicycle",
+        "2": "car",
+        "3": "motorcycle",
+        "4": "airplane",
+        "5": "bus",
+        "6": "train",
+        "7": "truck",
+        "8": "boat",
+        "9": "traffic light",
+        "10": "fire hydrant",
+        "11": "stop sign",
+        "12": "parking meter",
+        "13": "bench",
+        "14": "bird",
+        "15": "cat",
+        "16": "dog",
+        "17": "horse",
+        "18": "sheep",
+        "19": "cow",
+        "20": "elephant",
+        "21": "bear",
+        "22": "zebra",
+        "23": "giraffe",
+        "24": "backpack",
+        "25": "umbrella",
+        "26": "handbag",
+        "27": "tie",
+        "28": "suitcase",
+        "29": "frisbee",
+        "30": "skis",
+        "31": "snowboard",
+        "32": "sports ball",
+        "33": "kite",
+        "34": "baseball bat",
+        "35": "baseball glove",
+        "36": "skateboard",
+        "37": "surfboard",
+        "38": "tennis racket",
+        "39": "bottle",
+        "40": "wine glass",
+        "41": "cup",
+        "42": "fork",
+        "43": "knife",
+        "44": "spoon",
+        "45": "bowl",
+        "46": "banana",
+        "47": "apple",
+        "48": "sandwich",
+        "49": "orange",
+        "50": "broccoli",
+        "51": "carrot",
+        "52": "hot dog",
+        "53": "pizza",
+        "54": "donut",
+        "55": "cake",
+        "56": "chair",
+        "57": "couch",
+        "58": "potted plant",
+        "59": "bed",
+        "60": "dining table",
+        "61": "toilet",
+        "62": "tv",
+        "63": "laptop",
+        "64": "mouse",
+        "65": "remote",
+        "66": "keyboard",
+        "67": "cell phone",
+        "68": "microwave",
+        "69": "oven",
+        "70": "toaster",
+        "71": "sink",
+        "72": "refrigerator",
+        "73": "book",
+        "74": "clock",
+        "75": "vase",
+        "76": "scissors",
+        "77": "teddy bear",
+        "78": "hair drier",
+        "79": "toothbrush"
+      }
+    },
+    {
+      "name": "coco_yolo11s",
+      "checkpoint": "yolo11s.pt",
+      "sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+      "checkpoint_bytes": 19313732,
+      "parameters": 9458752,
+      "class_names": {
+        "0": "person",
+        "1": "bicycle",
+        "2": "car",
+        "3": "motorcycle",
+        "4": "airplane",
+        "5": "bus",
+        "6": "train",
+        "7": "truck",
+        "8": "boat",
+        "9": "traffic light",
+        "10": "fire hydrant",
+        "11": "stop sign",
+        "12": "parking meter",
+        "13": "bench",
+        "14": "bird",
+        "15": "cat",
+        "16": "dog",
+        "17": "horse",
+        "18": "sheep",
+        "19": "cow",
+        "20": "elephant",
+        "21": "bear",
+        "22": "zebra",
+        "23": "giraffe",
+        "24": "backpack",
+        "25": "umbrella",
+        "26": "handbag",
+        "27": "tie",
+        "28": "suitcase",
+        "29": "frisbee",
+        "30": "skis",
+        "31": "snowboard",
+        "32": "sports ball",
+        "33": "kite",
+        "34": "baseball bat",
+        "35": "baseball glove",
+        "36": "skateboard",
+        "37": "surfboard",
+        "38": "tennis racket",
+        "39": "bottle",
+        "40": "wine glass",
+        "41": "cup",
+        "42": "fork",
+        "43": "knife",
+        "44": "spoon",
+        "45": "bowl",
+        "46": "banana",
+        "47": "apple",
+        "48": "sandwich",
+        "49": "orange",
+        "50": "broccoli",
+        "51": "carrot",
+        "52": "hot dog",
+        "53": "pizza",
+        "54": "donut",
+        "55": "cake",
+        "56": "chair",
+        "57": "couch",
+        "58": "potted plant",
+        "59": "bed",
+        "60": "dining table",
+        "61": "toilet",
+        "62": "tv",
+        "63": "laptop",
+        "64": "mouse",
+        "65": "remote",
+        "66": "keyboard",
+        "67": "cell phone",
+        "68": "microwave",
+        "69": "oven",
+        "70": "toaster",
+        "71": "sink",
+        "72": "refrigerator",
+        "73": "book",
+        "74": "clock",
+        "75": "vase",
+        "76": "scissors",
+        "77": "teddy bear",
+        "78": "hair drier",
+        "79": "toothbrush"
+      }
+    },
+    {
+      "name": "selected_items_yolo11n",
+      "checkpoint": "models/dangerous_items_yolo11n.pt",
+      "sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+      "checkpoint_bytes": 5492250,
+      "parameters": 2605855,
+      "class_names": {
+        "0": "machete",
+        "1": "knife",
+        "2": "baseball bat",
+        "3": "rifle",
+        "4": "gun"
+      }
+    }
+  ],
+  "trials": [
+    {
+      "repetition": 1,
+      "model": "coco_yolo11s",
+      "batch_size": 1,
+      "model_load_ms": 37.34159999999065,
+      "warmup_ms": 1443.0752999999186,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 4695.766499999536,
+        "amortized_ms_per_image": 73.37135156249275,
+        "processing_images_per_second": 13.629297794088851,
+        "batch_latency_p50_ms": 73.26594999994995,
+        "batch_latency_p95_ms": 75.95658000007006
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 73.79510000009759
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.72929999996813
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.2465999999713
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 76.11440000005132
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.92729999992298
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.1037999999462
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.38730000012583
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.61359999984052
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.9027999998616
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.27839999995922
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.14120000000912
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.18820000002779
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.29649999996946
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.72009999999318
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.82999999983986
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.31580000004578
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.5101999998733
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.46309999997902
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.90050000008341
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.17480000008436
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.21380000007593
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.63140000009116
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.48410000008698
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.41629999993893
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.02890000005391
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.14449999996941
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.65699999995923
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 69.96800000001713
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.82020000002376
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.92789999992056
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.02000000001863
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 78.46679999988737
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 84.02139999998326
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.98310000005404
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.51899999998568
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.66869999989467
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.14369999994597
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.88310000010279
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.9483999998829
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.36669999999867
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.53719999998975
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.59569999998894
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.27999999988788
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.77819999987878
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.93220000001565
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.79800000012438
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.54480000008334
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.66419999998652
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.25799999994342
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.61260000016046
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.07960000000458
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.31190000013521
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.7735000000157
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.43059999993784
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.61039999985042
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.08690000008755
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.23539999993045
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.06019999987257
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 76.00380000008045
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.1081000000795
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.68900000001122
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.60949999992772
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.44469999998182
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.37000000002081
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "selected_items_yolo11n",
+      "batch_size": 1,
+      "model_load_ms": 28.174900000067282,
+      "warmup_ms": 121.52510000009897,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 2142.363899999964,
+        "amortized_ms_per_image": 33.474435937499436,
+        "processing_images_per_second": 29.87354295878542,
+        "batch_latency_p50_ms": 33.755649999989146,
+        "batch_latency_p95_ms": 35.02788999986706
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 32.93400000006841
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.47349999992366
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.621300000097108
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.41380000006211
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.06990000010046
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.86889999999221
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.97810000003665
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.251199999971504
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.03409999984797
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.591399999953865
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.62039999999433
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.679200000051424
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.92559999997502
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.631999999897744
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.75960000014311
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.058100000038394
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.72799999988274
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.0988000000616
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.500600000001214
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.53519999996024
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.69989999985046
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.529499999962354
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.406700000090495
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.85340000002179
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.90660000013668
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.83660000008604
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.642600000097445
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.178600000132064
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.82010000000446
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.13640000012674
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.127399999988484
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.010299999910785
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.078100000011545
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.37779999990198
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.086199999819655
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.02429999985179
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.59639999987485
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.88799999993353
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.04760000012175
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.407499999839274
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.674300000053336
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.79100000001745
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.1244999999617
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.730099999909726
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.98749999999018
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.99269999997523
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.78330000009555
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.81670000001213
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.80820000009044
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.728599999951257
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.151600000157487
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.2614000001995
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.350400000064838
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.74270000015167
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.90939999983311
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.861599999885584
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.45029999986582
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.91560000000027
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.83139999982632
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.223099999986516
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.550799999900846
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.058900000085487
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.43010000007962
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.76200000004792
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "selected_items_yolo11n",
+      "batch_size": 4,
+      "model_load_ms": 32.41850000017621,
+      "warmup_ms": 276.6661999999087,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 1667.4595999998019,
+        "amortized_ms_per_image": 26.054056249996904,
+        "processing_images_per_second": 38.38173950361832,
+        "batch_latency_p50_ms": 103.84864999991805,
+        "batch_latency_p95_ms": 107.03354999986914
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 104.72920000006525
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.16070000016953
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.98290000004818
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.01389999985622
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.47330000013244
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.42469999995774
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.09249999990789
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 104.66840000003685
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.40640000003987
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.52949999996963
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.94359999986591
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.8859999999222
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.85429999998996
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.7536999999702
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.6417999999012
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.89869999996881
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "coco_yolo11s",
+      "batch_size": 4,
+      "model_load_ms": 40.342100000088976,
+      "warmup_ms": 594.8510000000624,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 4222.763800000166,
+        "amortized_ms_per_image": 65.9806843750026,
+        "processing_images_per_second": 15.155950706974775,
+        "batch_latency_p50_ms": 264.50885000008384,
+        "batch_latency_p95_ms": 268.43030000009094
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 264.14890000000923
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 246.966600000178
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.9967999998589
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 265.75290000005225
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 266.19129999994584
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 267.8481999998894
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 259.37370000019655
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 266.66019999993296
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 262.8932000000077
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.75469999993584
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 264.84340000001794
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 264.17430000014974
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 268.23800000011033
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 269.00720000003275
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.09089999995194
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 265.82349999989674
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "selected_items_yolo11n",
+      "batch_size": 8,
+      "model_load_ms": 35.90910000002623,
+      "warmup_ms": 475.43419999988146,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 1632.1042999993551,
+        "amortized_ms_per_image": 25.501629687489924,
+        "processing_images_per_second": 39.21318018709055,
+        "batch_latency_p50_ms": 204.3984999999111,
+        "batch_latency_p95_ms": 207.47724499995002
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 204.93629999987206
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 200.51779999994324
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.55919999990147
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 202.25009999990107
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 199.26429999986794
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.96029999999155
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 207.75559999992765
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 203.86069999995016
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "coco_yolo11n",
+      "batch_size": 8,
+      "model_load_ms": 35.76429999998254,
+      "warmup_ms": 482.8015000000505,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 1730.9254000001602,
+        "amortized_ms_per_image": 27.045709375002502,
+        "processing_images_per_second": 36.97444153283214,
+        "batch_latency_p50_ms": 216.14890000000742,
+        "batch_latency_p95_ms": 221.7026100000453
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 212.9790999999841
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 209.70519999991666
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 217.12430000002314
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 214.68460000005507
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 221.9242999999551
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 221.2909000002128
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 215.1734999999917
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 218.0435000000216
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "coco_yolo11s",
+      "batch_size": 8,
+      "model_load_ms": 43.375100000048405,
+      "warmup_ms": 1166.4685999999165,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 4184.993500000246,
+        "amortized_ms_per_image": 65.39052343750384,
+        "processing_images_per_second": 15.292735819063097,
+        "batch_latency_p50_ms": 522.8064000000359,
+        "batch_latency_p95_ms": 529.9341450000384
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 523.15150000004
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 521.972900000037
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 517.9729999999836
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 528.4656000001178
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 516.5896000000885
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 522.4613000000318
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 530.7248999999956
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 523.6546999999518
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "coco_yolo11n",
+      "batch_size": 1,
+      "model_load_ms": 32.36120000019582,
+      "warmup_ms": 119.54910000008567,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 2164.291199998388,
+        "amortized_ms_per_image": 33.81704999997481,
+        "processing_images_per_second": 29.570882143792698,
+        "batch_latency_p50_ms": 33.82874999988417,
+        "batch_latency_p95_ms": 35.90391499993757
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 32.9005999999481
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.048399999870526
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 37.43480000002819
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.60490000002392
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.768799999985276
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.371099999840226
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.071900000071764
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.0901999998332
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.756600000107937
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.35349999997561
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.70590000008633
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.53870000005554
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.79470000006768
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.910800000034214
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.78279999987899
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.43259999999282
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.81560000004902
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.83360000000357
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.800100000054954
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 29.49429999989661
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.852300000058676
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.360399999992296
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.57159999995929
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.84109999997054
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.67590000011478
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.342799999923955
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.362000000101034
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.61389999986386
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.34619999989263
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.90089999995871
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.4279999999344
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.645899999986796
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.977099999854545
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.76200000002427
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.52730000003612
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.2239999999947
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.28489999987505
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.18229999988398
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 36.56189999992421
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.27959999999075
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.86499999987791
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.2935000000798
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.30189999994582
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.41720000000714
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.067399999912595
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.932600000071034
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.33979999999792
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.93970000004265
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.187700000051336
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.792499999890424
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.714099999997416
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.27830000009635
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.1820999999527
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.995600000072955
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.16799999993236
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.88320000001477
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.35969999984445
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.86909999994714
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.366799999839714
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.91499999993175
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.03989999994883
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.77989999987585
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.88210000000436
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.47009999990769
+        }
+      ]
+    },
+    {
+      "repetition": 1,
+      "model": "coco_yolo11n",
+      "batch_size": 4,
+      "model_load_ms": 36.101400000006834,
+      "warmup_ms": 268.6487000000852,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 1723.2452999999168,
+        "amortized_ms_per_image": 26.9257078124987,
+        "processing_images_per_second": 37.13922794392829,
+        "batch_latency_p50_ms": 107.78070000003481,
+        "batch_latency_p95_ms": 109.19992499987075
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 108.42249999996056
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.88989999989462
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.29110000011133
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.80969999993795
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.24040000011337
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.32099999995626
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.0247000000345
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.70500000014727
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.75749999995787
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.66180000000713
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.86129999999139
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.69660000003023
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.36969999991197
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.2494999998762
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.81460000018706
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 110.12999999979911
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "selected_items_yolo11n",
+      "batch_size": 1,
+      "model_load_ms": 38.38680000012573,
+      "warmup_ms": 123.60690000014074,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 2085.5821999994077,
+        "amortized_ms_per_image": 32.587221874990746,
+        "processing_images_per_second": 30.68687486881034,
+        "batch_latency_p50_ms": 33.038750000059736,
+        "batch_latency_p95_ms": 35.62520000002678
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 32.490199999983815
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.38980000009906
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.2000000000553
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.734499999989566
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.002500000042346
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.684799999946335
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 28.16860000007182
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 24.90299999999479
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 21.439099999952305
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.73360000005232
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.43110000014349
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 36.35209999993094
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.62910000005104
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.46059999989848
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 36.34409999995114
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.82140000007894
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.94539999983681
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.78290000000561
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.694999999899665
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.75800000005802
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.017499999985375
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 29.90570000019943
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.954199999949196
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.27719999992951
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.20869999993192
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.039099999996324
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.50530000011531
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.56549999989511
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.49369999998453
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.00899999999274
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.78590000013537
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.60309999988931
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.52580000000671
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.18279999984952
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.2320999998974
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.47810000016216
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.200299999933122
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.16330000011658
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.017599999970116
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.6562000000431
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.00349999997343
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.69930000008026
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.083999999940715
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.61659999980293
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.866399999922578
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.879199999844786
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.080299999985073
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.64720000015586
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.08470000001762
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.03840000012315
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.77819999989151
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.66039999991699
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.474200000000565
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.77950000003693
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.784499999886975
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.10840000015014
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.415799999853334
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.92070000000058
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.833099999881597
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.76030000006358
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.8813999999511
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.668800000057672
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.60339999992357
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.12699999992219
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "selected_items_yolo11n",
+      "batch_size": 8,
+      "model_load_ms": 32.30340000004617,
+      "warmup_ms": 453.37369999992916,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 1655.0860999996075,
+        "amortized_ms_per_image": 25.860720312493868,
+        "processing_images_per_second": 38.668683157942766,
+        "batch_latency_p50_ms": 206.72485000000052,
+        "batch_latency_p95_ms": 208.69236999990335
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 204.03759999999238
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 207.75490000005448
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.83290000010857
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.61679999989246
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.42499999985375
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.28489999990052
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 208.98489999990488
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 208.1490999999005
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "selected_items_yolo11n",
+      "batch_size": 4,
+      "model_load_ms": 35.76419999990321,
+      "warmup_ms": 260.0419000000329,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 1656.57069999952,
+        "amortized_ms_per_image": 25.8839171874925,
+        "processing_images_per_second": 38.634028719703025,
+        "batch_latency_p50_ms": 103.75280000005205,
+        "batch_latency_p95_ms": 106.45452500000374
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 101.96159999986776
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 100.45940000009068
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.94090000002143
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.64279999978498
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 104.23579999996946
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 104.42319999992833
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 104.03259999998227
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.7713999998432
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.47300000012183
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 104.65099999987615
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.34890000005726
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.22140000011859
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.3086000000385
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 100.55609999994886
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.11019999997006
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.43379999990066
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "coco_yolo11n",
+      "batch_size": 8,
+      "model_load_ms": 36.101299999927505,
+      "warmup_ms": 478.9458999998715,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 1704.2644999999084,
+        "amortized_ms_per_image": 26.62913281249857,
+        "processing_images_per_second": 37.552856378809416,
+        "batch_latency_p50_ms": 213.28425000001516,
+        "batch_latency_p95_ms": 215.7903899999269
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 212.91180000002896
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 215.40519999985008
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 214.25380000005134
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 211.25110000002678
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 208.26450000004115
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 212.52359999994042
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 213.65670000000136
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 215.99779999996827
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "coco_yolo11s",
+      "batch_size": 1,
+      "model_load_ms": 40.74179999997796,
+      "warmup_ms": 198.70749999995496,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 4636.608200001319,
+        "amortized_ms_per_image": 72.44700312502061,
+        "processing_images_per_second": 13.803193463700856,
+        "batch_latency_p50_ms": 72.13920000003782,
+        "batch_latency_p95_ms": 75.81115000012915
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 71.15920000001097
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.40909999998257
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.98979999995936
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.63310000009915
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.3904999999595
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.82370000009541
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.67479999995885
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 67.88219999998546
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.92690000010771
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.41539999997804
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.7356999998392
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.63170000012542
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.7842000001383
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.92200000008597
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.93940000004295
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.68180000007851
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.28360000017165
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.48969999995825
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.05040000003282
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.05840000008357
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.49890000005144
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.57980000003772
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.06230000019787
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.58490000003803
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 69.35379999981706
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.74060000001737
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.07250000012755
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.83990000000995
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 68.6060999998972
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.68340000000717
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.32850000016333
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.90639999996529
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.40939999996954
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.45830000015485
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.0246000000534
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.20230000002448
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.05289999996967
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.21329999990667
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.22759999988193
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.31460000000334
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 69.83730000001742
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.30680000000211
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.23799999999392
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.35620000008203
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.24129999983597
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.92859999986467
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.40160000012474
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.98799999991934
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.6912000000084
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.75589999990007
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 77.52359999994951
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.70409999998628
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 76.24880000003031
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.86570000014581
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.57370000004448
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.90609999995468
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.25160000011965
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.43949999997312
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.79380000020319
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 69.45799999994051
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.5767000001506
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.21609999987777
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.82360000014887
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 76.44030000005841
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "coco_yolo11n",
+      "batch_size": 4,
+      "model_load_ms": 30.00349999979335,
+      "warmup_ms": 286.6472000000613,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 1769.1843999996308,
+        "amortized_ms_per_image": 27.643506249994232,
+        "processing_images_per_second": 36.17486113941167,
+        "batch_latency_p50_ms": 111.19455000005019,
+        "batch_latency_p95_ms": 117.80037499983109
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 115.77839999995376
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 113.64599999978964
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.63150000002497
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 111.23259999999391
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.24409999988893
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 111.15650000010646
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 110.17309999988356
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 112.51549999997223
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 117.8752999999233
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.70789999994668
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.20820000010644
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 117.77539999980036
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 115.06400000007488
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 96.92260000019814
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.69799999980023
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 112.55530000016734
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "coco_yolo11s",
+      "batch_size": 8,
+      "model_load_ms": 35.99550000012641,
+      "warmup_ms": 1086.215700000139,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 4132.681999999704,
+        "amortized_ms_per_image": 64.57315624999538,
+        "processing_images_per_second": 15.486311310670548,
+        "batch_latency_p50_ms": 521.152700000016,
+        "batch_latency_p95_ms": 526.1498349999556
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 509.94409999998425
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 490.08589999994
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 522.5496999998995
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 522.7282999999261
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 521.2002000000666
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 521.1051999999654
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 527.9921999999715
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 517.0763999999508
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "coco_yolo11s",
+      "batch_size": 4,
+      "model_load_ms": 36.321699999916746,
+      "warmup_ms": 591.9181000001572,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 4222.703800000318,
+        "amortized_ms_per_image": 65.97974687500496,
+        "processing_images_per_second": 15.156166056448285,
+        "batch_latency_p50_ms": 263.5435999999345,
+        "batch_latency_p95_ms": 267.3140250001893
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 264.3984000001183
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 262.87890000003244
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 261.1544999999751
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 266.6478000001007
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.35999999992055
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 264.9458999999297
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 262.06580000007307
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.7403999999606
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.5179999999764
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 262.7408999999261
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.5691999998926
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.2925000000341
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 260.83519999997407
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 263.8322000000244
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 268.9581000001908
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 266.7660000001888
+        }
+      ]
+    },
+    {
+      "repetition": 2,
+      "model": "coco_yolo11n",
+      "batch_size": 1,
+      "model_load_ms": 37.11339999995289,
+      "warmup_ms": 122.03240000008009,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 2177.1838000006483,
+        "amortized_ms_per_image": 34.01849687501013,
+        "processing_images_per_second": 29.39577264904366,
+        "batch_latency_p50_ms": 34.06259999997019,
+        "batch_latency_p95_ms": 35.47209499990913
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 33.653000000185784
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.66729999991003
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.144399999831876
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.41410000007272
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.28270000017619
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.28209999997489
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.66049999999632
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.13450000014018
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.91759999999522
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.393499999850974
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.153999999920416
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.170900000162874
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.514199999899574
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.845699999848875
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.250999999836495
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.2651000001315
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.08199999992212
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.01970000006804
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.698499999924024
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.72410000022319
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.12190000014925
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 36.08669999994163
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.519499999963955
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.33350000000246
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.02930000015658
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.2496999998948
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.1204999999718
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.48430000007829
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.53119999999399
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.490199999912875
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.823599999981525
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.66600000001563
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.10899999992034
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.08320000014464
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.36949999988792
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.1643000001568
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.283200000118086
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.96359999987908
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.30979999986994
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.458800000038536
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.03499999990345
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.420699999827775
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.55720000010842
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.45469999996931
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.89870000021256
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.93330000019523
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.689700000015364
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.83920000010221
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.26280000007864
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.57899999991787
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.50460000001476
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.36190000004535
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.81029999993734
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.03290000005654
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.62179999999171
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 37.04569999990781
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.89879999983714
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.09020000003693
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.27830000009635
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.998700000007375
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.00480000004791
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.71460000016668
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.83660000006239
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.841599999959726
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "coco_yolo11s",
+      "batch_size": 4,
+      "model_load_ms": 43.60450000012861,
+      "warmup_ms": 588.6097000000063,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 4333.206599999585,
+        "amortized_ms_per_image": 67.70635312499351,
+        "processing_images_per_second": 14.769662725060497,
+        "batch_latency_p50_ms": 271.91594999999325,
+        "batch_latency_p95_ms": 274.26152499992895
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 266.20170000001053
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 270.0532999999723
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 266.0154000000148
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 272.00310000011996
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 270.05229999986113
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 274.0525000001526
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 268.46819999991567
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 267.9313999999522
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 272.4914999998873
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 271.9481999999971
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 274.32699999985743
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 274.2396999999528
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 273.8289999999779
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 271.8836999999894
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 273.47680000002583
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 266.2327999998979
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "coco_yolo11s",
+      "batch_size": 8,
+      "model_load_ms": 41.88490000001366,
+      "warmup_ms": 1115.9565000000384,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 4211.444000000256,
+        "amortized_ms_per_image": 65.803812500004,
+        "processing_images_per_second": 15.19668788187522,
+        "batch_latency_p50_ms": 527.7059000001145,
+        "batch_latency_p95_ms": 531.8763199999808
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 533.0246000000898
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 519.7013000001789
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 527.8399999999692
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 522.2374999998465
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 527.7647000000343
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 527.6471000001948
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 529.7437999997783
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 523.4850000001643
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "coco_yolo11n",
+      "batch_size": 1,
+      "model_load_ms": 29.844200000070487,
+      "warmup_ms": 118.96509999996852,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 2115.917100000388,
+        "amortized_ms_per_image": 33.06120468750606,
+        "processing_images_per_second": 30.246931696893164,
+        "batch_latency_p50_ms": 33.50430000000415,
+        "batch_latency_p95_ms": 35.529645000030996
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 39.654599999948914
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.75770000000011
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.85589999993499
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.928399999922476
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.22049999999399
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.37159999998585
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.465899999986505
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.8553999999931
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.84940000003189
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.6122999999825
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.61300000001211
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.1312000000471
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.99319999994077
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.17809999993915
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.57519999985925
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.41599999994105
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.54970000004687
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.606100000042716
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.73329999997077
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.55779999990227
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.583899999939604
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.126199999969685
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.44500000002881
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.57950000006349
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.869200000050114
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.407699999974284
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.893499999976484
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.44310000011319
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 36.39400000020032
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.68009999987953
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.09590000003482
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.10989999995218
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.561299999973926
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.94220000000314
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.47209999994993
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.044000000041706
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.11430000007931
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.772200000134035
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.93540000001849
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.423699999957535
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.442700000070545
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.57499999990432
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.439400000110254
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.01110000006702
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.991400000128124
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.447300000034375
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.1085999998777
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.27359999998225
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.53009999998358
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.63379999998506
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.352600000014718
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 29.896400000097856
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.38050000009207
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.15840000011849
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 28.809400000000096
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 29.396800000085932
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 26.390900000023976
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 28.06989999999132
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 24.71279999986109
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 28.453299999910087
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.862700000147015
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.71549999997114
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.89300000001094
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.5534000000971
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "coco_yolo11n",
+      "batch_size": 8,
+      "model_load_ms": 36.886099999946964,
+      "warmup_ms": 508.72660000004544,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 1763.9964999998483,
+        "amortized_ms_per_image": 27.56244531249763,
+        "processing_images_per_second": 36.28125112493449,
+        "batch_latency_p50_ms": 219.45149999987734,
+        "batch_latency_p95_ms": 225.4632700000684
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 219.6236999998291
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 218.38959999990948
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 225.6984000000557
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 225.026600000092
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 219.27929999992557
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 216.9911000000866
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 220.23239999998623
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 218.75539999996363
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "selected_items_yolo11n",
+      "batch_size": 8,
+      "model_load_ms": 29.14399999986017,
+      "warmup_ms": 463.3266000000731,
+      "summary": {
+        "images": 64,
+        "batches": 8,
+        "elapsed_ms": 1676.5098000000762,
+        "amortized_ms_per_image": 26.19546562500119,
+        "processing_images_per_second": 38.17454571395711,
+        "batch_latency_p50_ms": 210.7186499999898,
+        "batch_latency_p95_ms": 211.94391999997606
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 8,
+          "elapsed_ms": 207.71600000011858
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.2974000000395
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 211.69510000004266
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 211.01810000004662
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 206.1826999999994
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 210.41919999993297
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 211.1033999999563
+        },
+        {
+          "images": 8,
+          "elapsed_ms": 212.0778999999402
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "coco_yolo11s",
+      "batch_size": 1,
+      "model_load_ms": 43.60850000011851,
+      "warmup_ms": 213.12829999988026,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 4625.022299999273,
+        "amortized_ms_per_image": 72.26597343748864,
+        "processing_images_per_second": 13.837771117343598,
+        "batch_latency_p50_ms": 72.46914999996079,
+        "batch_latency_p95_ms": 74.82783499985999
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 72.3613000000114
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.84749999980522
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.05440000004637
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.94810000009966
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.69280000009348
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 75.45239999990372
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.39750000003187
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.63799999986986
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.0401000000711
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.2672999999977
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.08480000006057
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.82099999997627
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.95249999992848
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.49759999990602
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.2473000000482
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.44070000001557
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.81239999999889
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.51539999992929
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.64679999980217
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.17769999993106
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.11039999995228
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 67.50850000003084
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.5416999998979
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.19709999981205
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.93479999993724
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.11979999988216
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.71640000017032
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.00539999982902
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.91390000005049
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 68.75970000010057
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.14339999998265
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.40559999995821
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 69.00070000006053
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 69.99129999985598
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.57710000003681
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.14310000012847
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.96599999995124
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.21010000012029
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 76.37410000006639
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.37230000007366
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.18459999987681
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.55600000007689
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.66099999994913
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.35949999999502
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.46759999980168
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 68.31760000000031
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.11639999996078
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.83950000007644
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.92929999996522
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.55860000014036
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.50750000005246
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.87440000006973
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.74800000004689
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.85679999997774
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.29169999982332
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.16569999986677
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.15289999994457
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.1985000000368
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 70.95529999992323
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 74.13670000005368
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.5032000000283
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 71.7131999999765
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 72.96770000016295
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 73.07360000004337
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "selected_items_yolo11n",
+      "batch_size": 4,
+      "model_load_ms": 31.721400000151334,
+      "warmup_ms": 252.04509999980473,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 1640.4920999996193,
+        "amortized_ms_per_image": 25.63268906249405,
+        "processing_images_per_second": 39.01268405987133,
+        "batch_latency_p50_ms": 101.84860000003937,
+        "batch_latency_p95_ms": 106.37317499998744
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 111.79109999989123
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.84419999995953
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.8891999999596
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.18050000000767
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 100.27339999987817
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 102.69999999991342
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.61849999985861
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.48960000010266
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 104.56720000001951
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.67759999990267
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.27979999988202
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 100.55599999986953
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.14419999990787
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.80320000017673
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 101.85300000011921
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 98.8246000001709
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "coco_yolo11n",
+      "batch_size": 4,
+      "model_load_ms": 32.98420000010083,
+      "warmup_ms": 265.79149999997753,
+      "summary": {
+        "images": 64,
+        "batches": 16,
+        "elapsed_ms": 1714.662800000724,
+        "amortized_ms_per_image": 26.791606250011313,
+        "processing_images_per_second": 37.32512305041725,
+        "batch_latency_p50_ms": 107.18945000007807,
+        "batch_latency_p95_ms": 110.21422500004974
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 4,
+          "elapsed_ms": 103.38600000000042
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 109.9503000000368
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.30890000011095
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.6089000000593
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.44249999995736
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 103.20830000000569
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.5162999998629
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.7259000001286
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.99320000003354
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 106.21409999998832
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 105.56220000012217
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 107.3857000001226
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 111.00600000008853
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.58310000003257
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 109.20880000003308
+        },
+        {
+          "images": 4,
+          "elapsed_ms": 108.56260000014117
+        }
+      ]
+    },
+    {
+      "repetition": 3,
+      "model": "selected_items_yolo11n",
+      "batch_size": 1,
+      "model_load_ms": 33.818399999972826,
+      "warmup_ms": 120.07659999994758,
+      "summary": {
+        "images": 64,
+        "batches": 64,
+        "elapsed_ms": 2121.946600000456,
+        "amortized_ms_per_image": 33.15541562500712,
+        "processing_images_per_second": 30.160985201034865,
+        "batch_latency_p50_ms": 33.33950000001096,
+        "batch_latency_p95_ms": 34.93616500013559
+      },
+      "cuda_memory": null,
+      "batch_samples": [
+        {
+          "images": 1,
+          "elapsed_ms": 32.654399999955785
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.37419999979829
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.69910000012533
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.77219999993031
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.9616000001115
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.57679999996799
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.697200000209705
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.5654000000668
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.239299999853756
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.69820000011714
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.048999999844455
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.410199999934775
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.33910000014839
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.16249999986576
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.175200000163386
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.495700000003126
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.359799999971074
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.366700000191486
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.80450000011115
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.42989999987367
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.128300000043964
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.878799999958574
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.82289999990462
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.73120000014751
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.4142000001284
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.234400000059395
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.44600000016362
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.91309999983605
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.26420000012331
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 22.1328000000085
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.8065000001061
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.77470000011817
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.89459999996325
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.88689999999406
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.105700000078286
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.61099999981343
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.055200000035256
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.972999999879903
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.59240000008867
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.02830000004542
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.04269999987264
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.8509000000613
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.27299999998468
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.9780000001374
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.703300000093805
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 36.45389999996951
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.0372000000807
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 35.04709999992883
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.11499999999978
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.597400000009657
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.6858999999331
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.13419999994949
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.12880000021323
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 34.20859999982895
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.844299999875147
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 31.47039999998924
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.39450000000943
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 30.370599999969272
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.32109999999011
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.33989999987352
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 33.27340000009826
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.91739999986021
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.80480000012176
+        },
+        {
+          "images": 1,
+          "elapsed_ms": 32.42899999986548
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "model": "coco_yolo11n",
+      "batch_size": 1,
+      "summary": {
+        "images": 192,
+        "batches": 192,
+        "elapsed_ms": 6457.392099999424,
+        "amortized_ms_per_image": 33.63225052083033,
+        "processing_images_per_second": 29.733365579583918,
+        "batch_latency_p50_ms": 33.855649999964044,
+        "batch_latency_p95_ms": 35.724005000008674
+      },
+      "repeat_amortized_ms_per_image": [
+        33.81704999997481,
+        34.01849687501013,
+        33.06120468750606
+      ]
+    },
+    {
+      "model": "coco_yolo11n",
+      "batch_size": 4,
+      "summary": {
+        "images": 192,
+        "batches": 48,
+        "elapsed_ms": 5207.092500000272,
+        "amortized_ms_per_image": 27.120273437501414,
+        "processing_images_per_second": 36.872784572194554,
+        "batch_latency_p50_ms": 107.9691999999568,
+        "batch_latency_p95_ms": 115.52835999999616
+      },
+      "repeat_amortized_ms_per_image": [
+        26.9257078124987,
+        27.643506249994232,
+        26.791606250011313
+      ]
+    },
+    {
+      "model": "coco_yolo11n",
+      "batch_size": 8,
+      "summary": {
+        "images": 192,
+        "batches": 24,
+        "elapsed_ms": 5199.186399999917,
+        "amortized_ms_per_image": 27.0790958333329,
+        "processing_images_per_second": 36.928854868523864,
+        "batch_latency_p50_ms": 216.49445000002743,
+        "batch_latency_p95_ms": 224.56125500007147
+      },
+      "repeat_amortized_ms_per_image": [
+        27.045709375002502,
+        26.62913281249857,
+        27.56244531249763
+      ]
+    },
+    {
+      "model": "coco_yolo11s",
+      "batch_size": 1,
+      "summary": {
+        "images": 192,
+        "batches": 192,
+        "elapsed_ms": 13957.397000000128,
+        "amortized_ms_per_image": 72.69477604166734,
+        "processing_images_per_second": 13.75614665112687,
+        "batch_latency_p50_ms": 72.64239999983602,
+        "batch_latency_p95_ms": 75.71222000001399
+      },
+      "repeat_amortized_ms_per_image": [
+        73.37135156249275,
+        72.44700312502061,
+        72.26597343748864
+      ]
+    },
+    {
+      "model": "coco_yolo11s",
+      "batch_size": 4,
+      "summary": {
+        "images": 192,
+        "batches": 48,
+        "elapsed_ms": 12778.674200000069,
+        "amortized_ms_per_image": 66.55559479166702,
+        "processing_images_per_second": 15.025032878606371,
+        "batch_latency_p50_ms": 265.91944999995576,
+        "batch_latency_p95_ms": 273.97427500009144
+      },
+      "repeat_amortized_ms_per_image": [
+        65.9806843750026,
+        65.97974687500496,
+        67.70635312499351
+      ]
+    },
+    {
+      "model": "coco_yolo11s",
+      "batch_size": 8,
+      "summary": {
+        "images": 192,
+        "batches": 24,
+        "elapsed_ms": 12529.119500000206,
+        "amortized_ms_per_image": 65.25583072916774,
+        "processing_images_per_second": 15.324301121080124,
+        "batch_latency_p50_ms": 522.6389999999128,
+        "batch_latency_p95_ms": 530.577734999963
+      },
+      "repeat_amortized_ms_per_image": [
+        65.39052343750384,
+        64.57315624999538,
+        65.803812500004
+      ]
+    },
+    {
+      "model": "selected_items_yolo11n",
+      "batch_size": 1,
+      "summary": {
+        "images": 192,
+        "batches": 192,
+        "elapsed_ms": 6349.8926999998275,
+        "amortized_ms_per_image": 33.0723578124991,
+        "processing_images_per_second": 30.236731401777106,
+        "batch_latency_p50_ms": 33.33950000001096,
+        "batch_latency_p95_ms": 35.04795499989086
+      },
+      "repeat_amortized_ms_per_image": [
+        33.474435937499436,
+        32.587221874990746,
+        33.15541562500712
+      ]
+    },
+    {
+      "model": "selected_items_yolo11n",
+      "batch_size": 4,
+      "summary": {
+        "images": 192,
+        "batches": 48,
+        "elapsed_ms": 4964.522399998941,
+        "amortized_ms_per_image": 25.856887499994485,
+        "processing_images_per_second": 38.674415085737344,
+        "batch_latency_p50_ms": 103.23014999994484,
+        "batch_latency_p95_ms": 107.0030499999234
+      },
+      "repeat_amortized_ms_per_image": [
+        26.054056249996904,
+        25.8839171874925,
+        25.63268906249405
+      ]
+    },
+    {
+      "model": "selected_items_yolo11n",
+      "batch_size": 8,
+      "summary": {
+        "images": 192,
+        "batches": 24,
+        "elapsed_ms": 4963.700199999039,
+        "amortized_ms_per_image": 25.852605208328328,
+        "processing_images_per_second": 38.680821214793994,
+        "batch_latency_p50_ms": 206.72485000000052,
+        "batch_latency_p95_ms": 211.6063450000297
+      },
+      "repeat_amortized_ms_per_image": [
+        25.501629687489924,
+        25.860720312493868,
+        26.19546562500119
+      ]
+    }
+  ],
+  "limitations": [
+    "General pretrained models have COCO classes; predictions are not scored as the five-class project task.",
+    "Inference batching is not a training-batch convergence experiment.",
+    "Batched throughput requires queued frames and cannot be interpreted as single-camera latency.",
+    "CUDA memory is null for CPU runs; PyTorch CUDA memory excludes driver/context and other processes."
+  ]
+}

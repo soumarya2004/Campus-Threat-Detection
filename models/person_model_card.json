@@ -1,0 +1,26 @@
+{
+  "name": "Pretrained person detector for the tracking handoff",
+  "architecture": "Ultralytics YOLO11n",
+  "checkpoint": "yolo11n.pt",
+  "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "origin": "General COCO-pretrained checkpoint; not trained by this project",
+  "reference": "https://docs.ultralytics.com/models/yolo11/",
+  "distribution": "Included as yolo11n.pt in the repository and standalone submission package. The README setup command can restore a missing copy; runtime requires a local checkpoint.",
+  "original_class_count": 80,
+  "exposed_classes": {"0": "person"},
+  "inference": {
+    "image_size": 640,
+    "confidence": 0.35,
+    "classes_filter": [0],
+    "nms_iou": 0.7,
+    "max_detections": 300
+  },
+  "threshold_selection": "Demonstration default; not optimized on labeled campus-person validation data.",
+  "interface": "src/models/person_detector.py:YOLOPersonDetector",
+  "limitations": [
+    "Person class 0 belongs to a separate stream from item class 0 (machete).",
+    "No campus-person accuracy or tracking performance is claimed.",
+    "Does not identify people, assign track IDs, or associate weapons with people.",
+    "Two detectors require additional compute; combined live throughput must be measured on the target machine."
+  ]
+}

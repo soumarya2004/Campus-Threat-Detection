@@ -1,0 +1,18 @@
+# Paths below are relative to the repository, not the current terminal folder.
+# This starts from the original COCO-pretrained model, never the old fine-tune.
+model: yolo11n.pt
+data: data/processed/dangerous_items_grouped_v1/data.yaml
+project: runs/detect/grouped
+name: yolo11n_grouped_v1
+epochs: 50
+patience: 12
+imgsz: 640
+batch: 16
+workers: 2
+device: "0"
+amp: true
+seed: 0
+deterministic: true
+optimizer: auto
+cache: false
+plots: true

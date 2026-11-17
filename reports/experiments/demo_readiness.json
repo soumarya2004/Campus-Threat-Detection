@@ -1,0 +1,29 @@
+{
+  "scope": "Person1 detector demo preparation and local consumer rehearsal",
+  "automated_tests": {
+    "command": "python -m pytest -q",
+    "passed": 166,
+    "integration_deselected": 1,
+    "log": "outputs/demo_preparation_tests.log",
+    "integration_note": "Separate CPU checkpoint test passed during previous verification; selected checkpoint and inference code unchanged."
+  },
+  "handoff": {
+    "command": "python scripts/check_detector_handoff.py --video outputs/rifle.mp4 --max-frames 100 --output outputs/demo/handoff_check.json",
+    "passed": true,
+    "checks": {
+      "frames_checked": 100,
+      "passed_frames": 100,
+      "failed_frames": 0,
+      "detections_checked": 64
+    },
+    "full_report": "outputs/demo/handoff_check.json"
+  },
+  "prepared_images": {
+    "success": "outputs/demo/knife_match.jpg",
+    "miss": "outputs/demo/knife_miss.jpg"
+  },
+  "video_outputs": "Copies of previously verified grouped_verification runs; original JSON paths preserved.",
+  "qualitative_video_review": "12 uniformly spaced midpoint frames inspected per demo clip.",
+  "external_pilot": "reports/experiments/external_pilot_evaluation.json",
+  "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc"
+}

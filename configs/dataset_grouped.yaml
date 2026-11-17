@@ -1,0 +1,12 @@
+# Portable config for repository tools; path resolves relative to this file.
+# Ultralytics training uses the absolute-path data.yaml generated in the dataset.
+path: ../data/processed/dangerous_items_grouped_v1
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: machete
+  1: knife
+  2: baseball bat
+  3: rifle
+  4: gun

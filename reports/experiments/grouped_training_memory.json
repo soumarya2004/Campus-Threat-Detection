@@ -1,0 +1,281 @@
+{
+  "analyzed_on": "2026-11-17",
+  "scope": "Historical training log analysis; no new CUDA execution.",
+  "source_log": "outputs/train_grouped_v1.log",
+  "source_log_sha256": "158ddb9a0f12a20643ac44c132575650d833000e68107547fd40538f65b5e275",
+  "training_record": "reports/experiments/training_run.json",
+  "training": {
+    "model": "YOLO11n",
+    "epochs": 50,
+    "image_size": 640,
+    "batch": 16,
+    "amp": true,
+    "hardware": "NVIDIA GeForce RTX 5060 Laptop GPU (recorded environment)"
+  },
+  "samples": 6471,
+  "epochs_observed": 50,
+  "minimum_reported_reserved_gib": 2.15,
+  "maximum_reported_reserved_gib": 3.3,
+  "measurement_definition": "Installed Ultralytics 8.4.175 trainer._get_memory reports accelerator.memory_reserved() / 2**30, rounded to three significant digits in progress output.",
+  "limitations": [
+    "Largest logged snapshot, not a freshly measured peak or guarantee of maximum allocation.",
+    "Reserved CUDA allocator memory is not total device/driver memory.",
+    "Training batch 16 memory does not measure live batch 1 inference memory.",
+    "CUDA remains inaccessible to the current process."
+  ],
+  "parse_pattern": "\\b(\\d+)/50\\s+(\\d+(?:\\.\\d+)?)G\\s+",
+  "extracted_samples": "reports/experiments/grouped_training_memory_samples.csv",
+  "samples_sha256": "7df0ac1b965528ecc9cb2b3c808db43f79e24b46f4dedb4c99a44067e2d0e347",
+  "per_epoch": [
+    {
+      "epoch": 1,
+      "log_samples": 116,
+      "maximum_reported_reserved_gib": 2.2
+    },
+    {
+      "epoch": 2,
+      "log_samples": 116,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 3,
+      "log_samples": 116,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 4,
+      "log_samples": 108,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 5,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 6,
+      "log_samples": 103,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 7,
+      "log_samples": 111,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 8,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 9,
+      "log_samples": 108,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 10,
+      "log_samples": 105,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 11,
+      "log_samples": 107,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 12,
+      "log_samples": 108,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 13,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 14,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 15,
+      "log_samples": 123,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 16,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 17,
+      "log_samples": 107,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 18,
+      "log_samples": 109,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 19,
+      "log_samples": 108,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 20,
+      "log_samples": 105,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 21,
+      "log_samples": 105,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 22,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 23,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 24,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 25,
+      "log_samples": 106,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 26,
+      "log_samples": 111,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 27,
+      "log_samples": 113,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 28,
+      "log_samples": 113,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 29,
+      "log_samples": 123,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 30,
+      "log_samples": 136,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 31,
+      "log_samples": 123,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 32,
+      "log_samples": 130,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 33,
+      "log_samples": 137,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 34,
+      "log_samples": 150,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 35,
+      "log_samples": 147,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 36,
+      "log_samples": 151,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 37,
+      "log_samples": 142,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 38,
+      "log_samples": 143,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 39,
+      "log_samples": 172,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 40,
+      "log_samples": 172,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 41,
+      "log_samples": 135,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 42,
+      "log_samples": 176,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 43,
+      "log_samples": 171,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 44,
+      "log_samples": 184,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 45,
+      "log_samples": 177,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 46,
+      "log_samples": 171,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 47,
+      "log_samples": 179,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 48,
+      "log_samples": 172,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 49,
+      "log_samples": 166,
+      "maximum_reported_reserved_gib": 3.3
+    },
+    {
+      "epoch": 50,
+      "log_samples": 168,
+      "maximum_reported_reserved_gib": 3.3
+    }
+  ]
+}

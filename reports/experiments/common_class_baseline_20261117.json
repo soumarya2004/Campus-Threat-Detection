@@ -1,0 +1,225 @@
+{
+  "created_at_utc": "2026-11-17T14:23:33.063894+00:00",
+  "purpose": "Descriptive validation comparison at a common fixed operating point for knife and baseball bat only.",
+  "split": "val",
+  "provenance": {
+    "dataset_yaml": "C:\\Projects\\campus-threat-detection\\configs\\dataset_grouped.yaml",
+    "dataset_yaml_sha256": "2e801cf29f53afe92c572c709300a8664eec616d18dfc8436d4168b0c1334003",
+    "split_content_sha256": "34d3dbc1645567690d550d6f943b7a0c4b64392c1e29a5c5c74b5966b86f5f7e",
+    "images": 700,
+    "class_names": {
+      "0": "machete",
+      "1": "knife",
+      "2": "baseball bat",
+      "3": "rifle",
+      "4": "gun"
+    }
+  },
+  "class_names": {
+    "1": "knife",
+    "2": "baseball bat"
+  },
+  "settings": {
+    "confidence": 0.25,
+    "image_size": 640,
+    "rect": false,
+    "nms_iou": 0.7,
+    "matching_iou": 0.5,
+    "max_detections": 300,
+    "prediction_batch": 8,
+    "device": "cpu"
+  },
+  "environment": {
+    "python": "3.12.10",
+    "torch": "2.11.0+cu128",
+    "ultralytics": "8.4.175"
+  },
+  "models": [
+    {
+      "name": "general_pretrained_yolo11n",
+      "checkpoint": "C:\\Projects\\campus-threat-detection\\yolo11n.pt",
+      "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "source_to_project_class_ids": {
+        "43": 1,
+        "34": 2
+      },
+      "verified_source_class_names": {
+        "43": "knife",
+        "34": "baseball bat"
+      },
+      "fixed_operating_point": {
+        "confidence_threshold": 0.25,
+        "matching_iou": 0.5,
+        "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+        "aggregate": {
+          "tp": 98,
+          "fp": 102,
+          "fn": 194,
+          "precision": 0.49,
+          "recall": 0.3356164383561644,
+          "f1": 0.3983739837398374,
+          "macro_f1": 0.3539953615854944,
+          "macro_recall": 0.33877627627627627,
+          "macro_classes": [
+            1,
+            2
+          ],
+          "images": 700,
+          "images_with_false_positives": 81,
+          "images_with_missed_objects": 184,
+          "negative_images": 419,
+          "negative_images_with_false_positives": 41,
+          "negative_image_false_positive_rate": 0.09785202863961814
+        },
+        "per_class": [
+          {
+            "class_id": 1,
+            "class_name": "knife",
+            "tp": 16,
+            "fp": 22,
+            "fn": 132,
+            "precision": 0.42105263157894735,
+            "recall": 0.10810810810810811,
+            "f1": 0.17204301075268819
+          },
+          {
+            "class_id": 2,
+            "class_name": "baseball bat",
+            "tp": 82,
+            "fp": 80,
+            "fn": 62,
+            "precision": 0.5061728395061729,
+            "recall": 0.5694444444444444,
+            "f1": 0.5359477124183006
+          }
+        ],
+        "confusion_matrix": {
+          "counts": [
+            [
+              15,
+              0,
+              23
+            ],
+            [
+              4,
+              82,
+              76
+            ],
+            [
+              129,
+              62,
+              0
+            ]
+          ],
+          "labels": [
+            "knife",
+            "baseball bat",
+            "background"
+          ],
+          "rows": "predicted",
+          "columns": "ground truth",
+          "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+        }
+      }
+    },
+    {
+      "name": "selected_finetuned_yolo11n",
+      "checkpoint": "C:\\Projects\\campus-threat-detection\\models\\dangerous_items_yolo11n.pt",
+      "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+      "source_to_project_class_ids": {
+        "1": 1,
+        "2": 2
+      },
+      "verified_source_class_names": {
+        "1": "knife",
+        "2": "baseball bat"
+      },
+      "fixed_operating_point": {
+        "confidence_threshold": 0.25,
+        "matching_iou": 0.5,
+        "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+        "aggregate": {
+          "tp": 236,
+          "fp": 67,
+          "fn": 56,
+          "precision": 0.7788778877887789,
+          "recall": 0.8082191780821918,
+          "f1": 0.7932773109243697,
+          "macro_f1": 0.7921866521975041,
+          "macro_recall": 0.8093093093093093,
+          "macro_classes": [
+            1,
+            2
+          ],
+          "images": 700,
+          "images_with_false_positives": 62,
+          "images_with_missed_objects": 53,
+          "negative_images": 419,
+          "negative_images_with_false_positives": 26,
+          "negative_image_false_positive_rate": 0.06205250596658711
+        },
+        "per_class": [
+          {
+            "class_id": 1,
+            "class_name": "knife",
+            "tp": 108,
+            "fp": 35,
+            "fn": 40,
+            "precision": 0.7552447552447552,
+            "recall": 0.7297297297297297,
+            "f1": 0.7422680412371134
+          },
+          {
+            "class_id": 2,
+            "class_name": "baseball bat",
+            "tp": 128,
+            "fp": 32,
+            "fn": 16,
+            "precision": 0.8,
+            "recall": 0.8888888888888888,
+            "f1": 0.8421052631578947
+          }
+        ],
+        "confusion_matrix": {
+          "counts": [
+            [
+              108,
+              2,
+              33
+            ],
+            [
+              1,
+              128,
+              31
+            ],
+            [
+              39,
+              14,
+              0
+            ]
+          ],
+          "labels": [
+            "knife",
+            "baseball bat",
+            "background"
+          ],
+          "rows": "predicted",
+          "columns": "ground truth",
+          "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Only two labels overlap. No pretrained claim is made for machete, rifle or gun.",
+    "Validation was already used to select the fine-tuned checkpoint and deployment settings; this is descriptive, not an unbiased held-out test.",
+    "Shared confidence 0.25 is fixed for this comparison, not tuned; the deployed item threshold remains 0.45.",
+    "Images containing only excluded classes count as negative images for this restricted two-class task.",
+    "COCO and project annotation conventions may differ; this is an application baseline, not a causal estimate of training benefit.",
+    "No AP or five-class mAP is computed here."
+  ],
+  "prediction_cache": {
+    "path": "C:\\Projects\\campus-threat-detection\\outputs\\baseline\\common_class_predictions_20261117.json",
+    "sha256": "5848da496178cae57f8b0397f17a47fa2f010faf849d836d321c25f204292105"
+  }
+}

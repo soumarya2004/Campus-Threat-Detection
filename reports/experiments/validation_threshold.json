@@ -1,0 +1,2329 @@
+{
+  "split": "val",
+  "purpose": "Choose once on validation, freeze before test evaluation.",
+  "selection_criterion": "Highest macro F1 over classes with validation ground truth; ties prefer macro recall, then lower confidence.",
+  "selected_threshold": 0.45,
+  "matching_iou": 0.5,
+  "provenance": {
+    "dataset_yaml": "C:\\Projects\\campus-threat-detection\\data\\processed\\dangerous_items_grouped_v1\\data.yaml",
+    "dataset_yaml_sha256": "bd70f2abf05fe8c39161c4fdbcaaaaf6055d28a4cb93c19eed57855ccc2a83c3",
+    "split_content_sha256": "34d3dbc1645567690d550d6f943b7a0c4b64392c1e29a5c5c74b5966b86f5f7e",
+    "images": 700,
+    "class_names": {
+      "0": "machete",
+      "1": "knife",
+      "2": "baseball bat",
+      "3": "rifle",
+      "4": "gun"
+    },
+    "model_path": "C:\\Projects\\campus-threat-detection\\runs\\detect\\grouped\\yolo11n_grouped_v1\\weights\\best.pt",
+    "model_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc"
+  },
+  "inference": {
+    "image_size": 640,
+    "device": "0",
+    "nms_iou": 0.7,
+    "max_det": 300,
+    "prediction_batch": 1,
+    "cache_confidence": 0.001
+  },
+  "ultralytics_version": "8.4.175",
+  "candidates": [
+    {
+      "confidence_threshold": 0.1,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 586,
+        "fp": 345,
+        "fn": 111,
+        "precision": 0.6294307196562836,
+        "recall": 0.8407460545193687,
+        "f1": 0.7199017199017199,
+        "macro_f1": 0.7212032140028384,
+        "macro_recall": 0.8420323895323895,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 219,
+        "images_with_missed_objects": 102,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 3,
+        "negative_image_false_positive_rate": 0.04054054054054054
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 116,
+          "fp": 89,
+          "fn": 29,
+          "precision": 0.5658536585365853,
+          "recall": 0.8,
+          "f1": 0.6628571428571428
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 115,
+          "fp": 77,
+          "fn": 33,
+          "precision": 0.5989583333333334,
+          "recall": 0.777027027027027,
+          "f1": 0.6764705882352942
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 127,
+          "fp": 55,
+          "fn": 17,
+          "precision": 0.6978021978021978,
+          "recall": 0.8819444444444444,
+          "f1": 0.7791411042944786
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 125,
+          "fp": 63,
+          "fn": 15,
+          "precision": 0.6648936170212766,
+          "recall": 0.8928571428571429,
+          "f1": 0.7621951219512195
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 103,
+          "fp": 61,
+          "fn": 17,
+          "precision": 0.6280487804878049,
+          "recall": 0.8583333333333333,
+          "f1": 0.7253521126760564
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            114,
+            15,
+            5,
+            1,
+            1,
+            69
+          ],
+          [
+            4,
+            111,
+            2,
+            1,
+            1,
+            73
+          ],
+          [
+            6,
+            1,
+            126,
+            0,
+            1,
+            48
+          ],
+          [
+            1,
+            0,
+            0,
+            125,
+            3,
+            59
+          ],
+          [
+            0,
+            3,
+            1,
+            1,
+            102,
+            57
+          ],
+          [
+            20,
+            18,
+            10,
+            12,
+            12,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.15,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 582,
+        "fp": 278,
+        "fn": 115,
+        "precision": 0.6767441860465117,
+        "recall": 0.8350071736011477,
+        "f1": 0.7475915221579962,
+        "macro_f1": 0.7481466924311475,
+        "macro_recall": 0.8356530791875618,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 197,
+        "images_with_missed_objects": 106,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 115,
+          "fp": 67,
+          "fn": 30,
+          "precision": 0.6318681318681318,
+          "recall": 0.7931034482758621,
+          "f1": 0.7033639143730887
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 115,
+          "fp": 65,
+          "fn": 33,
+          "precision": 0.6388888888888888,
+          "recall": 0.777027027027027,
+          "f1": 0.7012195121951219
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 127,
+          "fp": 47,
+          "fn": 17,
+          "precision": 0.7298850574712644,
+          "recall": 0.8819444444444444,
+          "f1": 0.7987421383647799
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 125,
+          "fp": 51,
+          "fn": 15,
+          "precision": 0.7102272727272727,
+          "recall": 0.8928571428571429,
+          "f1": 0.7911392405063291
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 100,
+          "fp": 48,
+          "fn": 20,
+          "precision": 0.6756756756756757,
+          "recall": 0.8333333333333334,
+          "f1": 0.746268656716418
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            114,
+            15,
+            4,
+            1,
+            1,
+            47
+          ],
+          [
+            4,
+            111,
+            2,
+            1,
+            1,
+            61
+          ],
+          [
+            6,
+            1,
+            126,
+            0,
+            1,
+            40
+          ],
+          [
+            1,
+            0,
+            0,
+            125,
+            3,
+            47
+          ],
+          [
+            0,
+            3,
+            1,
+            1,
+            99,
+            44
+          ],
+          [
+            20,
+            18,
+            11,
+            12,
+            15,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.2,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 572,
+        "fp": 222,
+        "fn": 125,
+        "precision": 0.7204030226700252,
+        "recall": 0.8206599713055954,
+        "f1": 0.7672702883970489,
+        "macro_f1": 0.7680407942628664,
+        "macro_recall": 0.8213757969792452,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 169,
+        "images_with_missed_objects": 112,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 113,
+          "fp": 60,
+          "fn": 32,
+          "precision": 0.653179190751445,
+          "recall": 0.7793103448275862,
+          "f1": 0.710691823899371
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 110,
+          "fp": 50,
+          "fn": 38,
+          "precision": 0.6875,
+          "recall": 0.7432432432432432,
+          "f1": 0.7142857142857143
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 127,
+          "fp": 35,
+          "fn": 17,
+          "precision": 0.7839506172839507,
+          "recall": 0.8819444444444444,
+          "f1": 0.8300653594771242
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 124,
+          "fp": 42,
+          "fn": 16,
+          "precision": 0.7469879518072289,
+          "recall": 0.8857142857142857,
+          "f1": 0.8104575163398693
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 98,
+          "fp": 35,
+          "fn": 22,
+          "precision": 0.7368421052631579,
+          "recall": 0.8166666666666667,
+          "f1": 0.7747035573122529
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            112,
+            15,
+            4,
+            0,
+            1,
+            41
+          ],
+          [
+            4,
+            107,
+            2,
+            1,
+            1,
+            45
+          ],
+          [
+            6,
+            1,
+            126,
+            0,
+            1,
+            28
+          ],
+          [
+            1,
+            0,
+            0,
+            124,
+            3,
+            38
+          ],
+          [
+            0,
+            2,
+            1,
+            1,
+            97,
+            32
+          ],
+          [
+            22,
+            23,
+            11,
+            14,
+            17,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.25,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 566,
+        "fp": 186,
+        "fn": 131,
+        "precision": 0.7526595744680851,
+        "recall": 0.812051649928264,
+        "f1": 0.7812284334023465,
+        "macro_f1": 0.7810677579535394,
+        "macro_recall": 0.812167302770751,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 154,
+        "images_with_missed_objects": 117,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 113,
+          "fp": 54,
+          "fn": 32,
+          "precision": 0.6766467065868264,
+          "recall": 0.7793103448275862,
+          "f1": 0.7243589743589743
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 109,
+          "fp": 34,
+          "fn": 39,
+          "precision": 0.7622377622377622,
+          "recall": 0.7364864864864865,
+          "f1": 0.7491408934707904
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 127,
+          "fp": 32,
+          "fn": 17,
+          "precision": 0.7987421383647799,
+          "recall": 0.8819444444444444,
+          "f1": 0.8382838283828383
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 122,
+          "fp": 34,
+          "fn": 18,
+          "precision": 0.782051282051282,
+          "recall": 0.8714285714285714,
+          "f1": 0.8243243243243243
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 95,
+          "fp": 32,
+          "fn": 25,
+          "precision": 0.7480314960629921,
+          "recall": 0.7916666666666666,
+          "f1": 0.7692307692307693
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            112,
+            15,
+            4,
+            0,
+            1,
+            35
+          ],
+          [
+            4,
+            106,
+            2,
+            1,
+            1,
+            29
+          ],
+          [
+            6,
+            1,
+            126,
+            0,
+            1,
+            25
+          ],
+          [
+            1,
+            0,
+            0,
+            122,
+            3,
+            30
+          ],
+          [
+            0,
+            1,
+            1,
+            1,
+            94,
+            30
+          ],
+          [
+            22,
+            25,
+            11,
+            16,
+            20,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.3,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 560,
+        "fp": 153,
+        "fn": 137,
+        "precision": 0.7854137447405329,
+        "recall": 0.8034433285509326,
+        "f1": 0.7943262411347518,
+        "macro_f1": 0.793815479521296,
+        "macro_recall": 0.8030381736416221,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 130,
+        "images_with_missed_objects": 122,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 113,
+          "fp": 48,
+          "fn": 32,
+          "precision": 0.7018633540372671,
+          "recall": 0.7793103448275862,
+          "f1": 0.738562091503268
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 108,
+          "fp": 26,
+          "fn": 40,
+          "precision": 0.8059701492537313,
+          "recall": 0.7297297297297297,
+          "f1": 0.7659574468085106
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 125,
+          "fp": 28,
+          "fn": 19,
+          "precision": 0.8169934640522876,
+          "recall": 0.8680555555555556,
+          "f1": 0.8417508417508418
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 122,
+          "fp": 23,
+          "fn": 18,
+          "precision": 0.8413793103448276,
+          "recall": 0.8714285714285714,
+          "f1": 0.856140350877193
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 92,
+          "fp": 28,
+          "fn": 28,
+          "precision": 0.7666666666666667,
+          "recall": 0.7666666666666667,
+          "f1": 0.7666666666666667
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            112,
+            13,
+            4,
+            0,
+            1,
+            31
+          ],
+          [
+            3,
+            105,
+            2,
+            1,
+            1,
+            22
+          ],
+          [
+            6,
+            1,
+            125,
+            0,
+            1,
+            20
+          ],
+          [
+            1,
+            0,
+            0,
+            122,
+            2,
+            20
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            91,
+            27
+          ],
+          [
+            23,
+            28,
+            13,
+            16,
+            24,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.35,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 552,
+        "fp": 131,
+        "fn": 145,
+        "precision": 0.808199121522694,
+        "recall": 0.7919655667144907,
+        "f1": 0.8,
+        "macro_f1": 0.7996383272135782,
+        "macro_recall": 0.791414333052264,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 116,
+        "images_with_missed_objects": 130,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 112,
+          "fp": 45,
+          "fn": 33,
+          "precision": 0.7133757961783439,
+          "recall": 0.7724137931034483,
+          "f1": 0.7417218543046358
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 105,
+          "fp": 23,
+          "fn": 43,
+          "precision": 0.8203125,
+          "recall": 0.7094594594594594,
+          "f1": 0.7608695652173914
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 125,
+          "fp": 23,
+          "fn": 19,
+          "precision": 0.8445945945945946,
+          "recall": 0.8680555555555556,
+          "f1": 0.8561643835616438
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 120,
+          "fp": 19,
+          "fn": 20,
+          "precision": 0.8633093525179856,
+          "recall": 0.8571428571428571,
+          "f1": 0.8602150537634409
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 90,
+          "fp": 21,
+          "fn": 30,
+          "precision": 0.8108108108108109,
+          "recall": 0.75,
+          "f1": 0.7792207792207793
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            111,
+            13,
+            4,
+            0,
+            1,
+            28
+          ],
+          [
+            3,
+            102,
+            2,
+            1,
+            1,
+            19
+          ],
+          [
+            6,
+            1,
+            125,
+            0,
+            1,
+            15
+          ],
+          [
+            1,
+            0,
+            0,
+            120,
+            2,
+            16
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            89,
+            20
+          ],
+          [
+            24,
+            31,
+            13,
+            18,
+            26,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.4,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 545,
+        "fp": 111,
+        "fn": 152,
+        "precision": 0.8307926829268293,
+        "recall": 0.7819225251076041,
+        "f1": 0.8056171470805618,
+        "macro_f1": 0.8044057322185754,
+        "macro_recall": 0.7809809686533825,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 104,
+        "images_with_missed_objects": 135,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 111,
+          "fp": 37,
+          "fn": 34,
+          "precision": 0.75,
+          "recall": 0.7655172413793103,
+          "f1": 0.757679180887372
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 102,
+          "fp": 21,
+          "fn": 46,
+          "precision": 0.8292682926829268,
+          "recall": 0.6891891891891891,
+          "f1": 0.7527675276752768
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 125,
+          "fp": 21,
+          "fn": 19,
+          "precision": 0.8561643835616438,
+          "recall": 0.8680555555555556,
+          "f1": 0.8620689655172413
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 120,
+          "fp": 15,
+          "fn": 20,
+          "precision": 0.8888888888888888,
+          "recall": 0.8571428571428571,
+          "f1": 0.8727272727272727
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 87,
+          "fp": 17,
+          "fn": 33,
+          "precision": 0.8365384615384616,
+          "recall": 0.725,
+          "f1": 0.7767857142857143
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            110,
+            13,
+            3,
+            0,
+            1,
+            21
+          ],
+          [
+            2,
+            100,
+            2,
+            1,
+            1,
+            17
+          ],
+          [
+            5,
+            1,
+            125,
+            0,
+            1,
+            14
+          ],
+          [
+            0,
+            0,
+            0,
+            120,
+            2,
+            13
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            86,
+            16
+          ],
+          [
+            28,
+            33,
+            14,
+            18,
+            29,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.45,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 534,
+        "fp": 89,
+        "fn": 163,
+        "precision": 0.8571428571428571,
+        "recall": 0.7661406025824964,
+        "f1": 0.8090909090909091,
+        "macro_f1": 0.8072603752559655,
+        "macro_recall": 0.7656676504090297,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 86,
+        "images_with_missed_objects": 145,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 109,
+          "fp": 33,
+          "fn": 36,
+          "precision": 0.7676056338028169,
+          "recall": 0.7517241379310344,
+          "f1": 0.759581881533101
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 95,
+          "fp": 14,
+          "fn": 53,
+          "precision": 0.8715596330275229,
+          "recall": 0.6418918918918919,
+          "f1": 0.7392996108949417
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 125,
+          "fp": 18,
+          "fn": 19,
+          "precision": 0.8741258741258742,
+          "recall": 0.8680555555555556,
+          "f1": 0.8710801393728222
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 119,
+          "fp": 9,
+          "fn": 21,
+          "precision": 0.9296875,
+          "recall": 0.85,
+          "f1": 0.8880597014925373
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 86,
+          "fp": 15,
+          "fn": 34,
+          "precision": 0.8514851485148515,
+          "recall": 0.7166666666666667,
+          "f1": 0.7782805429864253
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            108,
+            13,
+            3,
+            0,
+            1,
+            17
+          ],
+          [
+            2,
+            94,
+            1,
+            1,
+            1,
+            10
+          ],
+          [
+            5,
+            1,
+            125,
+            0,
+            1,
+            11
+          ],
+          [
+            0,
+            0,
+            0,
+            119,
+            1,
+            8
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            85,
+            14
+          ],
+          [
+            30,
+            39,
+            15,
+            19,
+            31,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.5,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 525,
+        "fp": 76,
+        "fn": 172,
+        "precision": 0.8735440931780366,
+        "recall": 0.7532281205164992,
+        "f1": 0.8089368258859785,
+        "macro_f1": 0.8070517723305466,
+        "macro_recall": 0.7529635793428897,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 74,
+        "images_with_missed_objects": 153,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 105,
+          "fp": 30,
+          "fn": 40,
+          "precision": 0.7777777777777778,
+          "recall": 0.7241379310344828,
+          "f1": 0.75
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 93,
+          "fp": 12,
+          "fn": 55,
+          "precision": 0.8857142857142857,
+          "recall": 0.6283783783783784,
+          "f1": 0.7351778656126482
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 124,
+          "fp": 15,
+          "fn": 20,
+          "precision": 0.8920863309352518,
+          "recall": 0.8611111111111112,
+          "f1": 0.8763250883392226
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 118,
+          "fp": 6,
+          "fn": 22,
+          "precision": 0.9516129032258065,
+          "recall": 0.8428571428571429,
+          "f1": 0.8939393939393939
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 85,
+          "fp": 13,
+          "fn": 35,
+          "precision": 0.8673469387755102,
+          "recall": 0.7083333333333334,
+          "f1": 0.7798165137614679
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            105,
+            11,
+            3,
+            0,
+            1,
+            15
+          ],
+          [
+            2,
+            92,
+            1,
+            0,
+            1,
+            9
+          ],
+          [
+            4,
+            1,
+            124,
+            0,
+            1,
+            9
+          ],
+          [
+            0,
+            0,
+            0,
+            118,
+            1,
+            5
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            84,
+            12
+          ],
+          [
+            34,
+            43,
+            16,
+            21,
+            32,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.55,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 513,
+        "fp": 68,
+        "fn": 184,
+        "precision": 0.882960413080895,
+        "recall": 0.7360114777618364,
+        "f1": 0.8028169014084507,
+        "macro_f1": 0.800318838012236,
+        "macro_recall": 0.73551598396426,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 67,
+        "images_with_missed_objects": 165,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 2,
+        "negative_image_false_positive_rate": 0.02702702702702703
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 103,
+          "fp": 26,
+          "fn": 42,
+          "precision": 0.7984496124031008,
+          "recall": 0.7103448275862069,
+          "f1": 0.7518248175182481
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 90,
+          "fp": 11,
+          "fn": 58,
+          "precision": 0.8910891089108911,
+          "recall": 0.6081081081081081,
+          "f1": 0.7228915662650602
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 122,
+          "fp": 14,
+          "fn": 22,
+          "precision": 0.8970588235294118,
+          "recall": 0.8472222222222222,
+          "f1": 0.8714285714285714
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 116,
+          "fp": 6,
+          "fn": 24,
+          "precision": 0.9508196721311475,
+          "recall": 0.8285714285714286,
+          "f1": 0.8854961832061069
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 82,
+          "fp": 11,
+          "fn": 38,
+          "precision": 0.8817204301075269,
+          "recall": 0.6833333333333333,
+          "f1": 0.7699530516431925
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            103,
+            11,
+            3,
+            0,
+            1,
+            11
+          ],
+          [
+            2,
+            90,
+            1,
+            0,
+            1,
+            7
+          ],
+          [
+            4,
+            1,
+            122,
+            0,
+            1,
+            8
+          ],
+          [
+            0,
+            0,
+            0,
+            116,
+            1,
+            5
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            82,
+            9
+          ],
+          [
+            36,
+            45,
+            18,
+            23,
+            34,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.6,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 496,
+        "fp": 52,
+        "fn": 201,
+        "precision": 0.9051094890510949,
+        "recall": 0.7116212338593975,
+        "f1": 0.7967871485943775,
+        "macro_f1": 0.7938248582730157,
+        "macro_recall": 0.7104309605171674,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 51,
+        "images_with_missed_objects": 179,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 1,
+        "negative_image_false_positive_rate": 0.013513513513513514
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 99,
+          "fp": 23,
+          "fn": 46,
+          "precision": 0.8114754098360656,
+          "recall": 0.6827586206896552,
+          "f1": 0.7415730337078652
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 88,
+          "fp": 9,
+          "fn": 60,
+          "precision": 0.9072164948453608,
+          "recall": 0.5945945945945946,
+          "f1": 0.7183673469387755
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 121,
+          "fp": 11,
+          "fn": 23,
+          "precision": 0.9166666666666666,
+          "recall": 0.8402777777777778,
+          "f1": 0.8768115942028986
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 111,
+          "fp": 2,
+          "fn": 29,
+          "precision": 0.9823008849557522,
+          "recall": 0.7928571428571428,
+          "f1": 0.8774703557312253
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 77,
+          "fp": 7,
+          "fn": 43,
+          "precision": 0.9166666666666666,
+          "recall": 0.6416666666666667,
+          "f1": 0.7549019607843137
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            99,
+            11,
+            3,
+            0,
+            1,
+            8
+          ],
+          [
+            1,
+            88,
+            1,
+            0,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            121,
+            0,
+            1,
+            5
+          ],
+          [
+            0,
+            0,
+            0,
+            111,
+            0,
+            2
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            77,
+            5
+          ],
+          [
+            41,
+            47,
+            19,
+            28,
+            40,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.65,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 481,
+        "fp": 43,
+        "fn": 216,
+        "precision": 0.9179389312977099,
+        "recall": 0.6901004304160688,
+        "f1": 0.7878787878787878,
+        "macro_f1": 0.7849898340426259,
+        "macro_recall": 0.6887865944762497,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 43,
+        "images_with_missed_objects": 193,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 1,
+        "negative_image_false_positive_rate": 0.013513513513513514
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 96,
+          "fp": 23,
+          "fn": 49,
+          "precision": 0.8067226890756303,
+          "recall": 0.6620689655172414,
+          "f1": 0.7272727272727273
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 85,
+          "fp": 7,
+          "fn": 63,
+          "precision": 0.9239130434782609,
+          "recall": 0.5743243243243243,
+          "f1": 0.7083333333333334
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 118,
+          "fp": 8,
+          "fn": 26,
+          "precision": 0.9365079365079365,
+          "recall": 0.8194444444444444,
+          "f1": 0.8740740740740741
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 108,
+          "fp": 2,
+          "fn": 32,
+          "precision": 0.9818181818181818,
+          "recall": 0.7714285714285715,
+          "f1": 0.864
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 74,
+          "fp": 3,
+          "fn": 46,
+          "precision": 0.961038961038961,
+          "recall": 0.6166666666666667,
+          "f1": 0.751269035532995
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            96,
+            11,
+            3,
+            0,
+            1,
+            8
+          ],
+          [
+            1,
+            85,
+            1,
+            0,
+            1,
+            4
+          ],
+          [
+            3,
+            1,
+            118,
+            0,
+            1,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            108,
+            0,
+            2
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            74,
+            2
+          ],
+          [
+            45,
+            50,
+            22,
+            32,
+            43,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.7,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 449,
+        "fp": 33,
+        "fn": 248,
+        "precision": 0.9315352697095436,
+        "recall": 0.6441893830703013,
+        "f1": 0.7616624257845632,
+        "macro_f1": 0.7575333004458227,
+        "macro_recall": 0.6431906167250995,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 33,
+        "images_with_missed_objects": 221,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 0,
+        "negative_image_false_positive_rate": 0.0
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 86,
+          "fp": 17,
+          "fn": 59,
+          "precision": 0.8349514563106796,
+          "recall": 0.593103448275862,
+          "f1": 0.6935483870967742
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 77,
+          "fp": 7,
+          "fn": 71,
+          "precision": 0.9166666666666666,
+          "recall": 0.5202702702702703,
+          "f1": 0.6637931034482759
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 113,
+          "fp": 5,
+          "fn": 31,
+          "precision": 0.9576271186440678,
+          "recall": 0.7847222222222222,
+          "f1": 0.8625954198473282
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 104,
+          "fp": 1,
+          "fn": 36,
+          "precision": 0.9904761904761905,
+          "recall": 0.7428571428571429,
+          "f1": 0.8489795918367347
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 69,
+          "fp": 3,
+          "fn": 51,
+          "precision": 0.9583333333333334,
+          "recall": 0.575,
+          "f1": 0.71875
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            86,
+            9,
+            2,
+            0,
+            1,
+            5
+          ],
+          [
+            1,
+            77,
+            1,
+            0,
+            1,
+            4
+          ],
+          [
+            3,
+            1,
+            113,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            104,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            69,
+            2
+          ],
+          [
+            55,
+            60,
+            28,
+            36,
+            48,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.75,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 417,
+        "fp": 26,
+        "fn": 280,
+        "precision": 0.9413092550790068,
+        "recall": 0.5982783357245337,
+        "f1": 0.7315789473684211,
+        "macro_f1": 0.7265479168037393,
+        "macro_recall": 0.5958642139676622,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 26,
+        "images_with_missed_objects": 251,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 0,
+        "negative_image_false_positive_rate": 0.0
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 84,
+          "fp": 14,
+          "fn": 61,
+          "precision": 0.8571428571428571,
+          "recall": 0.5793103448275863,
+          "f1": 0.691358024691358
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 75,
+          "fp": 5,
+          "fn": 73,
+          "precision": 0.9375,
+          "recall": 0.5067567567567568,
+          "f1": 0.6578947368421053
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 106,
+          "fp": 4,
+          "fn": 38,
+          "precision": 0.9636363636363636,
+          "recall": 0.7361111111111112,
+          "f1": 0.8346456692913385
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 92,
+          "fp": 0,
+          "fn": 48,
+          "precision": 1.0,
+          "recall": 0.6571428571428571,
+          "f1": 0.7931034482758621
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 60,
+          "fp": 3,
+          "fn": 60,
+          "precision": 0.9523809523809523,
+          "recall": 0.5,
+          "f1": 0.6557377049180327
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            84,
+            8,
+            2,
+            0,
+            1,
+            3
+          ],
+          [
+            1,
+            75,
+            1,
+            0,
+            0,
+            3
+          ],
+          [
+            3,
+            0,
+            106,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            92,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            60,
+            2
+          ],
+          [
+            57,
+            64,
+            35,
+            48,
+            58,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    },
+    {
+      "confidence_threshold": 0.8,
+      "matching_iou": 0.5,
+      "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+      "aggregate": {
+        "tp": 364,
+        "fp": 13,
+        "fn": 333,
+        "precision": 0.9655172413793104,
+        "recall": 0.5222381635581061,
+        "f1": 0.6778398510242085,
+        "macro_f1": 0.6713632976864778,
+        "macro_recall": 0.5205964955102887,
+        "macro_classes": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "images": 700,
+        "images_with_false_positives": 13,
+        "images_with_missed_objects": 296,
+        "negative_images": 74,
+        "negative_images_with_false_positives": 0,
+        "negative_image_false_positive_rate": 0.0
+      },
+      "per_class": [
+        {
+          "class_id": 0,
+          "class_name": "machete",
+          "tp": 75,
+          "fp": 9,
+          "fn": 70,
+          "precision": 0.8928571428571429,
+          "recall": 0.5172413793103449,
+          "f1": 0.6550218340611353
+        },
+        {
+          "class_id": 1,
+          "class_name": "knife",
+          "tp": 58,
+          "fp": 2,
+          "fn": 90,
+          "precision": 0.9666666666666667,
+          "recall": 0.3918918918918919,
+          "f1": 0.5576923076923077
+        },
+        {
+          "class_id": 2,
+          "class_name": "baseball bat",
+          "tp": 97,
+          "fp": 2,
+          "fn": 47,
+          "precision": 0.9797979797979798,
+          "recall": 0.6736111111111112,
+          "f1": 0.7983539094650206
+        },
+        {
+          "class_id": 3,
+          "class_name": "rifle",
+          "tp": 81,
+          "fp": 0,
+          "fn": 59,
+          "precision": 1.0,
+          "recall": 0.5785714285714286,
+          "f1": 0.7330316742081447
+        },
+        {
+          "class_id": 4,
+          "class_name": "gun",
+          "tp": 53,
+          "fp": 0,
+          "fn": 67,
+          "precision": 1.0,
+          "recall": 0.44166666666666665,
+          "f1": 0.6127167630057804
+        }
+      ],
+      "confusion_matrix": {
+        "counts": [
+          [
+            75,
+            4,
+            1,
+            0,
+            1,
+            3
+          ],
+          [
+            0,
+            58,
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            2,
+            0,
+            97,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            81,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            53,
+            0
+          ],
+          [
+            68,
+            86,
+            46,
+            59,
+            66,
+            0
+          ]
+        ],
+        "labels": [
+          "machete",
+          "knife",
+          "baseball bat",
+          "rifle",
+          "gun",
+          "background"
+        ],
+        "rows": "predicted",
+        "columns": "ground truth",
+        "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+      }
+    }
+  ],
+  "warmed_prediction_timing": {
+    "description": "Ultralytics preprocessing + inference + postprocessing, after two warm-up predictions, batch 1. Excludes image loading and report writing.",
+    "images": 700,
+    "mean_ms": 11.157293571432092,
+    "median_ms": 10.470300000179122,
+    "p95_ms": 12.94631000046137
+  },
+  "selected_operating_point": {
+    "confidence_threshold": 0.45,
+    "matching_iou": 0.5,
+    "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+    "aggregate": {
+      "tp": 534,
+      "fp": 89,
+      "fn": 163,
+      "precision": 0.8571428571428571,
+      "recall": 0.7661406025824964,
+      "f1": 0.8090909090909091,
+      "macro_f1": 0.8072603752559655,
+      "macro_recall": 0.7656676504090297,
+      "macro_classes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "images": 700,
+      "images_with_false_positives": 86,
+      "images_with_missed_objects": 145,
+      "negative_images": 74,
+      "negative_images_with_false_positives": 2,
+      "negative_image_false_positive_rate": 0.02702702702702703
+    },
+    "per_class": [
+      {
+        "class_id": 0,
+        "class_name": "machete",
+        "tp": 109,
+        "fp": 33,
+        "fn": 36,
+        "precision": 0.7676056338028169,
+        "recall": 0.7517241379310344,
+        "f1": 0.759581881533101
+      },
+      {
+        "class_id": 1,
+        "class_name": "knife",
+        "tp": 95,
+        "fp": 14,
+        "fn": 53,
+        "precision": 0.8715596330275229,
+        "recall": 0.6418918918918919,
+        "f1": 0.7392996108949417
+      },
+      {
+        "class_id": 2,
+        "class_name": "baseball bat",
+        "tp": 125,
+        "fp": 18,
+        "fn": 19,
+        "precision": 0.8741258741258742,
+        "recall": 0.8680555555555556,
+        "f1": 0.8710801393728222
+      },
+      {
+        "class_id": 3,
+        "class_name": "rifle",
+        "tp": 119,
+        "fp": 9,
+        "fn": 21,
+        "precision": 0.9296875,
+        "recall": 0.85,
+        "f1": 0.8880597014925373
+      },
+      {
+        "class_id": 4,
+        "class_name": "gun",
+        "tp": 86,
+        "fp": 15,
+        "fn": 34,
+        "precision": 0.8514851485148515,
+        "recall": 0.7166666666666667,
+        "f1": 0.7782805429864253
+      }
+    ],
+    "confusion_matrix": {
+      "counts": [
+        [
+          108,
+          13,
+          3,
+          0,
+          1,
+          17
+        ],
+        [
+          2,
+          94,
+          1,
+          1,
+          1,
+          10
+        ],
+        [
+          5,
+          1,
+          125,
+          0,
+          1,
+          11
+        ],
+        [
+          0,
+          0,
+          0,
+          119,
+          1,
+          8
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          85,
+          14
+        ],
+        [
+          30,
+          39,
+          15,
+          19,
+          31,
+          0
+        ]
+      ],
+      "labels": [
+        "machete",
+        "knife",
+        "baseball bat",
+        "rifle",
+        "gun",
+        "background"
+      ],
+      "rows": "predicted",
+      "columns": "ground truth",
+      "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+    }
+  },
+  "full_local_report": "outputs\\experiments\\validation_threshold_full.json"
+}

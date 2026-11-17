@@ -1,0 +1,164 @@
+{
+  "name": "Person 1 grouped-data dangerous-item detector",
+  "architecture": "Ultralytics YOLO11n",
+  "checkpoint": "models/dangerous_items_yolo11n.pt",
+  "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+  "source_training_run": "runs/detect/grouped/yolo11n_grouped_v1",
+  "classes": [
+    "machete",
+    "knife",
+    "baseball bat",
+    "rifle",
+    "gun"
+  ],
+  "training": {
+    "epochs_completed": 50,
+    "image_size": 640,
+    "batch": 16,
+    "workers": 2,
+    "amp": true,
+    "seed": 0,
+    "initialization": "original yolo11n.pt pretrained weights",
+    "history": "reports/experiments/training_results.csv",
+    "settings": "reports/experiments/training_args.yaml"
+  },
+  "dataset": {
+    "manifest": "reports/dataset/grouped_v1_manifest.csv",
+    "manifest_sha256": "b378f691bcd1cfbd891800e1187c2ea492dc23b6e84f66bb2b979cafac08e4d8",
+    "train_images": 3267,
+    "validation_images": 700,
+    "test_images": 700,
+    "grouping": "known augmentation filename families plus exact image hashes; one representative per group"
+  },
+  "inference": {
+    "image_size": 640,
+    "confidence": 0.45,
+    "nms_iou": 0.7,
+    "max_detections": 300,
+    "default_device": "CUDA when available, otherwise CPU"
+  },
+  "selection": {
+    "resolution": "reports/experiments/resolution_selection.json",
+    "confidence": "reports/experiments/validation_threshold.json",
+    "selection_split": "validation only"
+  },
+  "test": {
+    "report": "reports/experiments/grouped_test.json",
+    "map50": 0.8578821723575498,
+    "map50_95": 0.6589454535018681,
+    "fixed_threshold_metrics": {
+      "tp": 544,
+      "fp": 74,
+      "fn": 154,
+      "precision": 0.8802588996763754,
+      "recall": 0.7793696275071633,
+      "f1": 0.8267477203647416,
+      "macro_f1": 0.8265077233345621,
+      "macro_recall": 0.7807223742490199,
+      "macro_classes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "images": 700,
+      "images_with_false_positives": 70,
+      "images_with_missed_objects": 131,
+      "negative_images": 74,
+      "negative_images_with_false_positives": 0,
+      "negative_image_false_positive_rate": 0.0
+    },
+    "per_class": [
+      {
+        "class_id": 0,
+        "class_name": "machete",
+        "tp": 106,
+        "fp": 19,
+        "fn": 39,
+        "precision": 0.848,
+        "recall": 0.7310344827586207,
+        "f1": 0.7851851851851852
+      },
+      {
+        "class_id": 1,
+        "class_name": "knife",
+        "tp": 101,
+        "fp": 22,
+        "fn": 47,
+        "precision": 0.8211382113821138,
+        "recall": 0.6824324324324325,
+        "f1": 0.7453874538745388
+      },
+      {
+        "class_id": 2,
+        "class_name": "baseball bat",
+        "tp": 130,
+        "fp": 8,
+        "fn": 14,
+        "precision": 0.9420289855072463,
+        "recall": 0.9027777777777778,
+        "f1": 0.9219858156028369
+      },
+      {
+        "class_id": 3,
+        "class_name": "rifle",
+        "tp": 110,
+        "fp": 13,
+        "fn": 30,
+        "precision": 0.8943089430894309,
+        "recall": 0.7857142857142857,
+        "f1": 0.8365019011406845
+      },
+      {
+        "class_id": 4,
+        "class_name": "gun",
+        "tp": 97,
+        "fp": 12,
+        "fn": 24,
+        "precision": 0.8899082568807339,
+        "recall": 0.8016528925619835,
+        "f1": 0.8434782608695652
+      }
+    ],
+    "warmed_model_stage_timing": {
+      "description": "Ultralytics preprocessing + inference + postprocessing, after two warm-up predictions, batch 1. Excludes image loading and report writing.",
+      "images": 700,
+      "mean_ms": 11.819338000034675,
+      "median_ms": 10.851099999399594,
+      "p95_ms": 15.735955000536698
+    }
+  },
+  "environment": {
+    "python": "3.12.10",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "torchvision": "0.26.0+cu128",
+      "ultralytics": "8.4.175",
+      "opencv-python": "5.0.0.93",
+      "numpy": "2.5.2"
+    },
+    "evaluation_hardware": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  },
+  "limitations": [
+    "Source-video independence has not been established for images with unrelated names.",
+    "The regrouped holdout reuses an existing dataset; it is not independently collected campus footage.",
+    "Knife recall at the selected test operating point is about 68%; inspect the class results and error review.",
+    "Zero detections on 74 test background images does not establish a zero false-alarm rate; there were 74 false-positive boxes across the full test set.",
+    "Detects items only; person tracking, actions and threat assessment are separate modules.",
+    "A later three-source pilot matched only 1 of 12 provisional knife annotations and produced 1 scissors false positive; see external_pilot. Labels require human review, and correlated frames do not establish campus performance."
+  ],
+  "external_pilot": {
+    "report": "reports/experiments/external_pilot_evaluation.json",
+    "review": "reports/person1_demo_and_external_pilot.md",
+    "status": "Exploratory pilot with provisional assistant annotations; human review required.",
+    "source_videos": 3,
+    "sampled_frames": 36,
+    "knife_matches": 1,
+    "knife_annotations": 12,
+    "background_frames_with_false_positives": 1,
+    "background_frames": 24,
+    "other_positive_classes": "not measured",
+    "settings_unchanged": true
+  }
+}

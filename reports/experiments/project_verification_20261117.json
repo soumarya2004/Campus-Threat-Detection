@@ -1,0 +1,59 @@
+{
+  "verified_on": "2026-11-17",
+  "timezone": "Asia/Calcutta",
+  "scope": "Current code and packaged-model verification; not a new training or accuracy evaluation.",
+  "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+  "person_checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "selected_settings": {"image_size": 640, "confidence": 0.45},
+  "automated_checks": {
+    "unit_tests": {"command": "python -m pytest -q", "passed": 222, "integration_deselected": 2},
+    "real_checkpoint_tests": {"command": "python -m pytest -m integration -q", "passed": 2, "unit_deselected": 222, "device": "cpu"},
+    "release_consistency": {"command": "python scripts/check_model_release.py", "passed": 31},
+    "lint": {"command": "ruff check --select F src scripts tests", "passed": true},
+    "format": {"command": "ruff format --check src scripts tests", "formatted_files": 41},
+    "whitespace": {"command": "git diff --check", "passed": true}
+  },
+  "environment": {
+    "command": "python src/utils/check_environment.py",
+    "passed": true,
+    "cpu_native_nms": "passed",
+    "cuda_available": false,
+    "require_cuda_check": "failed as expected because CUDA was unavailable; no fresh GPU measurement claimed"
+  },
+  "recorded_video": {
+    "command": "python scripts/run_video_inference.py outputs/rifle.mp4 --device cpu --max-frames 60 --output outputs/review_20261117/rifle.mp4",
+    "source": "Existing local qualitative demo; source provenance unverified",
+    "processed_frames": 60,
+    "independently_decoded_output_frames": 60,
+    "inference_errors": 0,
+    "missing_media_timestamps": 0,
+    "report": "outputs/review_20261117/rifle.json"
+  },
+  "two_stream_smoke": {
+    "source": "First decoded frame of outputs/rifle.mp4",
+    "device": "cpu",
+    "item_status": "ok",
+    "person_status": "ok",
+    "item_detections": 0,
+    "person_detections": 1,
+    "payload": "outputs/review_20261117/two_stream_payload.json",
+    "visually_reviewed_image": "outputs/review_20261117/two_stream_example.jpg",
+    "interpretation": "Runtime and schema demonstration on one frame; no person accuracy claim"
+  },
+  "handoff": {
+    "command": "python scripts/check_detector_handoff.py --video outputs/rifle.mp4 --max-frames 60 --device cpu --output outputs/review_20261117/handoff.json",
+    "frames_checked": 60,
+    "passed_frames": 60,
+    "failed_frames": 0,
+    "detections_checked": 25,
+    "interpretation": "Checks actual item boxes, frame metadata, serialization and status; not detection accuracy or teammate end-to-end integration."
+  },
+  "benchmark": "reports/experiments/cpu_benchmark_20261117.json",
+  "pending": [
+    "Physical live-camera rehearsal and combined person/item throughput on the presentation laptop",
+    "Fresh CUDA memory measurement when the GPU is available",
+    "Teammate camera/tracker end-to-end integration",
+    "Human review of provisional external pilot labels and larger independent footage evaluation",
+    "Controlled larger-model and batch-size comparisons"
+  ]
+}

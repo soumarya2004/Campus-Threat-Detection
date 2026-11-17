@@ -1,0 +1,12 @@
+{
+  "selection_split": "val",
+  "selected_image_size": 640,
+  "minimum_map50_95_gain_for_960": 0.02,
+  "maximum_p95_ms_for_960": 33.33,
+  "observed_map50_95_gain": -0.09439775929837713,
+  "observed_960_p95_ms": 17.24262500097211,
+  "model_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+  "validation_content_sha256": "34d3dbc1645567690d550d6f943b7a0c4b64392c1e29a5c5c74b5966b86f5f7e",
+  "plan_sha256": "a6ac8eb3352fed1ea3f12fefc4313573743c1e6dbe67781b290090f618251082",
+  "reason": "Use 960 only if both predeclared quality and timing conditions pass."
+}

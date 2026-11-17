@@ -1,3 +1,5 @@
+# Raw downloaded data, used by the preprocessing scripts.
+# The current training experiment uses configs/train.yaml instead.
 path: data/raw/dangerous_items
 train: images/train
 val: images/val

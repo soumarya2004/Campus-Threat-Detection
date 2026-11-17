@@ -1,0 +1,67 @@
+{
+  "created_at_utc": "2026-11-17T14:16:06.647612+00:00",
+  "purpose": "Person 1 standalone live-camera runtime rehearsal; not an accuracy or threat-assessment test.",
+  "passed": true,
+  "camera": {
+    "index": 0,
+    "backend": "MSMF",
+    "last_frame_dimensions": {
+      "width": 640,
+      "height": 480
+    }
+  },
+  "with_people": true,
+  "display_enabled": true,
+  "models": {
+    "items": {
+      "model_path": "C:\\Projects\\campus-threat-detection\\models\\dangerous_items_yolo11n.pt",
+      "confidence_threshold": 0.45,
+      "image_size": 640,
+      "nms_iou": 0.7,
+      "max_detections": 300,
+      "device_requested": "cpu",
+      "device_resolved": "cpu",
+      "class_names": {
+        "0": "machete",
+        "1": "knife",
+        "2": "baseball bat",
+        "3": "rifle",
+        "4": "gun"
+      },
+      "model_status": "ready",
+      "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc"
+    },
+    "people": {
+      "model_path": "C:\\Projects\\campus-threat-detection\\yolo11n.pt",
+      "confidence_threshold": 0.35,
+      "image_size": 640,
+      "nms_iou": 0.7,
+      "max_detections": 300,
+      "device_requested": "cpu",
+      "device_resolved": "cpu",
+      "class_names": {
+        "0": "person"
+      },
+      "model_status": "ready",
+      "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    }
+  },
+  "frames_processed": 120,
+  "frames_with_inference_errors": 0,
+  "detections_total": {
+    "items": 0,
+    "people": 0
+  },
+  "stop_reason": "max_frames",
+  "error": null,
+  "timing": {
+    "setup_and_warmup_seconds": 2.3308386000001065,
+    "capture_inference_display_seconds": 21.630750799999987,
+    "capture_inference_display_fps": 5.547657643025506,
+    "combined_predict_p50_ms": 65.66275000000132,
+    "combined_predict_p95_ms": 73.66621000005578,
+    "scope": "Combined predict calls exclude capture and display; loop throughput includes them. Setup and warm-up excluded from loop throughput. No asynchronous queue or frame-dropping measurement."
+  },
+  "timestamp_source": "Host monotonic elapsed seconds immediately after capture; not a camera hardware timestamp.",
+  "media_saved": false
+}

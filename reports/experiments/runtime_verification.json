@@ -1,0 +1,96 @@
+{
+  "verified_at_utc": "2026-11-11T11:25:41.053651+00:00",
+  "checkpoint": "models/dangerous_items_yolo11n.pt",
+  "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+  "automated_tests": {
+    "default_command": "python -m pytest -q",
+    "default_result": "137 passed, 1 deselected",
+    "integration_command": "python -m pytest -m integration -q",
+    "integration_result": "1 passed, 137 deselected",
+    "integration_log": "outputs/integration_verification.log"
+  },
+  "environment": {
+    "command": "python src/utils/check_environment.py --require-cuda",
+    "result": "passed CPU tensor/NMS and CUDA NMS operations",
+    "log": "outputs/environment_verification.log"
+  },
+  "wrapper_smoke": {
+    "command": "python scripts/smoke_test_wrapper.py",
+    "result": "both calls succeeded; execution and schema checks passed",
+    "log": "outputs/smoke_verification.log"
+  },
+  "format_check": "ruff format --check src scripts tests: 29 files already formatted",
+  "whitespace_check": "git diff --check: passed",
+  "videos": [
+    {
+      "clip": "rifle",
+      "source_decoded_frames": 145,
+      "output_decoded_frames": 145,
+      "report": "outputs/grouped_verification/rifle_annotated.json",
+      "report_sha256": "8c0cf10f07a29ee57052755f2823113bd6be5a8c62bbc2dd39a8632d47394486",
+      "results": {
+        "processed_frames": 145,
+        "detections_total": 91,
+        "frames_with_inference_errors": 0,
+        "inference_error_samples": [],
+        "dropped_detections_total": 0,
+        "stop_reason": "end_of_video",
+        "completion_warning": null,
+        "startup_and_warmup_seconds": 2.3947416000000885,
+        "processing_wall_time_seconds": 1.7796767999998337,
+        "processing_fps": 81.4754679051913,
+        "end_to_end_wall_time_seconds": 4.175731199999973,
+        "inference_latency_ms_mean": 10.128591034537811,
+        "inference_latency_ms_p50": 9.760699999787903,
+        "inference_latency_ms_p95": 10.98463999987871
+      }
+    },
+    {
+      "clip": "knife",
+      "source_decoded_frames": 385,
+      "output_decoded_frames": 385,
+      "report": "outputs/grouped_verification/knife_annotated.json",
+      "report_sha256": "4bfe87e7d4e1ce37a4b04b89b7efe1691fb294f444cf5acf3f158fa00805b4b0",
+      "results": {
+        "processed_frames": 385,
+        "detections_total": 161,
+        "frames_with_inference_errors": 0,
+        "inference_error_samples": [],
+        "dropped_detections_total": 0,
+        "stop_reason": "end_of_video",
+        "completion_warning": null,
+        "startup_and_warmup_seconds": 2.2340111999992587,
+        "processing_wall_time_seconds": 12.550950499999999,
+        "processing_fps": 30.674967605043143,
+        "end_to_end_wall_time_seconds": 14.787081399999806,
+        "inference_latency_ms_mean": 12.666984415603098,
+        "inference_latency_ms_p50": 12.239900000167836,
+        "inference_latency_ms_p95": 16.440820000389067
+      }
+    },
+    {
+      "clip": "synthetic_test",
+      "source_decoded_frames": 75,
+      "output_decoded_frames": 75,
+      "report": "outputs/grouped_verification/synthetic_test_annotated.json",
+      "report_sha256": "711f9a739224bd885ca769af760183ec58261fa331fcbb3f5234e24e39d0d549",
+      "results": {
+        "processed_frames": 75,
+        "detections_total": 0,
+        "frames_with_inference_errors": 0,
+        "inference_error_samples": [],
+        "dropped_detections_total": 0,
+        "stop_reason": "end_of_video",
+        "completion_warning": null,
+        "startup_and_warmup_seconds": 2.1506736999999703,
+        "processing_wall_time_seconds": 0.7563926000002539,
+        "processing_fps": 99.15485688249042,
+        "end_to_end_wall_time_seconds": 2.9086237000001347,
+        "inference_latency_ms_mean": 8.605031999977655,
+        "inference_latency_ms_p50": 8.507100000315404,
+        "inference_latency_ms_p95": 9.602059999815538
+      }
+    }
+  ],
+  "interpretation": "Runtime and output-integrity checks only. These clips are not independently labeled accuracy benchmarks. Processing FPS excludes startup, varies by video resolution and hardware, and is not a live-camera service guarantee."
+}

@@ -1,4 +1,7 @@
 # Person 1 — YOLO dangerous-item detector
+# Install the CPU or CUDA build of this matching pair before the remaining packages.
+torch==2.11.0
+torchvision==0.26.0
 ultralytics==8.4.175
 opencv-python==5.0.0.93
 numpy==2.5.2

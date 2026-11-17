@@ -2,6 +2,10 @@
 
 ## 1. Model
 
+> Historical experiment on the original dataset split. Later auditing found
+> exact and augmented image overlap between splits. Keep these results as an
+> experiment record, not as the current model's independent test performance.
+
 - Architecture: Ultralytics YOLO11n
 - Pretrained checkpoint: `yolo11n.pt`
 - Fine-tuned checkpoint: `best.pt`

@@ -1,64 +1,72 @@
-import sys
+"""Check installed packages and whether CPU or CUDA inference is available."""
+
+import argparse
 import importlib
-from importlib.metadata import PackageNotFoundError, version
+from importlib.metadata import version
+import sys
 
-def check_package(package_name:str, distribution_name:str | None=None)->bool:
-    distribution_name=distribution_name or package_name
-    try:
-        installed_version=version(distribution_name)
-        print(f"[OK] {distribution_name}: {installed_version}")
-        return True
-    except PackageNotFoundError:
-        print(f"[FAIL] {distribution_name}: not installed")
-        return False
 
-def main()->int:
-    print("=== Campus Threat Detection: Environment Check ===")
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--require-cuda",
+        action="store_true",
+        help="Fail if CUDA is unavailable; otherwise a CPU environment is valid",
+    )
+    args = parser.parse_args()
     print(f"Python: {sys.version.split()[0]}")
     print(f"Executable: {sys.executable}")
-    print()
-    packages=[
+    packages = [
         ("torch", "torch"),
         ("torchvision", "torchvision"),
         ("ultralytics", "ultralytics"),
         ("cv2", "opencv-python"),
         ("yaml", "PyYAML"),
         ("numpy", "numpy"),
-        ("pandas", "pandas"),
         ("matplotlib", "matplotlib"),
     ]
-    all_ok=True
-    for module_name, distribution_name in packages:
+    all_ok = True
+    for module_name, distribution in packages:
         try:
             importlib.import_module(module_name)
-            all_ok &= check_package(module_name, distribution_name)
+            print(f"[OK] {distribution}: {version(distribution)}")
         except Exception as exc:
-            print(f"[FAIL] {distribution_name}: import error: {exc}")
+            print(f"[FAIL] {distribution}: {exc}")
             all_ok = False
-    print("\n=== CUDA / GPU ===")
+
     try:
         import torch
-        print(f"PyTorch CUDA build: {torch.version.cuda}")
-        if torch.cuda.is_available():
-            print(f"[OK] CUDA available: {torch.cuda.is_available()}")
-            print(f"[OK] GPU: {torch.cuda.get_device_name(0)}")
-            print(f"[OK] GPU count: {torch.cuda.device_count()}")
-            #verify that a tensor operation executes on the GPU
-            test_tensor=torch.ones((2, 2), device="cuda")
-            result=test_tensor @ test_tensor
-            print(f"[OK] GPU tensor operation: {result.device}")
-        else:
-            print("[FAIL] CUDA is unavailable to PyTorch.")
-            all_ok=False
-    except Exception as exc:
-        print(f"[FAIL] CUDA/GPU check failed: {exc}")
-        all_ok=False
-    print("\n=== Result ===")
-    if all_ok:
-        print("[PASS] Environment checks passed.")
-        return 0
-    print("[FAIL] One or more environment checks failed.")
-    return 1
+        from torchvision.ops import nms
 
-if __name__=="__main__":
+        print(f"PyTorch CUDA runtime: {torch.version.cuda or 'CPU-only build'}")
+        # Importing a package alone does not prove its native NMS operator works.
+        boxes = torch.tensor([[0.0, 0.0, 10.0, 10.0]])
+        scores = torch.tensor([0.9])
+        nms(boxes, scores, 0.5)
+        print("[OK] CPU tensor and NMS operations")
+        if torch.cuda.is_available():
+            nms(boxes.cuda(), scores.cuda(), 0.5)
+            print(f"[OK] CUDA NMS operation: {torch.cuda.get_device_name(0)}")
+            free_bytes, total_bytes = torch.cuda.mem_get_info(0)
+            print(
+                f"GPU memory: {free_bytes / 2**30:.2f} GiB free / {total_bytes / 2**30:.2f} GiB total"
+            )
+        elif args.require_cuda:
+            print("[FAIL] CUDA was requested but is unavailable.")
+            all_ok = False
+        else:
+            print("[OK] CPU mode available; CUDA is unavailable.")
+    except Exception as exc:
+        print(f"[FAIL] Tensor/NMS operation: {exc}")
+        all_ok = False
+
+    print(
+        "[PASS] Environment checks passed."
+        if all_ok
+        else "[FAIL] Environment checks failed."
+    )
+    return 0 if all_ok else 1
+
+
+if __name__ == "__main__":
     raise SystemExit(main())

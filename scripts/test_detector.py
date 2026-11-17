@@ -1,52 +1,70 @@
-import cv2
-import sys
+"""Run the detector on one image and save its annotated prediction."""
+
+import argparse
 from pathlib import Path
+import sys
 
-PROJECT_ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT))
+import cv2
 
-from src.detector import WeaponDetector
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 
-IMAGE_PATH=(
-    "data/processed/dangerous_items_cleaned_v2/"
-    "images/test/0017cc01-0481.jpg"
-)
+from scripts.run_video_inference import draw_detections
+from src.models.object_detector import YOLOObjectDetector
 
-OUTPUT_PATH=PROJECT_ROOT/"outputs"/"detector_test.jpg"
 
-frame=cv2.imread(str(PROJECT_ROOT/IMAGE_PATH))
-
-if frame is None:
-    raise FileNotFoundError(f"Could not read image: {IMAGE_PATH}")
-
-detector=WeaponDetector()
-detections=detector.detect(frame)
-
-print("Image:", IMAGE_PATH)
-print("Device:", detector.device)
-print("Detections:", len(detections))
-
-for detection in detections:
-    print(detection)
-
-    x1, y1, x2, y2=map(int, detection["xyxy"])
-    label=(
-        f'{detection["class_name"]} '
-        f'{detection["confidence"]:.2f}'
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("image", type=Path, help="Input image")
+    parser.add_argument(
+        "--output", type=Path, default=REPO_ROOT / "outputs" / "detector_test.jpg"
     )
-
-    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-    cv2.putText(
-        frame,
-        label,
-        (x1, max(y1 - 10, 20)),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.7,
-        (0, 255, 0),
-        2,
+    parser.add_argument("--model", type=Path, help="Override the configured checkpoint")
+    parser.add_argument(
+        "--confidence", type=float, help="Override the configured confidence threshold"
     )
+    parser.add_argument("--device", help="Inference device, for example cpu or 0")
+    args = parser.parse_args()
+    args.image = args.image.expanduser().resolve()
+    args.output = args.output.expanduser().resolve()
+    if args.image == args.output or (
+        args.image.exists()
+        and args.output.exists()
+        and args.image.samefile(args.output)
+    ):
+        parser.error("Output path must differ from the input image.")
+    frame = cv2.imread(str(args.image))
+    if frame is None:
+        parser.error(f"Could not read image: {args.image}")
 
-OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-cv2.imwrite(str(OUTPUT_PATH), frame)
+    detector = None
+    try:
+        detector = YOLOObjectDetector(
+            model_path=args.model,
+            confidence_threshold=args.confidence,
+            device=args.device,
+        )
+        result = detector.predict(frame)
+        if result["model_status"] != "ok":
+            raise RuntimeError(result["error"])
+        print(f"Image: {args.image}")
+        print(f"Device: {detector.get_model_info()['device_resolved']}")
+        print(f"Detections: {len(result['detections'])}")
+        for detection in result["detections"]:
+            print(detection)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        annotated = draw_detections(frame, result["detections"])
+        if not cv2.imwrite(str(args.output), annotated):
+            raise RuntimeError(f"Could not save output: {args.output}")
+        print(f"Annotated image saved: {args.output}")
+        return 0
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+    finally:
+        if detector is not None:
+            detector.close()
 
-print("Annotated image saved to:", OUTPUT_PATH)
+
+if __name__ == "__main__":
+    raise SystemExit(main())

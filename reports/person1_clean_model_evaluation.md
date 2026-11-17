@@ -2,6 +2,14 @@
 
 ## 1. Model
 
+> Historical experiment. The November 2026 audit confirmed augmented versions
+> of the same source images in training and test splits. The metrics below were
+> reproduced, but they must not be presented as independent generalization
+> results. The grouped-data experiment supersedes this split.
+
+The precision and recall below are the library's class-averaged, curve-selected
+values. They do not measure the wrapper's fixed confidence threshold of 0.35.
+
 - Architecture: Ultralytics YOLO11n
 - Task: Object detection
 - Number of classes: 5

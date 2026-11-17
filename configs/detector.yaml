@@ -1,0 +1,5 @@
+# Selected checkpoint and operating point for the shared detector.
+# Frozen using validation; see models/model_card.json and the grouped test report.
+model: models/dangerous_items_yolo11n.pt
+confidence: 0.45
+image_size: 640

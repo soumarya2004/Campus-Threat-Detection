@@ -1,0 +1,55 @@
+{
+  "verified_on": "2026-11-17",
+  "timezone": "Asia/Calcutta",
+  "scope": "Person 1 standalone object/person detection deliverable; no P3/P4 implementation required",
+  "automated_checks": {
+    "unit_tests": {"command": "python -m pytest -q", "passed": 270, "integration_deselected": 2},
+    "real_checkpoint_tests": {"command": "python -m pytest -m integration -q", "passed": 2, "unit_deselected": 270, "device": "cpu"},
+    "release_check": {"command": "python scripts/check_model_release.py", "passed_checks": 31},
+    "lint": {"command": "ruff check --select F src scripts tests", "passed": true},
+    "format": {"command": "ruff format --check src scripts tests", "formatted_files": 51}
+  },
+  "executed_evidence": {
+    "standalone_consumer": "reports/experiments/standalone_handoff_20261117.json",
+    "live_camera": "reports/experiments/live_camera_20261117.json",
+    "model_size_and_inference_batch": "reports/experiments/model_batch_comparison_20261117.json",
+    "pretrained_common_class_baseline": "reports/experiments/common_class_baseline_20261117.json",
+    "external_annotation_review": "reports/experiments/external_label_review_20261117.json",
+    "historical_training_memory_analysis": "reports/experiments/grouped_training_memory.json",
+    "earlier_hardware_access": "reports/experiments/hardware_access_20261117.json",
+    "current_hardware_access": "reports/experiments/hardware_recheck_20261117.json",
+    "fresh_gpu_inference_memory_and_latency": "reports/experiments/gpu_benchmark_20261117.json",
+    "standalone_gpu_consumer": "reports/experiments/standalone_gpu_20261117.json"
+  },
+  "gpu_followup": {
+    "environment_command": "python src/utils/check_environment.py --require-cuda",
+    "environment_passed": true,
+    "benchmark_command": "python scripts/benchmark_detector.py --image data/processed/dangerous_items_grouped_v1/images/test/00a649fb-2917.jpg --device 0 --runs 100 --warmup 10 --output reports/experiments/gpu_benchmark_20261117.json",
+    "standalone_command": "python scripts/check_standalone_pipeline.py --video outputs/rifle.mp4 --device 0 --max-frames 60 --output reports/experiments/standalone_gpu_20261117.json",
+    "standalone_console_warning": "WARNING NMS time limit 2.050s exceeded",
+    "warning_interpretation": "All 60 frame packets passed, with 25 item and 60 person boxes. Ultralytics 8.4.175 writes the processed image result before this time-limit check; these calls use batch 1. The warning remains part of the runtime evidence and its cause was not established.",
+    "gpu_mode": "Legion Space Hybrid Mode with Smart iGPU Auto remained selected; no setting was changed by the assistant."
+  },
+  "preserved_evidence": {
+    "frozen_test": "reports/experiments/grouped_test.json",
+    "frozen_model_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+    "deployment_confidence": 0.45,
+    "deployment_image_size": 640,
+    "no_retraining_or_test_retuning": true
+  },
+  "package": {
+    "command": "python scripts/package_person1.py --output outputs/deliverables/person1_standalone_gpu_verified.zip",
+    "output": "outputs/deliverables/person1_standalone_gpu_verified.zip",
+    "contents": "Both local checkpoints, source, tests, configs, docs, recorded results and a per-file SHA-256 manifest",
+    "excluded": "Raw datasets, local recordings, environments, training runs, caches, temporary files and the extra comparison checkpoint"
+  },
+  "limits": [
+    "Fresh inference memory measures the PyTorch allocator after warm-up, including model tensors but excluding driver/context and other processes. Historical training reserved-memory snapshots are a separate measurement.",
+    "The standalone GPU rehearsal emitted one NMS time-limit warning despite passing all 60 frame contracts; its recorded processing throughput includes the slow call.",
+    "Live-camera output had zero retained boxes; it verifies capture, inference and display execution, not detection accuracy.",
+    "Model/batch study measures inference cost, not fine-tuned larger-model accuracy or training-batch convergence.",
+    "Common-class baseline uses previously inspected validation data and only the two shared classes.",
+    "External labels were reviewed by an assistant, not a human; six knife boundaries remain ambiguous and generalization is weak.",
+    "Person accuracy on labeled campus footage is unmeasured."
+  ]
+}

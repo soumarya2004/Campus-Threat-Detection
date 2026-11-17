@@ -1,0 +1,102 @@
+{
+  "created_at_utc": "2026-11-17T13:57:43.104761+00:00",
+  "purpose": "Single-image repeated runtime benchmark; not an accuracy evaluation or video FPS claim.",
+  "model": {
+    "model_path": "C:\\Projects\\campus-threat-detection\\models\\dangerous_items_yolo11n.pt",
+    "confidence_threshold": 0.45,
+    "image_size": 640,
+    "nms_iou": 0.7,
+    "max_detections": 300,
+    "device_requested": "cpu",
+    "device_resolved": "cpu",
+    "class_names": {
+      "0": "machete",
+      "1": "knife",
+      "2": "baseball bat",
+      "3": "rifle",
+      "4": "gun"
+    },
+    "model_status": "ready"
+  },
+  "checkpoint_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+  "image": {
+    "path": "C:\\Projects\\campus-threat-detection\\data\\processed\\dangerous_items_grouped_v1\\images\\test\\00a649fb-2917.jpg",
+    "sha256": "a2739bd9e5fbb42bf00584f0119ef82be17c73c03310401c3311443c39519c49",
+    "height": 600,
+    "width": 994
+  },
+  "environment": {
+    "python": "3.12.10",
+    "torch": "2.11.0+cu128",
+    "ultralytics": "8.4.175",
+    "opencv": "5.0.0"
+  },
+  "setup": {
+    "image_decode_ms": 29.98560000003181,
+    "model_load_ms": 47.95369999999366,
+    "scope": "Imports excluded; CUDA initialization/first prediction costs are included in warm-up when deferred by the backend."
+  },
+  "warmup": {
+    "blank_frame_runs": 5,
+    "real_frame_runs": 1,
+    "elapsed_ms": 1342.0658000000003
+  },
+  "latency": {
+    "runs": 40,
+    "mean_ms": 25.409887500003947,
+    "p50_ms": 25.394450000021607,
+    "p95_ms": 26.702140000048757,
+    "min_ms": 23.019200000021556,
+    "max_ms": 27.656299999989642,
+    "synchronized_cuda": false,
+    "scope": "Completed YOLOObjectDetector.predict calls, including preprocessing, model inference, postprocessing and output normalization. Excludes decoding, drawing and display."
+  },
+  "cuda_memory": null,
+  "detections_per_run": {
+    "min": 1,
+    "max": 1
+  },
+  "dropped_detections": 0,
+  "latencies_ms": [
+    25.099400000044625,
+    23.369800000068608,
+    23.019200000021556,
+    23.376200000029712,
+    25.082300000008217,
+    23.864899999921363,
+    24.9512999999979,
+    25.497900000004847,
+    25.68909999990865,
+    25.039500000048065,
+    24.617800000100942,
+    23.572999999942112,
+    25.23279999991246,
+    25.138999999967382,
+    26.603000000022803,
+    23.984300000051917,
+    25.291000000038366,
+    26.24660000003587,
+    26.17760000009639,
+    25.686299999961193,
+    26.034699999968325,
+    26.25409999996009,
+    26.527999999984786,
+    25.594100000034814,
+    24.779999999964275,
+    25.965100000007624,
+    27.003100000001723,
+    25.10749999999007,
+    24.712599999929807,
+    26.223399999935282,
+    26.67169999995167,
+    26.30060000001322,
+    25.285100000019156,
+    27.656299999989642,
+    26.485200000024633,
+    26.667000000088592,
+    26.686300000051233,
+    26.165100000071106,
+    25.202500000091277,
+    23.532099999897582
+  ]
+}

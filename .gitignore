@@ -21,6 +21,8 @@ predictions/
 weights/
 *.pt
 !runs/detect/person1_clean/yolo11n_clean_v2/weights/best.pt
+!models/dangerous_items_yolo11n.pt
+!/yolo11n.pt
 *.onnx
 *.engine
 
@@ -33,3 +35,6 @@ weights/
 .vscode/
 .DS_Store
 Thumbs.db
+.pytest_cache/
+.ruff_cache/
+tmp/

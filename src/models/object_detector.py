@@ -1,9 +1,10 @@
-﻿"""Frame-level detection API for the Campus Threat Detection pipeline.
+"""Frame-level detection API for the Campus Threat Detection pipeline.
 
-Wraps the existing WeaponDetector (unchanged) and returns the project's
+Wraps WeaponDetector and returns the project's
 frame-level schema. This module detects objects only. It does not track,
 classify behaviour, or decide whether anyone is dangerous.
 """
+
 from __future__ import annotations
 
 import gc
@@ -16,12 +17,19 @@ from typing import Any, Optional
 import numpy as np
 
 from src.detector import WeaponDetector
-
-REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_MODEL_PATH = (
-    REPO_ROOT / "runs" / "detect" / "person1_clean"
-    / "yolo11n_clean_v2" / "weights" / "best.pt"
+from src.model_config import (
+    load_detector_config,
+    validate_confidence,
+    validate_image_size,
 )
+
+EXPECTED_CLASSES = {
+    0: "machete",
+    1: "knife",
+    2: "baseball bat",
+    3: "rifle",
+    4: "gun",
+}
 
 
 class FrameValidationError(ValueError):
@@ -74,7 +82,7 @@ def _normalise(
         confidence = float(det["confidence"])
         raw_id = det["class_id"]
         class_name = det["class_name"]
-    except (KeyError, TypeError, ValueError):
+    except (KeyError, TypeError, ValueError, OverflowError):
         return None
     if not all(math.isfinite(v) for v in (x1, y1, x2, y2, confidence)):
         return None
@@ -83,7 +91,7 @@ def _normalise(
     if not _is_int(raw_id):
         return None
     class_id = int(raw_id)
-    if class_map.get(class_id) != class_name:
+    if not isinstance(class_name, str) or class_map.get(class_id) != class_name:
         return None
     x1, x2 = sorted((x1, x2))
     y1, y2 = sorted((y1, y2))
@@ -102,21 +110,46 @@ def _normalise(
 class YOLOObjectDetector:
     """Loads the model once; call predict() once per frame."""
 
+    _expected_classes = EXPECTED_CLASSES
+
     def __init__(
         self,
         model_path: Optional[str | Path] = None,
-        confidence_threshold: float = 0.35,
+        confidence_threshold: Optional[float] = None,
         device: Optional[str] = None,
+        image_size: Optional[int] = None,
     ) -> None:
-        if not 0.0 <= confidence_threshold <= 1.0:
-            raise ValueError("confidence_threshold must be between 0 and 1")
-        self.model_path = Path(model_path) if model_path else DEFAULT_MODEL_PATH
-        self.confidence_threshold = float(confidence_threshold)
+        settings = (
+            load_detector_config()
+            if model_path is None or confidence_threshold is None or image_size is None
+            else {}
+        )
+        if confidence_threshold is None:
+            confidence_threshold = settings["confidence"]
+        self.confidence_threshold = validate_confidence(
+            confidence_threshold, "confidence_threshold"
+        )
+        self.model_path = (
+            Path(model_path).expanduser().resolve()
+            if model_path is not None
+            else settings["model_path"]
+        )
+        self.image_size = validate_image_size(
+            settings["image_size"] if image_size is None else image_size
+        )
         self.device = device
         self.model_status = "not_loaded"
         self._detector: Optional[WeaponDetector] = None
         self._class_map: dict[int, str] = {}
         self.load_model()
+
+    def _create_detector(self) -> WeaponDetector:
+        return WeaponDetector(
+            model_path=str(self.model_path),
+            confidence=self.confidence_threshold,
+            device=self.device,
+            image_size=self.image_size,
+        )
 
     def load_model(self) -> None:
         """Load the model. No-op if already loaded; reloads after close()."""
@@ -126,12 +159,12 @@ class YOLOObjectDetector:
             self.model_status = "load_failed"
             raise ModelLoadError(f"Model file not found: {self.model_path}")
         try:
-            detector = WeaponDetector(
-                model_path=str(self.model_path),
-                confidence=self.confidence_threshold,
-                device=self.device,
-            )
+            detector = self._create_detector()
             class_map = _build_class_map(detector.class_names)
+            if class_map != self._expected_classes:
+                raise ValueError(
+                    f"Checkpoint class mapping does not match {self._expected_classes}: {class_map}"
+                )
         except Exception as exc:
             self.model_status = "load_failed"
             raise ModelLoadError(
@@ -140,6 +173,13 @@ class YOLOObjectDetector:
         self._detector = detector
         self._class_map = class_map
         self.model_status = "ready"
+
+    def __enter__(self) -> YOLOObjectDetector:
+        self.load_model()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        self.close()
 
     def warmup(self, runs: int = 1, size: tuple[int, int] = (640, 640)) -> None:
         """Run dummy frames so later latency measurements exclude warm-up.
@@ -175,6 +215,8 @@ class YOLOObjectDetector:
         raise: they return empty detections with model_status="inference_error"
         so a live pipeline keeps running. A timestamp that was not supplied
         stays None; inference time is never substituted for capture time.
+        frame_id must be a nonnegative integer; timestamp must be a finite
+        number in the caller's clock. Invalid metadata raises ValueError.
         Detections with an invalid class_id, a class_name that does not match
         the model's mapping, or invalid geometry are dropped and counted in
         dropped_detections.
@@ -182,6 +224,18 @@ class YOLOObjectDetector:
         if self._detector is None:
             raise ModelLoadError("Model is not loaded; call load_model() first.")
         _validate_frame(frame)
+        if frame_id is not None:
+            if not _is_int(frame_id) or frame_id < 0:
+                raise ValueError("frame_id must be a nonnegative integer or None")
+            frame_id = int(frame_id)
+        if timestamp is not None:
+            if (
+                isinstance(timestamp, bool)
+                or not isinstance(timestamp, numbers.Real)
+                or not math.isfinite(timestamp)
+            ):
+                raise ValueError("timestamp must be a finite number or None")
+            timestamp = float(timestamp)
         height, width = frame.shape[:2]
 
         status, error = "ok", None
@@ -215,6 +269,9 @@ class YOLOObjectDetector:
         return {
             "model_path": str(self.model_path),
             "confidence_threshold": self.confidence_threshold,
+            "image_size": self.image_size,
+            "nms_iou": 0.7,
+            "max_detections": 300,
             "device_requested": self.device,
             "device_resolved": resolved_device,
             "class_names": dict(self._class_map),

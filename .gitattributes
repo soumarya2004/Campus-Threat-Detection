@@ -1,0 +1,7 @@
+# The manifest checksum refers to exact CSV bytes, including line endings.
+# Treat preserved CRLF endings as line endings during whitespace checks.
+reports/dataset/*.csv -text whitespace=trailing-space,space-before-tab,cr-at-eol
+reports/dataset/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+reports/experiments/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+models/*.pt binary
+/yolo11n.pt binary

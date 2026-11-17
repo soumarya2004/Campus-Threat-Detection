@@ -1,0 +1,9 @@
+{
+  "images": 4667,
+  "unique_image_hashes": 4667,
+  "cross_split_exact_hash_groups": 0,
+  "cross_split_filename_families": 0,
+  "manifest_checked": true,
+  "problems": [],
+  "limitation": "Different source-video frames and visual near-duplicates with unrelated names are not ruled out."
+}

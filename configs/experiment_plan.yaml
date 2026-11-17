@@ -1,0 +1,15 @@
+# Fixed before inspecting the new model's test results.
+training_config: configs/train.yaml
+split_manifest: reports/dataset/grouped_v1_manifest.csv
+
+# Compare resolution on validation only. Keep the cheaper 640px setting unless
+# 960px improves mAP50-95 by two percentage points within the component budget.
+validation_image_sizes: [640, 960]
+larger_size_minimum_map50_95_gain: 0.02
+larger_size_maximum_warmed_p95_ms: 33.33
+
+# Select the best validation macro F1; ties prefer recall, then lower confidence.
+confidence_candidates: [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80]
+matching_iou: 0.5
+nms_iou: 0.7
+final_test_policy: Freeze checkpoint, image size, and confidence before test evaluation.

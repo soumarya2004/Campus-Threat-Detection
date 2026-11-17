@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "source_dataset": "data/processed/dangerous_items_cleaned_v2",
+  "source_images": 8302,
+  "selected_images": 4667,
+  "excluded_conflicting_groups": 86,
+  "excluded_conflicting_images": 229,
+  "representatives_without_unaugmented_original": 128,
+  "splits": {
+    "train": {
+      "images": 3267,
+      "background_images": 347,
+      "class_instances": {
+        "machete": 675,
+        "knife": 695,
+        "baseball bat": 673,
+        "rifle": 653,
+        "gun": 562
+      }
+    },
+    "val": {
+      "images": 700,
+      "background_images": 74,
+      "class_instances": {
+        "machete": 145,
+        "knife": 148,
+        "baseball bat": 144,
+        "rifle": 140,
+        "gun": 120
+      }
+    },
+    "test": {
+      "images": 700,
+      "background_images": 74,
+      "class_instances": {
+        "machete": 145,
+        "knife": 148,
+        "baseball bat": 144,
+        "rifle": 140,
+        "gun": 121
+      }
+    }
+  },
+  "manifest_sha256": "b378f691bcd1cfbd891800e1187c2ea492dc23b6e84f66bb2b979cafac08e4d8",
+  "grouping": "Union of filename family (remove A<number>_ prefixes) and exact image SHA-256.",
+  "selection": "One representative per group; prefer an unprefixed original, else deterministic filename order. Online augmentation only during training.",
+  "limitation": "Different frames from the same video or scene are not identifiable from this metadata. This is image-family separation, not verified video/source separation."
+}

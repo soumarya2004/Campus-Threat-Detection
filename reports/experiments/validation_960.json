@@ -1,0 +1,268 @@
+{
+  "split": "val",
+  "provenance": {
+    "dataset_yaml": "C:\\Projects\\campus-threat-detection\\data\\processed\\dangerous_items_grouped_v1\\data.yaml",
+    "dataset_yaml_sha256": "bd70f2abf05fe8c39161c4fdbcaaaaf6055d28a4cb93c19eed57855ccc2a83c3",
+    "split_content_sha256": "34d3dbc1645567690d550d6f943b7a0c4b64392c1e29a5c5c74b5966b86f5f7e",
+    "images": 700,
+    "class_names": {
+      "0": "machete",
+      "1": "knife",
+      "2": "baseball bat",
+      "3": "rifle",
+      "4": "gun"
+    },
+    "model_path": "C:\\Projects\\campus-threat-detection\\runs\\detect\\grouped\\yolo11n_grouped_v1\\weights\\best.pt",
+    "model_sha256": "7097f954a4e7bb7ebf3bab163601c9b0329142226277f32db170a079cafadafc",
+    "resolved_dataset_yaml": "C:\\Projects\\campus-threat-detection\\outputs\\experiment_configs\\data_cf025c7b16f3.yaml",
+    "resolved_dataset_yaml_sha256": "bd70f2abf05fe8c39161c4fdbcaaaaf6055d28a4cb93c19eed57855ccc2a83c3"
+  },
+  "ultralytics_version": "8.4.175",
+  "settings": {
+    "image_size": 960,
+    "device": null,
+    "map_batch": 16,
+    "prediction_batch": 1,
+    "nms_iou": 0.7,
+    "max_det": 300,
+    "map_minimum_confidence": 0.001,
+    "matching_iou": 0.5,
+    "confidence_threshold": 0.35
+  },
+  "threshold_selection": {
+    "source": "Explicit frozen CLI value; selection provenance not provided.",
+    "source_sha256": null,
+    "criterion": null,
+    "validation_content_sha256": null
+  },
+  "standard_detection_metrics": {
+    "summary": {
+      "metrics/precision(B)": 0.7813669547294883,
+      "metrics/recall(B)": 0.7182317625819784,
+      "metrics/mAP50(B)": 0.7918414995105045,
+      "metrics/mAP50-95(B)": 0.535472616628044,
+      "fitness": 0.535472616628044
+    },
+    "per_class": [
+      {
+        "Class": "machete",
+        "Images": 132,
+        "Instances": 145,
+        "Box-P": 0.63737,
+        "Box-R": 0.68966,
+        "Box-F1": 0.66248,
+        "mAP50": 0.70349,
+        "mAP75": 0.46147,
+        "mAP50-95": 0.45326
+      },
+      {
+        "Class": "knife",
+        "Images": 138,
+        "Instances": 148,
+        "Box-P": 0.75332,
+        "Box-R": 0.59841,
+        "Box-F1": 0.66699,
+        "mAP50": 0.70825,
+        "mAP75": 0.46656,
+        "mAP50-95": 0.44903
+      },
+      {
+        "Class": "baseball bat",
+        "Images": 143,
+        "Instances": 144,
+        "Box-P": 0.87467,
+        "Box-R": 0.8125,
+        "Box-F1": 0.84244,
+        "mAP50": 0.886,
+        "mAP75": 0.7778,
+        "mAP50-95": 0.71617
+      },
+      {
+        "Class": "rifle",
+        "Images": 126,
+        "Instances": 140,
+        "Box-P": 0.80869,
+        "Box-R": 0.78505,
+        "Box-F1": 0.79669,
+        "mAP50": 0.86032,
+        "mAP75": 0.51458,
+        "mAP50-95": 0.54313
+      },
+      {
+        "Class": "gun",
+        "Images": 114,
+        "Instances": 120,
+        "Box-P": 0.83278,
+        "Box-R": 0.70555,
+        "Box-F1": 0.7639,
+        "mAP50": 0.80115,
+        "mAP75": 0.5174,
+        "mAP50-95": 0.51577
+      }
+    ],
+    "speed_ms_per_image": {
+      "preprocess": 0.346162428570876,
+      "inference": 3.785032571430358,
+      "loss": 0.0003634285725898475,
+      "postprocess": 0.6118794285716181
+    },
+    "artifact_directory": "C:\\Projects\\campus-threat-detection\\runs\\detect\\evaluations\\val960",
+    "interpretation": "mAP integrates confidence thresholds. Library summary precision/recall are its curve-selected values, not the frozen operating point below."
+  },
+  "fixed_operating_point": {
+    "confidence_threshold": 0.35,
+    "matching_iou": 0.5,
+    "matching_method": "Class-aware, descending-confidence, one-to-one greedy IoU matching.",
+    "aggregate": {
+      "tp": 531,
+      "fp": 224,
+      "fn": 166,
+      "precision": 0.7033112582781457,
+      "recall": 0.7618364418938307,
+      "f1": 0.731404958677686,
+      "macro_f1": 0.7341664176993355,
+      "macro_recall": 0.7621452610245714,
+      "macro_classes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "images": 700,
+      "images_with_false_positives": 188,
+      "images_with_missed_objects": 150,
+      "negative_images": 74,
+      "negative_images_with_false_positives": 1,
+      "negative_image_false_positive_rate": 0.013513513513513514
+    },
+    "per_class": [
+      {
+        "class_id": 0,
+        "class_name": "machete",
+        "tp": 105,
+        "fp": 69,
+        "fn": 40,
+        "precision": 0.603448275862069,
+        "recall": 0.7241379310344828,
+        "f1": 0.658307210031348
+      },
+      {
+        "class_id": 1,
+        "class_name": "knife",
+        "tp": 100,
+        "fp": 56,
+        "fn": 48,
+        "precision": 0.6410256410256411,
+        "recall": 0.6756756756756757,
+        "f1": 0.6578947368421053
+      },
+      {
+        "class_id": 2,
+        "class_name": "baseball bat",
+        "tp": 119,
+        "fp": 29,
+        "fn": 25,
+        "precision": 0.8040540540540541,
+        "recall": 0.8263888888888888,
+        "f1": 0.815068493150685
+      },
+      {
+        "class_id": 3,
+        "class_name": "rifle",
+        "tp": 118,
+        "fp": 45,
+        "fn": 22,
+        "precision": 0.7239263803680982,
+        "recall": 0.8428571428571429,
+        "f1": 0.7788778877887789
+      },
+      {
+        "class_id": 4,
+        "class_name": "gun",
+        "tp": 89,
+        "fp": 25,
+        "fn": 31,
+        "precision": 0.7807017543859649,
+        "recall": 0.7416666666666667,
+        "f1": 0.7606837606837606
+      }
+    ],
+    "confusion_matrix": {
+      "counts": [
+        [
+          103,
+          11,
+          4,
+          1,
+          2,
+          53
+        ],
+        [
+          4,
+          98,
+          1,
+          2,
+          2,
+          49
+        ],
+        [
+          4,
+          1,
+          119,
+          0,
+          1,
+          23
+        ],
+        [
+          0,
+          0,
+          1,
+          116,
+          4,
+          42
+        ],
+        [
+          0,
+          1,
+          0,
+          3,
+          87,
+          23
+        ],
+        [
+          34,
+          37,
+          19,
+          18,
+          24,
+          0
+        ]
+      ],
+      "labels": [
+        "machete",
+        "knife",
+        "baseball bat",
+        "rifle",
+        "gun",
+        "background"
+      ],
+      "rows": "predicted",
+      "columns": "ground truth",
+      "matching_method": "Class-agnostic, descending-confidence, one-to-one greedy IoU matching for diagnosis."
+    }
+  },
+  "warmed_prediction_timing": {
+    "description": "Ultralytics preprocessing + inference + postprocessing, after two warm-up predictions, batch 1. Excludes image loading and report writing.",
+    "images": 700,
+    "mean_ms": 13.820605285670483,
+    "median_ms": 12.689700000009907,
+    "p95_ms": 17.24262500097211
+  },
+  "limitations": [
+    "Image detection metrics do not establish campus threat recognition or video event accuracy.",
+    "Negative-image false-positive rate is undefined (null) if this split contains no negative images.",
+    "Class-aware fixed-threshold matching is explicit and may differ from the library's matching implementation."
+  ],
+  "full_local_report": "outputs/experiments/val960.json"
+}
