@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+tmp/
+
+# Licensed datasets and derived media
+data/raw/
+data/processed/
+data/synthetic/*.mp4
+data/splits/*manifest*.json
+data/splits/xd_*.json
+
+# Model weights and generated run artifacts
+checkpoints/**/*.pt
+checkpoints/**/*.pth
+checkpoints/*.pt
+checkpoints/*.pth
+!checkpoints/best_model.pt
+logs/**/*.mp4
+logs/*.mp4
+logs/**/*.json
+logs/*.json
