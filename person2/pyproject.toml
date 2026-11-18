@@ -1,0 +1,7 @@
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+extend-exclude = ["notebooks/UCF_Crime_R3D18.original.ipynb"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
