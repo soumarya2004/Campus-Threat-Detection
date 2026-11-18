@@ -5,3 +5,5 @@ reports/dataset/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eo
 reports/experiments/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 models/*.pt binary
 /yolo11n.pt binary
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
