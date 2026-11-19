@@ -54,6 +54,7 @@ def render_status(snapshot: dict) -> None:
     models = status.get("models") or {}
     performance = status.get("performance") or {}
     current = status.get("current_frame") or {}
+    tracking = current.get("tracking") or {}
     assessment = status.get("assessment") or {"level": "UNASSESSED"}
 
     updated_text = status.get("updated_at_utc")
@@ -98,7 +99,10 @@ def render_status(snapshot: dict) -> None:
     columns[0].metric("Camera / video", label(capture.get("status")))
     columns[1].metric("Object model", label(models.get("object_detection")))
     columns[2].metric("Behavior model", label(models.get("behavior_classification")))
-    columns[3].metric("Tracking", label(models.get("tracking")))
+    columns[3].metric(
+        "Tracking",
+        label(tracking.get("status") or models.get("tracking")),
+    )
     fps = performance.get("processing_fps")
     fps_target = performance.get("minimum_fps_target", 30)
     columns[4].metric(
@@ -144,8 +148,8 @@ def render_status(snapshot: dict) -> None:
             label(behavior_state),
         )
         behavior_cols[2].metric(
-            "Active person tracks",
-            str((current.get("tracking") or {}).get("active_tracks", 0)),
+            "Item-linked candidate tracks",
+            str(tracking.get("active_tracks", 0)),
         )
 
     image_path = snapshot.get("latest_image")
@@ -175,6 +179,7 @@ def render_status(snapshot: dict) -> None:
                     if isinstance(box, (list, tuple))
                     else None,
                     "Track ID": detection.get("track_id"),
+                    "Linked items": ", ".join(detection.get("associated_items", [])),
                 }
             )
         if rows:
@@ -336,8 +341,9 @@ def render_video_upload() -> None:
     st.subheader("Recorded video demo")
     st.caption(
         "Drop a short video to generate an annotated output with object detections, "
-        "person tracks, and a behavior-model score. Predictions are evidence for "
-        "human review, not confirmed incidents."
+        "item-linked person candidate tracks, and a behavior-model score. The "
+        "proximity link does not identify who committed violence; the behavior "
+        "score is clip-level. Predictions are evidence for human review."
     )
     st.caption(
         "The clip is processed on the server running this dashboard. Use the "
@@ -407,7 +413,7 @@ def render_video_upload() -> None:
             "Object detections", f"{previous_result['object_detections']:,}"
         )
         second_row[0].metric(
-            "Person detections", f"{previous_result['person_detections']:,}"
+            "Linked person candidates", f"{previous_result['person_detections']:,}"
         )
         second_row[1].metric("Active tracks", previous_result["active_tracks"])
         second_row[2].metric(
@@ -453,7 +459,8 @@ def render() -> None:
         session_value = st.text_input("Output folder", "outputs/dashboard/latest")
         refresh = st.slider("Dashboard refresh interval (seconds)", 1, 10, 1)
         st.caption(
-            "The viewer reads output files only. It does not start model inference."
+            "The live viewer reads output files. Uploaded videos run inference on "
+            "the server hosting this dashboard."
         )
 
     try:

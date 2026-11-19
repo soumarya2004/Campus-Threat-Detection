@@ -29,6 +29,9 @@ from src.camera_source import (  # noqa: E402
 from src.evaluation import file_sha256, validate_report_paths  # noqa: E402
 from src.model_config import DEFAULT_CONFIG, load_detector_config  # noqa: E402
 from src.models.object_detector import YOLOObjectDetector  # noqa: E402
+from src.tracking_analysis.item_association import (  # noqa: E402
+    link_people_to_detected_items,
+)
 
 
 class BehaviorInferenceWorker:
@@ -436,25 +439,28 @@ def main():
                     behavior_worker.request()
                 behavior_result, behavior_error = behavior_worker.snapshot()
 
-            tracked_people = []
-            if person_tracker is not None:
-                replay_boxes = (
-                    [detection["bbox"] for detection in people["detections"]]
-                    if people is not None and people["model_status"] == "ok"
-                    else []
-                )
-                tracked_people = person_tracker.observe(
-                    frame, timestamp_s=timestamp, replay_boxes=replay_boxes
-                )
             person_detections = (
                 people["detections"]
                 if people is not None and people["model_status"] == "ok"
                 else []
             )
+            item_detections = (
+                items["detections"] if items["model_status"] == "ok" else []
+            )
+            candidate_people = link_people_to_detected_items(
+                person_detections, item_detections
+            )
+            tracked_people = []
+            if person_tracker is not None:
+                tracked_people = person_tracker.observe(
+                    frame,
+                    timestamp_s=timestamp,
+                    replay_boxes=[detection["bbox"] for detection in candidate_people],
+                )
             displayed_people = (
-                attach_track_ids(person_detections, tracked_people)
+                attach_track_ids(candidate_people, tracked_people)
                 if person_tracker is not None
-                else [dict(detection) for detection in person_detections]
+                else candidate_people
             )
             if cached_people_frame_id is not None:
                 displayed_people = [
@@ -590,8 +596,22 @@ def main():
                             "detections": evidence,
                             "behavior": behavior_result,
                             "tracking": {
-                                "active_tracks": len(tracked_people),
-                                "status": "ready" if person_tracker else "not_connected",
+                                "active_tracks": len(
+                                    {
+                                        item.get("track_id")
+                                        for item in displayed_people
+                                        if item.get("track_id") is not None
+                                    }
+                                ),
+                                "status": (
+                                    "not_connected"
+                                    if not person_tracker
+                                    else "active"
+                                    if candidate_people
+                                    else "item_detected_no_person_link"
+                                    if item_detections
+                                    else "waiting_for_item"
+                                ),
                             },
                         },
                         assessment={

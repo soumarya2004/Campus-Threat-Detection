@@ -49,10 +49,10 @@ def _draw_detections(cv2, frame, detections: list[dict], color, *, show_tracks=F
         y2 = max(0, min(height - 1, int(round(y2))))
         label = f"{detection['class_name']} {detection['confidence']:.2f}"
         if show_tracks and detection.get("track_id") is not None:
-            label = (
-                f"Person #{detection['track_id']} "
-                f"{detection['confidence']:.2f}"
-            )
+            item_names = ", ".join(detection.get("associated_items", []))
+            label = f"Candidate #{detection['track_id']}"
+            if item_names:
+                label += f" near {item_names}"
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
         cv2.putText(
             frame,
@@ -81,6 +81,7 @@ def process_uploaded_video(
     from src.behavior.models.behavior_classifier import BehaviorClassifier
     from src.models.object_detector import YOLOObjectDetector
     from src.models.person_detector import YOLOPersonDetector
+    from src.tracking_analysis.item_association import link_people_to_detected_items
     from src.tracking_analysis.person_tracker import PersonTracker
 
     suffix = Path(filename).suffix.lower()
@@ -171,24 +172,33 @@ def process_uploaded_video(
                     )
                     if people["model_status"] == "ok":
                         latest_people = people["detections"]
-                        person_detections_total += len(latest_people)
                 else:
                     people = {"model_status": "ok", "detections": latest_people}
 
+                item_detections = (
+                    objects["detections"] if objects["model_status"] == "ok" else []
+                )
+                candidate_people = link_people_to_detected_items(
+                    people["detections"] if people["model_status"] == "ok" else [],
+                    item_detections,
+                )
+                person_detections_total += len(candidate_people)
                 tracked_people = tracker.observe(
                     frame,
                     timestamp_s=timestamp,
-                    replay_boxes=[
-                        item["bbox"]
-                        for item in people["detections"]
-                        if people["model_status"] == "ok"
-                    ],
+                    replay_boxes=[item["bbox"] for item in candidate_people],
                 )
                 displayed_people = _attach_track_ids(
-                    people["detections"] if people["model_status"] == "ok" else [],
+                    candidate_people,
                     tracked_people,
                 )
-                active_tracks = len(tracked_people)
+                active_tracks = len(
+                    {
+                        item.get("track_id")
+                        for item in displayed_people
+                        if item.get("track_id") is not None
+                    }
+                )
 
                 behavior_classifier.ingest_frame(frame, timestamp=timestamp)
                 if (
@@ -212,7 +222,7 @@ def process_uploaded_video(
                 _draw_detections(cv2, annotated, objects["detections"], (0, 0, 255))
                 cv2.putText(
                     annotated,
-                    f"Person tracks: {len(tracked_people)}",
+                    f"Item-linked tracks: {active_tracks}",
                     (12, 28),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.7,

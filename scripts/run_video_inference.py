@@ -76,6 +76,11 @@ def draw_detections(
         y2 = max(0, min(height - 1, int(round(y2))))
 
         label = f"{detection['class_name']} {detection['confidence']:.2f}"
+        if detection.get("track_id") is not None:
+            associated_items = ", ".join(detection.get("associated_items", []))
+            label = f"Candidate #{detection['track_id']}"
+            if associated_items:
+                label += f" near {associated_items}"
 
         cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
         cv2.putText(
