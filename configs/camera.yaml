@@ -1,5 +1,6 @@
 # Shared camera and recorded-video input defaults.
-# A numeric source selects a camera index. A path selects a video file.
+# A numeric source selects a camera index, a path selects a video file, and an
+# HTTP(S) URL selects a live network stream.
 source: 0
 backend: auto
 width: null

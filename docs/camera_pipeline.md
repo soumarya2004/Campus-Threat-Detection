@@ -8,26 +8,45 @@ camera reconnect, and timestamps travel with each frame.
 ## Configure a source
 
 Edit `configs/camera.yaml` for the default input. A numeric `source` selects a
-camera index; a path selects a recorded clip. Relative video paths are resolved
-from the repository root. The defaults request a one-frame capture buffer and
-retry a live camera after five consecutive failed reads.
+camera index, a path selects a recorded clip, and an HTTP(S) URL selects a live
+network stream. Relative video paths are resolved from the repository root. The
+defaults request a one-frame capture buffer and retry a live source after five
+consecutive failed reads.
 
 Use command-line overrides for one-off runs:
 
 ```powershell
 python scripts/run_camera_demo.py --camera 1 --backend msmf --with-people --device cpu
 python scripts/run_camera_demo.py --video path/to/clip.mp4 --device cpu --max-frames 120 --no-display --report outputs/camera/clip.json
+python scripts/run_camera_demo.py --stream-url http://127.0.0.1:4747/video/480p --with-people --device cpu
 python -m src.tracking_analysis run --video path/to/clip.mp4 --mode continuous --device cpu --output outputs/tracking/clip-continuous
 ```
 
-`--camera` and `--video` are mutually exclusive. Available backends are
-`auto`, `any`, `msmf`, and `dshow`. Requested dimensions, FPS, and capture
-buffer size are best-effort because camera drivers can ignore them. The camera
-demo report records whether OpenCV accepted each requested setting.
+`--camera`, `--video`, and `--stream-url` are mutually exclusive. Available
+camera-index backends are `auto`, `any`, `msmf`, and `dshow`; network streams use
+OpenCV's automatic backend selection. Requested dimensions, FPS, and capture
+buffer size are best-effort because drivers can ignore them. The camera demo
+report records whether OpenCV accepted each requested setting.
 
-For DroidCam, connect the phone using the method supported by the installed
-DroidCam version, confirm the virtual camera appears in Windows, then locate its
-device index:
+For DroidCam over USB, open the DroidCam app on the phone, approve USB debugging,
+and connect the phone. Close the DroidCam Client on Windows before using the
+direct stream: the desktop client holds the phone connection and makes the HTTP
+stream report that it is busy. From the repository PowerShell prompt, run:
+
+```powershell
+.\scripts\run_droidcam_usb.ps1
+```
+
+The helper finds the bundled or Android SDK `adb.exe`, forwards phone port 4747
+to localhost, and runs the existing camera pipeline from
+`http://127.0.0.1:4747/video/480p`. It preserves an existing
+`outputs/dashboard/latest` directory by moving it to a timestamped backup before
+starting a fresh session. The Streamlit viewer reads that session at
+`http://127.0.0.1:8501`; it must run on the same computer because a Streamlit
+Cloud deployment cannot read files from this computer's USB camera session.
+
+To use a different HTTP(S) stream, pass its URL with `--stream-url`. For local
+webcams or the DroidCam virtual camera, locate the device index:
 
 ```powershell
 python scripts/find_cameras.py --backend msmf

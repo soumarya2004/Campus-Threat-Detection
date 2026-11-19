@@ -9,6 +9,7 @@ from numbers import Integral, Real
 from pathlib import Path
 import time
 from typing import Any
+from urllib.parse import urlsplit
 
 import cv2
 import yaml
@@ -41,7 +42,7 @@ class CaptureReadError(CaptureError):
 class CameraConfig:
     """Validated settings for one capture source."""
 
-    source: int | Path = 0
+    source: int | Path | str = 0
     backend: str = "auto"
     width: int | None = None
     height: int | None = None
@@ -54,7 +55,9 @@ class CameraConfig:
     def __post_init__(self) -> None:
         source = self.source
         if isinstance(source, bool):
-            raise ValueError("source must be a nonnegative camera index or video path")
+            raise ValueError(
+                "source must be a nonnegative camera index, video path, or HTTP(S) stream URL"
+            )
         if isinstance(source, Integral):
             if source < 0:
                 raise ValueError("camera index must be nonnegative")
@@ -65,10 +68,23 @@ class CameraConfig:
                 raise ValueError("video path must not be empty")
             if value.isdecimal():
                 object.__setattr__(self, "source", int(value))
+            elif "://" in value:
+                parsed = urlsplit(value)
+                if parsed.scheme.lower() not in {"http", "https"} or not parsed.hostname:
+                    raise ValueError("network source must be an HTTP(S) URL with a hostname")
+                if parsed.username is not None or parsed.password is not None:
+                    raise ValueError("network source URLs must not contain embedded credentials")
+                try:
+                    parsed.port
+                except ValueError as exc:
+                    raise ValueError("network source URL has an invalid port") from exc
+                object.__setattr__(self, "source", value)
             else:
                 object.__setattr__(self, "source", Path(value).expanduser())
         else:
-            raise ValueError("source must be a nonnegative camera index or video path")
+            raise ValueError(
+                "source must be a nonnegative camera index, video path, or HTTP(S) stream URL"
+            )
 
         if not isinstance(self.backend, str):
             raise ValueError("backend must be a string")
@@ -113,16 +129,27 @@ class CameraConfig:
 
     @property
     def is_live_camera(self) -> bool:
-        return isinstance(self.source, int)
+        return isinstance(self.source, int) or isinstance(self.source, str)
 
     @property
     def source_type(self) -> str:
-        return "live_camera" if self.is_live_camera else "video_file"
+        if isinstance(self.source, int):
+            return "live_camera"
+        if isinstance(self.source, str):
+            return "network_stream"
+        return "video_file"
 
     @property
     def source_label(self) -> str:
-        if self.is_live_camera:
+        if isinstance(self.source, int):
             return f"camera:{self.source}"
+        if isinstance(self.source, str):
+            parsed = urlsplit(self.source)
+            host = parsed.hostname or "network-stream"
+            if ":" in host and not host.startswith("["):
+                host = f"[{host}]"
+            port = f":{parsed.port}" if parsed.port is not None else ""
+            return f"{host}{port}{parsed.path or '/'}"
         return Path(self.source).name
 
 
@@ -134,16 +161,18 @@ class CapturedFrame:
     metadata: dict[str, Any]
 
 
-def _read_source(value: Any) -> int | Path:
+def _read_source(value: Any) -> int | Path | str:
     if isinstance(value, bool):
-        raise ValueError("source must be a camera index or video path")
+        raise ValueError("source must be a camera index, video path, or HTTP(S) stream URL")
     if isinstance(value, Integral):
         return int(value)
     if not isinstance(value, str) or not value.strip():
-        raise ValueError("source must be a camera index or video path")
+        raise ValueError("source must be a camera index, video path, or HTTP(S) stream URL")
     value = value.strip()
     if value.isdecimal():
         return int(value)
+    if "://" in value:
+        return value
     path = Path(value).expanduser()
     if not path.is_absolute():
         path = REPO_ROOT / path
@@ -238,7 +267,9 @@ class CameraSource:
     def _create_capture(self):
         source = self.config.source
         value = source if isinstance(source, int) else str(source)
-        backend = self._backend_id()
+        # URL streams should use OpenCV's automatic backend selection (FFmpeg
+        # on Windows), even when a camera index backend is configured.
+        backend = None if isinstance(source, str) else self._backend_id()
         try:
             if backend is None:
                 return self._capture_factory(value)

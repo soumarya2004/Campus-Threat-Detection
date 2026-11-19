@@ -37,8 +37,10 @@ python -m src.tracking_analysis run --video path/to/video.mp4 --mode gated --out
 ```
 
 The camera demo uses the shared source in `configs/camera.yaml`, including a
-local webcam or DroidCam virtual camera. Use `--video path/to/video.mp4` for a
-recorded source.
+local webcam, DroidCam virtual camera, or HTTP(S) live stream. Use
+`--video path/to/video.mp4` for a recorded source. For DroidCam over USB, close
+the Windows DroidCam Client and run `scripts/run_droidcam_usb.ps1`; see the
+[camera integration guide](docs/camera_pipeline.md) for details.
 Press **Q** or **Escape** to stop. Green boxes are items; blue boxes are people.
 It displays object predictions, not threat classifications. The `--with-people`
 option requires the local `yolo11n.pt` pretrained checkpoint described below.

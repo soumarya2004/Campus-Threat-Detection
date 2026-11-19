@@ -34,6 +34,10 @@ def parse_args():
     source = parser.add_mutually_exclusive_group()
     source.add_argument("--camera", type=int, help="Local camera index")
     source.add_argument("--video", type=Path, help="Recorded video source")
+    source.add_argument(
+        "--stream-url",
+        help="HTTP(S) live video stream URL, such as a DroidCam MJPEG endpoint",
+    )
     parser.add_argument(
         "--camera-config",
         type=Path,
@@ -118,6 +122,8 @@ def camera_config_from_args(args):
         overrides["source"] = args.camera
     if getattr(args, "video", None) is not None:
         overrides["source"] = args.video.expanduser().resolve()
+    if getattr(args, "stream_url", None) is not None:
+        overrides["source"] = args.stream_url
     for argument, setting in (
         ("backend", "backend"),
         ("width", "width"),
