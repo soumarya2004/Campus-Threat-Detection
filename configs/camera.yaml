@@ -1,0 +1,11 @@
+# Shared camera and recorded-video input defaults.
+# A numeric source selects a camera index. A path selects a video file.
+source: 0
+backend: auto
+width: null
+height: null
+fps: null
+buffer_size: 1
+max_read_failures: 5
+reconnect_attempts: 2
+reconnect_delay_seconds: 0.5

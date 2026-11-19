@@ -1,19 +1,26 @@
-# Campus Threat Detection — Person 1
+# Campus Threat Detection
 
-Object detection for a university major project. The trained model detects
+This shared repository contains the computer-vision components for a university
+major project: object detection, temporal behavior recognition, tracking and
+interaction analysis, and a common camera/video source. The modules now live in
+one package tree so the integration layer can pass frames and timestamps between
+them through shared packages and interfaces.
+
+The object detector recognizes
 **machete, knife, baseball bat, rifle, and gun**. A separate pretrained person
-detector supplies boxes to the tracking teammate. This repository contains the
-detectors, dataset preparation, experiments, tests, and local video/camera demos.
-The shared camera pipeline, tracking, action recognition, dashboard, and final
-threat assessment belong to the other team modules.
+detector supplies boxes to tracking. The temporal model provides a rolling
+violence-related score, while tracking exports movement and proximity evidence.
+These are separate evidence streams; the repository does not treat a detection,
+movement pattern, or model score as a confirmed threat.
 
-The main integration API is `YOLOObjectDetector`. It takes an OpenCV frame and
+`src.camera_source.CameraSource` is the shared input interface for live cameras
+and recorded video. `src.models.object_detector.YOLOObjectDetector` takes an OpenCV frame and
 returns boxes, class names, confidence, timing, and an explicit inference status.
 See [the handoff](docs/person1_detector_handoff.md) for the exact schema.
-The [requirements checklist](docs/person1_requirements.md) maps Person 1's
-deliverables to evidence and identifies the remaining validation work.
-Use the [standalone guide](docs/standalone_demo.md) to demonstrate and verify
-Person 1 without any other team member's code.
+See [the camera integration guide](docs/camera_pipeline.md) for input settings,
+capture metadata, recorded-video mode, and the shared module layout. The
+[standalone detector guide](docs/standalone_demo.md) documents the detector-only
+demonstration and its limits.
 
 ## Quick demonstration
 
@@ -24,20 +31,24 @@ python scripts/check_model_release.py
 python scripts/test_detector.py path/to/image.jpg --output outputs/image.jpg
 python scripts/run_video_inference.py path/to/video.mp4 --max-frames 300
 python scripts/run_camera_demo.py --camera 0 --with-people
+python -m src.tracking_analysis run --video path/to/video.mp4 --mode gated --output outputs/tracking/run-01
 ```
 
-The camera demo uses a local webcam (including a DroidCam virtual camera).
+The camera demo uses the shared source in `configs/camera.yaml`, including a
+local webcam or DroidCam virtual camera. Use `--video path/to/video.mp4` for a
+recorded source.
 Press **Q** or **Escape** to stop. Green boxes are items; blue boxes are people.
 It displays object predictions, not threat classifications. The `--with-people`
 option requires the local `yolo11n.pt` pretrained checkpoint described below.
 Use `--device cpu` when CUDA is unavailable.
 
-The standalone consumer runs both models and validates their output after JSON
+The standalone detector consumer runs both models and validates their output after JSON
 serialization. It keeps item and person class IDs in separate namespaces:
 
 ```powershell
 python scripts/check_standalone_pipeline.py --video path/to/video.mp4 --max-frames 60 --device cpu --output outputs/solo/check.json
 python scripts/run_camera_demo.py --camera 0 --with-people --device cpu --max-frames 120 --report outputs/solo/camera.json
+python scripts/run_camera_demo.py --video path/to/video.mp4 --device cpu --max-frames 120 --no-display --report outputs/solo/video-camera.json
 ```
 
 A recorded rehearsal passed all 60 frames with 25 item boxes and 60 person boxes.
@@ -59,10 +70,11 @@ python scripts/package_person1.py
 ```
 
 This creates `outputs/deliverables/person1_standalone.zip` with both checkpoints,
-source, tests, configurations, documentation and recorded results. Each file has
+the shared capture source, detector source, tests, configurations, documentation and recorded results. Each file has
 a SHA-256 entry in the included manifest. Extract it to a new folder and follow
 the setup instructions. Python dependencies still need installation; training
-datasets and local recordings are acquired separately. No P3/P4 code is required.
+datasets and local recordings are acquired separately. The bundle includes the
+capture source required by its live camera demo.
 
 ## Selected model and evidence
 
@@ -310,6 +322,11 @@ selected examples are diagnostic, not another accuracy estimate.
 | `src/detector.py` | Small Ultralytics adapter |
 | `src/models/object_detector.py` | Validated frame interface used by the team |
 | `src/models/person_detector.py` | Separate pretrained person boxes for tracking |
+| `src/camera_source.py`, `configs/camera.yaml` | Shared live-camera and recorded-video capture with timestamps and reconnect handling |
+| `src/behavior/` | Temporal behavior model, data preparation, training, and rolling inference |
+| `src/tracking_analysis/` | Event-gated tracking, movement/proximity features, and video exports |
+| `assets/tracking/` | Tracking example inputs and local model weights |
+| `tests/behavior/`, `tests/tracking/` | Module-specific tests under one project test suite |
 | `src/model_config.py`, `configs/detector.yaml` | Shared inference defaults |
 | `src/evaluation.py` | Explicit matching, metrics, and experiment fingerprints |
 | `scripts/` | Preparation, training, evaluation, and inspection commands |

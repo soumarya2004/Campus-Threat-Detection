@@ -5,6 +5,7 @@ Person boxes and item boxes remain separate; no ownership or threat is inferred.
 """
 
 import argparse
+from dataclasses import replace
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -18,6 +19,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.run_video_inference import draw_detections
+from src.camera_source import (
+    DEFAULT_CAMERA_CONFIG,
+    CameraSource,
+    load_camera_config,
+)
 from src.evaluation import file_sha256, validate_report_paths
 from src.model_config import DEFAULT_CONFIG, load_detector_config
 from src.models.object_detector import YOLOObjectDetector
@@ -25,7 +31,28 @@ from src.models.object_detector import YOLOObjectDetector
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--camera", type=int, default=0, help="Local camera index")
+    source = parser.add_mutually_exclusive_group()
+    source.add_argument("--camera", type=int, help="Local camera index")
+    source.add_argument("--video", type=Path, help="Recorded video source")
+    parser.add_argument(
+        "--camera-config",
+        type=Path,
+        default=DEFAULT_CAMERA_CONFIG,
+        help="Shared capture settings file",
+    )
+    parser.add_argument(
+        "--backend", choices=("auto", "any", "msmf", "dshow"),
+        help="Override the capture backend from camera.yaml",
+    )
+    parser.add_argument("--width", type=int, help="Requested capture width")
+    parser.add_argument("--height", type=int, help="Requested capture height")
+    parser.add_argument("--fps", type=float, help="Requested camera frame rate")
+    parser.add_argument(
+        "--reconnect-attempts", type=int, help="Override camera reconnect attempts"
+    )
+    parser.add_argument(
+        "--reconnect-delay", type=float, help="Seconds between reconnect attempts"
+    )
     parser.add_argument("--device", help="Inference device, for example cpu or 0")
     parser.add_argument("--model", type=Path, help="Override the item checkpoint")
     parser.add_argument("--confidence", type=float, help="Override item confidence")
@@ -49,8 +76,18 @@ def parse_args():
         help="Bounded runtime check without a window",
     )
     args = parser.parse_args()
-    if args.camera < 0:
+    if args.camera is not None and args.camera < 0:
         parser.error("--camera must be a nonnegative local camera index")
+    if args.width is not None and args.width < 1:
+        parser.error("--width must be positive")
+    if args.height is not None and args.height < 1:
+        parser.error("--height must be positive")
+    if args.fps is not None and args.fps <= 0:
+        parser.error("--fps must be positive")
+    if args.reconnect_attempts is not None and args.reconnect_attempts < 0:
+        parser.error("--reconnect-attempts cannot be negative")
+    if args.reconnect_delay is not None and args.reconnect_delay < 0:
+        parser.error("--reconnect-delay cannot be negative")
     if args.max_frames is not None and args.max_frames < 1:
         parser.error("--max-frames must be at least 1")
     if args.no_display and args.max_frames is None:
@@ -62,8 +99,39 @@ def parse_args():
     return args
 
 
+def camera_config_from_args(args):
+    """Apply CLI source overrides to the shared camera configuration."""
+    config_path = getattr(args, "camera_config", DEFAULT_CAMERA_CONFIG)
+    config = load_camera_config(config_path)
+    overrides = {}
+    if getattr(args, "camera", None) is not None:
+        overrides["source"] = args.camera
+    if getattr(args, "video", None) is not None:
+        overrides["source"] = args.video.expanduser().resolve()
+    for argument, setting in (
+        ("backend", "backend"),
+        ("width", "width"),
+        ("height", "height"),
+        ("fps", "fps"),
+        ("reconnect_attempts", "reconnect_attempts"),
+    ):
+        value = getattr(args, argument, None)
+        if value is not None:
+            overrides[setting] = value
+    delay = getattr(args, "reconnect_delay", None)
+    if delay is not None:
+        overrides["reconnect_delay_seconds"] = delay
+    return replace(config, **overrides), Path(config_path).expanduser().resolve()
+
+
 def main():
     args = parse_args()
+    try:
+        capture_config, camera_config_path = camera_config_from_args(args)
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+
     if args.report is not None:
         settings = load_detector_config()
         try:
@@ -71,9 +139,14 @@ def main():
                 [args.report.expanduser().resolve()],
                 [
                     DEFAULT_CONFIG,
+                    camera_config_path,
                     Path(args.model or settings["model_path"]),
                     REPO_ROOT / "yolo11n.pt",
-                ],
+                ] + (
+                    []
+                    if capture_config.is_live_camera
+                    else [Path(capture_config.source)]
+                ),
                 overwrite=args.overwrite,
             )
         except (OSError, ValueError) as exc:
@@ -95,6 +168,7 @@ def main():
     model_info = {}
     counts = {"items": 0, "people": 0}
     dimensions = None
+    last_timestamp_source = None
     error = None
     stop_reason = "max_frames"
     backend = None
@@ -104,11 +178,9 @@ def main():
         return {**info, "checkpoint_sha256": file_sha256(Path(info["model_path"]))}
 
     try:
-        capture = cv2.VideoCapture(args.camera)
-        if not capture.isOpened():
-            raise RuntimeError(f"Could not open local camera {args.camera}")
-        if hasattr(capture, "getBackendName"):
-            backend = capture.getBackendName()
+        capture = CameraSource(capture_config)
+        capture.open()
+        backend = capture.backend
 
         item_detector = YOLOObjectDetector(
             model_path=args.model,
@@ -126,25 +198,35 @@ def main():
             if args.report is not None:
                 model_info["people"] = describe_model(person_detector)
 
-        print("Running local camera demo. Press Q or Escape in the window to stop.")
         print(
-            "Timestamps are host elapsed seconds after capture, not camera hardware time."
+            f"Running {capture_config.source_type.replace('_', ' ')} "
+            f"{capture_config.source_label}. Press Q or Escape to stop."
         )
-        started = time.monotonic()
         setup_seconds = time.perf_counter() - wall_start
         loop_start = time.perf_counter()
         while args.max_frames is None or frames < args.max_frames:
-            ok, frame = capture.read()
-            if not ok or frame is None:
+            captured = capture.read()
+            if captured is None:
+                if capture_config.is_live_camera:
+                    raise RuntimeError("Live camera ended without a recoverable frame")
+                if frames == 0:
+                    raise RuntimeError("Video file contains no decodable frames")
+                stop_reason = "end_of_video"
+                break
+            frame = captured.frame
+            metadata = captured.metadata
+            last_timestamp_source = metadata["timestamp_source"]
+            if frame is None:
                 raise RuntimeError(
-                    f"Camera stopped returning frames after {frames} frames"
+                    f"Capture returned an empty frame after {frames} frames"
                 )
-            timestamp = time.monotonic() - started
+            frame_id = metadata["frame_id"]
+            timestamp = metadata["timestamp_s"]
             dimensions = {"width": int(frame.shape[1]), "height": int(frame.shape[0])}
             prediction_start = time.perf_counter()
-            items = item_detector.predict(frame, frame_id=frames, timestamp=timestamp)
+            items = item_detector.predict(frame, frame_id=frame_id, timestamp=timestamp)
             people = (
-                person_detector.predict(frame, frame_id=frames, timestamp=timestamp)
+                person_detector.predict(frame, frame_id=frame_id, timestamp=timestamp)
                 if person_detector is not None
                 else None
             )
@@ -160,7 +242,7 @@ def main():
             if failures:
                 inference_errors += 1
                 if inference_errors <= 3:
-                    print(f"Frame {frames}: {'; '.join(failures)}", file=sys.stderr)
+                    print(f"Frame {frame_id}: {'; '.join(failures)}", file=sys.stderr)
             frames += 1
 
             if not args.no_display:
@@ -209,7 +291,7 @@ def main():
         if loop_start is not None:
             processing_seconds = time.perf_counter() - loop_start
         if capture is not None:
-            capture.release()
+            capture.close()
         if person_detector is not None:
             person_detector.close()
         if item_detector is not None:
@@ -224,12 +306,24 @@ def main():
     if args.report is not None:
         report = {
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
-            "purpose": "Person 1 standalone live-camera runtime rehearsal; not an accuracy or threat-assessment test.",
+            "purpose": "Detector runtime on shared live-camera or recorded-video input; not an accuracy or threat-assessment test.",
             "passed": exit_code == 0 and inference_errors == 0 and frames > 0,
             "camera": {
-                "index": args.camera,
+                "index": capture_config.source
+                if capture_config.is_live_camera
+                else None,
+                "source_type": capture_config.source_type,
+                "source_label": capture_config.source_label,
                 "backend": backend,
                 "last_frame_dimensions": dimensions,
+                "frames_captured": capture.frame_id if capture is not None else 0,
+                "reconnect_count": capture.reconnect_count
+                if capture is not None
+                else 0,
+                "read_failures": capture.failed_reads if capture is not None else 0,
+                "capture_properties": capture.capture_properties
+                if capture is not None
+                else {},
             },
             "with_people": args.with_people,
             "display_enabled": not args.no_display,
@@ -251,9 +345,10 @@ def main():
                 "combined_predict_p95_ms": float(np.percentile(latencies, 95))
                 if latencies
                 else None,
-                "scope": "Combined predict calls exclude capture and display; loop throughput includes them. Setup and warm-up excluded from loop throughput. No asynchronous queue or frame-dropping measurement.",
+                "scope": "Combined predict calls exclude capture and display; loop throughput includes them. Capture is read immediately before inference. Setup and warm-up are excluded from loop throughput.",
             },
-            "timestamp_source": "Host monotonic elapsed seconds immediately after capture; not a camera hardware timestamp.",
+            "timestamp_source": last_timestamp_source,
+            "timestamp_policy": "Recorded video uses advancing media timestamps when available; live cameras use host monotonic elapsed time after capture, not camera hardware time.",
             "media_saved": False,
         }
         try:
