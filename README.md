@@ -340,7 +340,6 @@ selected examples are diagnostic, not another accuracy estimate.
 | `docs/integration_audit.md` | Current integration risks, scope and validation gaps |
 | `reports/dataset/` | Frozen split manifest and verification evidence |
 | `reports/experiments/` | Recorded training, selection, and evaluation results |
-| `docs/viva_notes.md` | Decisions and limitations to understand before presenting |
 
 The next external validation step is a larger human-reviewed footage study
 with ordinary look-alike objects, distance, low light, and occlusion. The small
