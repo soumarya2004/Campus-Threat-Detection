@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -331,11 +332,124 @@ def render_evaluation(report: dict | None) -> None:
         st.caption(f"Scope: {note}")
 
 
+def render_video_upload() -> None:
+    st.subheader("Recorded video demo")
+    st.caption(
+        "Drop a short video to generate an annotated output with object detections, "
+        "person tracks, and a behavior-model score. Predictions are evidence for "
+        "human review, not confirmed incidents."
+    )
+    st.caption(
+        "The clip is processed on the server running this dashboard. Use the "
+        "laptop-local dashboard for private footage."
+    )
+
+    with st.form("recorded_video_form"):
+        uploaded_video = st.file_uploader(
+            "Choose or drop a video",
+            type=["mp4", "mov", "avi", "mkv", "webm"],
+            help="Short clips finish sooner and are easier to present.",
+        )
+        process_video = st.form_submit_button(
+            "Process video", type="primary", disabled=uploaded_video is None
+        )
+
+    video_bytes = uploaded_video.getvalue() if uploaded_video is not None else None
+    upload_digest = (
+        hashlib.sha256(video_bytes).hexdigest() if video_bytes is not None else None
+    )
+    previous_result = st.session_state.get("recorded_video_result")
+    if previous_result and previous_result.get("upload_digest") != upload_digest:
+        st.session_state.pop("recorded_video_result", None)
+        previous_result = None
+
+    if process_video and uploaded_video is not None and video_bytes is not None:
+        progress_bar = st.progress(0, text="Preparing the video…")
+
+        def report_progress(processed: int, total: int) -> None:
+            if total > 0:
+                fraction = min(0.95, 0.9 * processed / total)
+                progress_bar.progress(
+                    fraction, text=f"Processed {processed:,} of {total:,} frames"
+                )
+            else:
+                progress_bar.progress(
+                    0.0, text=f"Processed {processed:,} frames"
+                )
+
+        try:
+            from src.video_upload import process_uploaded_video
+
+            with st.spinner("Loading models and rendering the annotated video…"):
+                result = process_uploaded_video(
+                    video_bytes,
+                    uploaded_video.name,
+                    progress_callback=report_progress,
+                )
+        except Exception as exc:
+            progress_bar.empty()
+            st.error(f"Could not process this video: {exc}")
+        else:
+            progress_bar.empty()
+            result["upload_digest"] = upload_digest
+            result["filename"] = uploaded_video.name
+            st.session_state["recorded_video_result"] = result
+            previous_result = result
+
+    if previous_result and previous_result.get("upload_digest") == upload_digest:
+        st.markdown("#### Annotated output")
+        st.video(previous_result["video_bytes"], format="video/mp4")
+        first_row = st.columns(3)
+        second_row = st.columns(3)
+        first_row[0].metric("Frames", f"{previous_result['frames']:,}")
+        first_row[1].metric(
+            "Clip duration", f"{previous_result['duration_seconds']:.1f} s"
+        )
+        first_row[2].metric(
+            "Object detections", f"{previous_result['object_detections']:,}"
+        )
+        second_row[0].metric(
+            "Person detections", f"{previous_result['person_detections']:,}"
+        )
+        second_row[1].metric("Active tracks", previous_result["active_tracks"])
+        second_row[2].metric(
+            "Peak behavior score",
+            f"{previous_result['peak_behavior_score']:.1%}"
+            if previous_result["peak_behavior_score"] is not None
+            else "Warming up",
+        )
+        st.download_button(
+            "Download annotated video",
+            data=previous_result["video_bytes"],
+            file_name=f"{Path(previous_result['filename']).stem}_annotated.mp4",
+            mime="video/mp4",
+            key=f"download_{upload_digest[:12]}",
+        )
+        st.caption(
+            f"Processed on {previous_result['device']} at "
+            f"{previous_result['processing_fps']:.1f} FPS. "
+            "The output is silent; the original audio is not retained. "
+            "Behavior scores are unverified model outputs."
+        )
+        if previous_result["inference_errors"]:
+            st.warning(
+                "The object detector reported inference errors in "
+                f"{previous_result['inference_errors']} frames."
+            )
+        if previous_result["behavior_status"] == "buffering":
+            st.info(
+                "This clip was too short to fill the behavior model's temporal window. "
+                "Upload a longer clip for a behavior score."
+            )
+
+
 def render() -> None:
     st.title("Campus Threat Detection")
     st.caption(
         "Local monitoring and evaluation viewer · predictions are evidence for human review"
     )
+    render_video_upload()
+
     with st.sidebar:
         st.header("Session")
         session_value = st.text_input("Output folder", "outputs/dashboard/latest")
