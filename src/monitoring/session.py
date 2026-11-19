@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-import cv2
 import numpy as np
 
 SCHEMA_VERSION = 1
@@ -115,6 +114,8 @@ class DashboardSessionWriter:
         if frame is not None:
             if not isinstance(frame, np.ndarray) or frame.dtype != np.uint8:
                 raise ValueError("dashboard frames must be uint8 OpenCV images")
+            import cv2
+
             ok, encoded = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 82])
             if not ok:
                 raise OSError("Could not encode the latest dashboard frame")
