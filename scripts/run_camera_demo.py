@@ -9,6 +9,7 @@ import json
 import sys
 import threading
 import time
+from collections import deque
 from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -304,6 +305,7 @@ def main():
     processing_seconds = 0.0
     setup_seconds = None
     latencies = []
+    fps_samples = deque(maxlen=151)
     model_info = {}
     counts = {"items": 0, "people": 0}
     dimensions = None
@@ -529,7 +531,13 @@ def main():
                         if items["model_status"] == "ok"
                     ]
                 now = time.perf_counter()
-                elapsed = max(now - loop_start, 1e-9) if loop_start is not None else 0.0
+                fps_samples.append(now)
+                fps_elapsed = (
+                    fps_samples[-1] - fps_samples[0] if len(fps_samples) > 1 else 0.0
+                )
+                processing_fps = (
+                    (len(fps_samples) - 1) / fps_elapsed if fps_elapsed > 0 else 0.0
+                )
                 try:
                     dashboard_writer.publish_frame(
                         annotated
@@ -561,7 +569,8 @@ def main():
                             else "not_connected",
                         },
                         performance={
-                            "processing_fps": frames / elapsed if elapsed else 0.0,
+                            "processing_fps": processing_fps,
+                            "fps_measurement_window_s": round(fps_elapsed, 2),
                             "capture_to_dashboard_ms": max(
                                 0.0, (now - metadata["monotonic_time"]) * 1000.0
                             ),
