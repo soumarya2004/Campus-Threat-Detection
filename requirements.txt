@@ -3,7 +3,7 @@
 torch==2.11.0
 torchvision==0.26.0
 ultralytics==8.4.175
-opencv-python==5.0.0.93
+opencv-python-headless==5.0.0.93
 numpy==2.5.2
 PyYAML==6.0.3
 pandas>=1.5.0
