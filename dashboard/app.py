@@ -350,9 +350,7 @@ def render_video_upload() -> None:
             type=["mp4", "mov", "avi", "mkv", "webm"],
             help="Short clips finish sooner and are easier to present.",
         )
-        process_video = st.form_submit_button(
-            "Process video", type="primary", disabled=uploaded_video is None
-        )
+        process_video = st.form_submit_button("Process video", type="primary")
 
     video_bytes = uploaded_video.getvalue() if uploaded_video is not None else None
     upload_digest = (
