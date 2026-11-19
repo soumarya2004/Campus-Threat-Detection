@@ -5,12 +5,12 @@ Person boxes and item boxes remain separate; no ownership or threat is inferred.
 """
 
 import argparse
-from dataclasses import replace
-from datetime import datetime, timezone
 import json
-from pathlib import Path
 import sys
 import time
+from dataclasses import replace
+from datetime import datetime, timezone
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -18,15 +18,15 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.run_video_inference import draw_detections
-from src.camera_source import (
+from scripts.run_video_inference import draw_detections  # noqa: E402
+from src.camera_source import (  # noqa: E402
     DEFAULT_CAMERA_CONFIG,
     CameraSource,
     load_camera_config,
 )
-from src.evaluation import file_sha256, validate_report_paths
-from src.model_config import DEFAULT_CONFIG, load_detector_config
-from src.models.object_detector import YOLOObjectDetector
+from src.evaluation import file_sha256, validate_report_paths  # noqa: E402
+from src.model_config import DEFAULT_CONFIG, load_detector_config  # noqa: E402
+from src.models.object_detector import YOLOObjectDetector  # noqa: E402
 
 
 def parse_args():
@@ -41,7 +41,8 @@ def parse_args():
         help="Shared capture settings file",
     )
     parser.add_argument(
-        "--backend", choices=("auto", "any", "msmf", "dshow"),
+        "--backend",
+        choices=("auto", "any", "msmf", "dshow"),
         help="Override the capture backend from camera.yaml",
     )
     parser.add_argument("--width", type=int, help="Requested capture width")
@@ -69,6 +70,11 @@ def parse_args():
     )
     parser.add_argument(
         "--overwrite", action="store_true", help="Replace an existing session report"
+    )
+    parser.add_argument(
+        "--dashboard-session",
+        type=Path,
+        help="Write a local monitoring feed into a new session folder",
     )
     parser.add_argument(
         "--no-display",
@@ -142,7 +148,8 @@ def main():
                     camera_config_path,
                     Path(args.model or settings["model_path"]),
                     REPO_ROOT / "yolo11n.pt",
-                ] + (
+                ]
+                + (
                     []
                     if capture_config.is_live_camera
                     else [Path(capture_config.source)]
@@ -172,12 +179,24 @@ def main():
     error = None
     stop_reason = "max_frames"
     backend = None
+    dashboard_writer = None
 
     def describe_model(detector):
         info = detector.get_model_info()
         return {**info, "checkpoint_sha256": file_sha256(Path(info["model_path"]))}
 
     try:
+        if args.dashboard_session is not None:
+            from src.monitoring.session import DashboardSessionWriter
+
+            dashboard_writer = DashboardSessionWriter(
+                args.dashboard_session,
+                metadata={
+                    "purpose": "camera-demo monitoring feed",
+                    "source_type": capture_config.source_type,
+                    "source_label": capture_config.source_label,
+                },
+            )
         capture = CameraSource(capture_config)
         capture.open()
         backend = capture.backend
@@ -245,8 +264,9 @@ def main():
                     print(f"Frame {frame_id}: {'; '.join(failures)}", file=sys.stderr)
             frames += 1
 
-            if not args.no_display:
-                annotated = frame
+            annotated = None
+            if not args.no_display or dashboard_writer is not None:
+                annotated = frame.copy()
                 if people is not None and people["model_status"] == "ok":
                     annotated = draw_detections(
                         annotated, people["detections"], color=(255, 160, 40)
@@ -270,6 +290,76 @@ def main():
                     2,
                     cv2.LINE_AA,
                 )
+
+            if dashboard_writer is not None:
+                evidence = [
+                    {**detection, "source": name}
+                    for name, result in (
+                        ("object_detection", items),
+                        ("person_detection", people),
+                    )
+                    if result is not None and result["model_status"] == "ok"
+                    for detection in result["detections"]
+                ]
+                now = time.perf_counter()
+                elapsed = max(now - loop_start, 1e-9) if loop_start is not None else 0.0
+                try:
+                    dashboard_writer.publish_frame(
+                        annotated,
+                        capture={
+                            "status": "connected"
+                            if capture_config.is_live_camera
+                            else "reading_file",
+                            "source_type": capture_config.source_type,
+                            "source_label": capture_config.source_label,
+                            "backend": capture.backend,
+                            "fps": metadata["fps"],
+                            "reconnect_count": capture.reconnect_count,
+                            "read_failures": capture.failed_reads,
+                        },
+                        models={
+                            "object_detection": item_detector.model_status,
+                            "person_detection": person_detector.model_status
+                            if person_detector
+                            else "not_connected",
+                            "behavior_classification": "not_connected",
+                            "tracking": "not_connected",
+                        },
+                        performance={
+                            "processing_fps": frames / elapsed if elapsed else 0.0,
+                            "capture_to_dashboard_ms": max(
+                                0.0, (now - metadata["monotonic_time"]) * 1000.0
+                            ),
+                            "mean_model_latency_ms": sum(latencies) / len(latencies)
+                            if latencies
+                            else 0.0,
+                            "p95_model_latency_ms": float(np.percentile(latencies, 95))
+                            if latencies
+                            else 0.0,
+                            "dropped_frames": 0,
+                        },
+                        current_frame={
+                            "frame_id": int(frame_id),
+                            "timestamp_s": float(timestamp),
+                            "timestamp_source": metadata["timestamp_source"],
+                            "detections": evidence,
+                        },
+                        assessment={
+                            "level": "UNASSESSED",
+                            "reason": "This detector demo does not apply the multi-model threat-assessment policy.",
+                        },
+                    )
+                except Exception as exc:
+                    print(
+                        f"Dashboard feed disabled: {type(exc).__name__}: {exc}",
+                        file=sys.stderr,
+                    )
+                    try:
+                        dashboard_writer.close(status="error", error=str(exc))
+                    finally:
+                        dashboard_writer = None
+
+            if not args.no_display and annotated is not None:
                 cv2.imshow(window, annotated)
                 window_open = True
                 key = cv2.waitKey(1) & 0xFF
@@ -292,6 +382,18 @@ def main():
             processing_seconds = time.perf_counter() - loop_start
         if capture is not None:
             capture.close()
+        if dashboard_writer is not None:
+            try:
+                dashboard_writer.close(
+                    status="error" if error else "stopped",
+                    error=error,
+                )
+            except OSError as exc:
+                print(
+                    f"ERROR: Could not finalize dashboard session: {exc}",
+                    file=sys.stderr,
+                )
+                exit_code = 1
         if person_detector is not None:
             person_detector.close()
         if item_detector is not None:
