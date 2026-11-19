@@ -19,8 +19,10 @@ returns boxes, class names, confidence, timing, and an explicit inference status
 See [the handoff](docs/person1_detector_handoff.md) for the exact schema.
 See [the camera integration guide](docs/camera_pipeline.md) for input settings,
 capture metadata, recorded-video mode, and the shared module layout. The
-[standalone detector guide](docs/standalone_demo.md) documents the detector-only
-demonstration and its limits.
+[Person 5 dashboard and external evaluation guide](docs/person5_dashboard_evaluation.md)
+explains the operator view, UCF-Crime evaluation workflow, and current integration
+limits. The [standalone detector guide](docs/standalone_demo.md) documents the
+detector-only demonstration and its limits.
 
 ## Quick demonstration
 
@@ -332,7 +334,10 @@ selected examples are diagnostic, not another accuracy estimate.
 | `scripts/` | Preparation, training, evaluation, and inspection commands |
 | `tests/` | Interface, dataset, scoring, and video failure tests |
 | `scripts/check_model_release.py` | Verify defaults, weights, model card and evaluation agree |
-| `scripts/run_camera_demo.py` | Local webcam demonstration with optional person boxes |
+| `scripts/run_camera_demo.py` | Camera/video demonstration with optional dashboard feed |
+| `dashboard/app.py` | Local operator view for live session state and evaluation reports |
+| `src/external_evaluation/` | UCF-Crime manifest parsing and held-out event metrics |
+| `docs/integration_audit.md` | Current integration risks, scope and validation gaps |
 | `reports/dataset/` | Frozen split manifest and verification evidence |
 | `reports/experiments/` | Recorded training, selection, and evaluation results |
 | `docs/viva_notes.md` | Decisions and limitations to understand before presenting |
