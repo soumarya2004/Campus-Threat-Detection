@@ -4,14 +4,23 @@ Person 5 owns the operator view, event review, external test protocol, and conso
 
 ## Run the local dashboard
 
-Install the shared requirements, then start the camera demo with a fresh session folder:
+Install the shared requirements. For a USB-connected Android phone, start DroidCam on
+the phone and its Windows client, then scan for the virtual camera index. Replace `N`
+below with the index that returns a frame:
 
 ```powershell
-python scripts/run_camera_demo.py --camera 1 --backend msmf --with-people --dashboard-session outputs/dashboard/camera-review-01 --max-frames 300
+python scripts/find_cameras.py --backend msmf
+python scripts/run_camera_demo.py --camera N --backend msmf --with-people --device cpu --no-display --dashboard-session outputs/dashboard/phone-usb
 streamlit run dashboard/app.py
 ```
 
-Open the dashboard and set **Output folder** to `outputs/dashboard/camera-review-01`. Use a new directory for each camera-demo run. The demo publishes item and person detections, capture state, model state, an annotated latest frame, FPS and capture-to-dashboard timing. It does not run the temporal classifier or tracker, so those modules appear as `not connected` and the assessment stays `UNASSESSED`.
+Run the last command in a second terminal. Open the local dashboard and set **Output
+folder** to `outputs/dashboard/phone-usb`. Use a new, empty directory for each camera
+run. `--no-display` keeps the continuous capture session from opening an OpenCV window;
+with `--dashboard-session`, the local dashboard receives the latest annotated frame,
+capture state, model state, and performance data. It does not run the temporal classifier
+or tracker, so those modules appear as `not connected` and the assessment stays
+`UNASSESSED`.
 
 The current-frame evidence table lists the detector outputs supplied by the producer. A valid empty detection list is shown separately from a producer that has not supplied detection details.
 

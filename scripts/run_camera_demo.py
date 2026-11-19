@@ -79,7 +79,7 @@ def parse_args():
     parser.add_argument(
         "--no-display",
         action="store_true",
-        help="Bounded runtime check without a window",
+        help="Run without opening a preview window",
     )
     args = parser.parse_args()
     if args.camera is not None and args.camera < 0:
@@ -96,8 +96,12 @@ def parse_args():
         parser.error("--reconnect-delay cannot be negative")
     if args.max_frames is not None and args.max_frames < 1:
         parser.error("--max-frames must be at least 1")
-    if args.no_display and args.max_frames is None:
-        parser.error("--no-display requires --max-frames")
+    if (
+        args.no_display
+        and args.max_frames is None
+        and args.dashboard_session is None
+    ):
+        parser.error("--no-display requires --max-frames or --dashboard-session")
     if args.confidence is not None and not 0 <= args.confidence <= 1:
         parser.error("--confidence must be between 0 and 1")
     if args.report is not None and args.report.suffix.lower() != ".json":
