@@ -1,0 +1,11 @@
+path: data/raw/dangerous_items
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: machete
+  1: knife
+  2: baseball bat
+  3: rifle
+  4: gun

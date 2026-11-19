@@ -1,10 +1,10 @@
 # Person 1: object detector handoff
 
-Person 1 supplies two detector streams: five item classes (machete, knife,
-baseball bat, rifle, gun) and person boxes for Member 3's tracker. Other team
-members supply the camera pipeline and implement tracking, actions, alerts, and
-the dashboard. A bounding box does not establish a person's intent or ownership
-of a nearby item.
+The detector component supplies two streams: five item classes (machete, knife,
+baseball bat, rifle, gun) and person boxes for tracking. The shared camera source,
+temporal behavior module, and tracking analysis are integrated in this
+repository. The dashboard and final threat-assessment policy are not included.
+A bounding box does not establish a person's intent or ownership of a nearby item.
 
 ## Start here
 

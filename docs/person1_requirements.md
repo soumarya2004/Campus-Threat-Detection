@@ -4,9 +4,10 @@ This maps the Member 1 work described in `ctd.pdf`, pages 3-5, to the repository
 as of 17 November 2026. The longer `ctd_p1.pdf` is a record of previous work;
 statements in that conversation are not treated as evidence that an experiment
 or integration check passed. Paths below identify the code or recorded results
-that can be inspected. The deliverable is now scoped to Person 1 running alone:
-the local consumer verifies the handoff contract without requiring P3/P4 code.
-Building the team's tracker, camera service, or dashboard is outside this scope.
+that can be inspected. This checklist focuses on Person 1's detector and
+standalone consumer. The camera demonstration uses the shared capture source;
+the consumer verifies its JSON handoff without loading behavior or tracking
+models. The dashboard and final threat-assessment policy are outside this scope.
 
 | Requirement | Repository evidence | Status and remaining work |
 |---|---|---|

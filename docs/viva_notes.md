@@ -156,10 +156,11 @@ different lighting. Annotate it before evaluating. Report missed objects and
 false positives, not just successful screenshots. This is the next evidence
 needed before making campus-performance claims.
 
-The standalone submission now includes a pretrained baseline for knife and
+The standalone submission includes a pretrained baseline for knife and
 baseball bat, a measured model-size/inference-batch comparison, a visible
-120-frame camera rehearsal and a two-stream JSON consumer. These are P1's own
-experiments and do not require another team member's implementation. The
+120-frame camera rehearsal and a two-stream JSON consumer. The live demo uses
+the shared camera source; these detector experiments do not load behavior or
+tracking models. The
 common-class validation F1 improved from 39.84% to 79.33% at the shared 0.25
 threshold; this does not change the frozen five-class test result at 0.45.
 

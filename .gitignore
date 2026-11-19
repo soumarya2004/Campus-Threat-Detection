@@ -10,6 +10,10 @@ venv/
 data/raw/
 data/processed/
 data/external/
+data/behavior/raw/
+data/behavior/processed/
+data/behavior/splits/
+data/behavior/synthetic/*.mp4
 *.cache
 
 # Training outputs and predictions
@@ -22,9 +26,12 @@ weights/
 *.pt
 !runs/detect/person1_clean/yolo11n_clean_v2/weights/best.pt
 !models/dangerous_items_yolo11n.pt
+!/models/behavior/best_model.pt
 !/yolo11n.pt
+!/assets/tracking/models/*.pt
 *.onnx
 *.engine
+assets/tracking/demo/*.mp4
 
 # Secrets and local configuration
 .env

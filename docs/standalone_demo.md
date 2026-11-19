@@ -1,9 +1,10 @@
 # Run Person 1 on its own
 
-Person 1 supplies two detectors and a small consumer that verifies their output.
-You can demonstrate both streams without any other team member's code. The item
-model detects five classes; the general pretrained model supplies person boxes.
-Tracking IDs, action recognition, and threat decisions are outside this demo.
+The standalone detector demo runs both detection streams and verifies their
+output. The item model detects five classes; the general pretrained model
+supplies person boxes. It uses the shared camera source for live or recorded
+input, but does not load the behavior or tracking models. Tracking IDs, behavior
+scores, and threat decisions are outside this demo.
 
 ## Prepare the environment
 

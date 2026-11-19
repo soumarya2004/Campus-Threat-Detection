@@ -1,0 +1,12 @@
+# Environment defaults for local development. Training CLI flags override device.
+project_root: "."
+device: "auto"              # auto, cpu, cuda, or cuda:0
+num_workers: 2
+pin_memory: true
+
+paths:
+  ucf_crime_raw: "./data/behavior/raw/UCF-Crime"
+  xd_violence_raw: "./data/behavior/raw/XD-Violence"
+  processed_data: "./data/behavior/processed"
+  checkpoints: "./models/behavior"
+  logs: "./outputs/behavior/logs"
