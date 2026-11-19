@@ -99,8 +99,14 @@ def render_status(snapshot: dict) -> None:
     columns[2].metric("Behavior model", label(models.get("behavior_classification")))
     columns[3].metric("Tracking", label(models.get("tracking")))
     fps = performance.get("processing_fps")
+    fps_target = performance.get("minimum_fps_target", 30)
     columns[4].metric(
-        "Processing FPS", f"{fps:.1f}" if isinstance(fps, (int, float)) else "—"
+        "Processing FPS",
+        f"{fps:.1f}" if isinstance(fps, (int, float)) else "—",
+        delta=(f"{fps - fps_target:+.1f} vs {fps_target} FPS target")
+        if isinstance(fps, (int, float))
+        else None,
+        delta_color="normal",
     )
 
     cols = st.columns([1, 1, 2])
@@ -116,6 +122,30 @@ def render_status(snapshot: dict) -> None:
         f"Reconnects: {capture.get('reconnect_count', '—')} · "
         f"Dropped frames: {performance.get('dropped_frames', '—')}"
     )
+
+    behavior = current.get("behavior")
+    if isinstance(behavior, dict) or models.get("behavior_classification") in {
+        "ready",
+        "error",
+    }:
+        behavior = behavior or {}
+        probability = behavior.get("violence_probability")
+        behavior_state = behavior.get("model_status", "buffering")
+        behavior_cols = st.columns(3)
+        behavior_cols[0].metric(
+            "Behavior score",
+            f"{probability:.1%}"
+            if isinstance(probability, (int, float))
+            else label(behavior_state),
+        )
+        behavior_cols[1].metric(
+            "Behavior inference",
+            label(behavior_state),
+        )
+        behavior_cols[2].metric(
+            "Active person tracks",
+            str((current.get("tracking") or {}).get("active_tracks", 0)),
+        )
 
     image_path = snapshot.get("latest_image")
     if image_path:

@@ -70,19 +70,19 @@ $streamUrl = "http://127.0.0.1:4747/video/480p"
 $probe = @"
 import sys
 import urllib.request
-url = "$streamUrl"
+url = '$streamUrl'
 try:
     response = urllib.request.urlopen(url, timeout=5)
 except Exception as exc:
-    print(f"USB camera stream is not reachable: {exc}")
+    print(f'USB camera stream is not reachable: {exc}')
     raise SystemExit(2)
-content_type = response.headers.get("Content-Type", "")
-if not content_type.lower().startswith("multipart/x-mixed-replace"):
-    detail = response.read(1024).decode("utf-8", "replace")
-    print("DroidCam did not return a video stream. Keep the phone app open and close the Windows DroidCam Client.")
+content_type = response.headers.get('Content-Type', '')
+if not content_type.lower().startswith('multipart/x-mixed-replace'):
+    detail = response.read(1024).decode('utf-8', 'replace')
+    print('DroidCam did not return a video stream. Keep the phone app open and close the Windows DroidCam Client.')
     print(detail[:500])
     raise SystemExit(2)
-print("USB DroidCam MJPEG stream is ready.")
+print('USB DroidCam MJPEG stream is ready.')
 response.close()
 "@
 & $pythonExe -c $probe
@@ -119,9 +119,14 @@ if (-not $health) {
 
 Write-Host "Dashboard: http://127.0.0.1:8501"
 Write-Host "Starting the USB camera pipeline. Press Ctrl+C in this window to stop it."
+$device = & $pythonExe -c "import torch; print('cuda:0' if torch.cuda.is_available() else 'cpu')"
+if ($LASTEXITCODE -ne 0) {
+    throw "Could not select a PyTorch inference device."
+}
+Write-Host "Inference device: $device"
 Push-Location $repoRoot
 try {
-    & $pythonExe scripts\run_camera_demo.py --stream-url $streamUrl --with-people --device cpu --no-display --dashboard-session $sessionPath
+    & $pythonExe scripts\run_camera_demo.py --stream-url $streamUrl --with-people --with-tracking --with-behavior --behavior-interval 12 --person-interval 2 --image-size 320 --dashboard-image-interval 4 --device $device --no-display --dashboard-session $sessionPath
     exit $LASTEXITCODE
 } finally {
     Pop-Location

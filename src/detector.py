@@ -20,6 +20,7 @@ class WeaponDetector:
         device=None,
         image_size=None,
         classes=None,
+        half=None,
     ):
         settings = (
             load_detector_config()
@@ -44,6 +45,11 @@ class WeaponDetector:
             device
             if device is not None
             else ("0" if torch.cuda.is_available() else "cpu")
+        )
+        self.half = (
+            bool(half)
+            if half is not None
+            else torch.cuda.is_available() and str(self.device).lower() != "cpu"
         )
         self.confidence = confidence
         self.image_size = image_size
@@ -70,6 +76,7 @@ class WeaponDetector:
             max_det=300,
             augment=False,
             classes=self.classes,
+            quantize=16 if self.half else None,
             verbose=False,
         )[0]
 

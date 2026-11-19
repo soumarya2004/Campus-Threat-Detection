@@ -7,6 +7,7 @@ Person boxes and item boxes remain separate; no ownership or threat is inferred.
 import argparse
 import json
 import sys
+import threading
 import time
 from dataclasses import replace
 from datetime import datetime, timezone
@@ -27,6 +28,76 @@ from src.camera_source import (  # noqa: E402
 from src.evaluation import file_sha256, validate_report_paths  # noqa: E402
 from src.model_config import DEFAULT_CONFIG, load_detector_config  # noqa: E402
 from src.models.object_detector import YOLOObjectDetector  # noqa: E402
+
+
+class BehaviorInferenceWorker:
+    """Run the slower temporal model off the camera's frame-processing loop."""
+
+    def __init__(self, classifier):
+        self.classifier = classifier
+        self._condition = threading.Condition()
+        self._requested = False
+        self._closed = False
+        self._result = None
+        self._error = None
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread.start()
+
+    def request(self):
+        with self._condition:
+            self._requested = True
+            self._condition.notify()
+
+    def _run(self):
+        while True:
+            with self._condition:
+                self._condition.wait_for(lambda: self._requested or self._closed)
+                if self._closed and not self._requested:
+                    return
+                self._requested = False
+            try:
+                result = self.classifier.infer()
+            except Exception as exc:
+                with self._condition:
+                    self._error = f"{type(exc).__name__}: {exc}"
+            else:
+                with self._condition:
+                    self._result = result
+                    self._error = None
+
+    def snapshot(self):
+        with self._condition:
+            return self._result, self._error
+
+    def close(self):
+        with self._condition:
+            self._closed = True
+            self._condition.notify_all()
+        self._thread.join(timeout=5)
+
+
+def attach_track_ids(detections, tracked_people):
+    """Copy person detections and associate ByteTrack IDs by box overlap."""
+    output = []
+    for detection in detections:
+        x1, y1, x2, y2 = detection["bbox"]
+        best_id, best_iou = None, 0.0
+        for track_id, box in tracked_people:
+            tx1, ty1, tx2, ty2 = box
+            intersection = max(0.0, min(x2, tx2) - max(x1, tx1)) * max(
+                0.0, min(y2, ty2) - max(y1, ty1)
+            )
+            area = max(0.0, x2 - x1) * max(0.0, y2 - y1)
+            track_area = max(0.0, tx2 - tx1) * max(0.0, ty2 - ty1)
+            union = area + track_area - intersection
+            iou = intersection / union if union else 0.0
+            if iou > best_iou:
+                best_id, best_iou = track_id, iou
+        item = dict(detection)
+        if best_iou >= 0.3:
+            item["track_id"] = best_id
+        output.append(item)
+    return output
 
 
 def parse_args():
@@ -59,12 +130,46 @@ def parse_args():
         "--reconnect-delay", type=float, help="Seconds between reconnect attempts"
     )
     parser.add_argument("--device", help="Inference device, for example cpu or 0")
+    parser.add_argument(
+        "--image-size",
+        type=int,
+        default=416,
+        help="YOLO inference image size; 416 is tuned for real-time live use",
+    )
     parser.add_argument("--model", type=Path, help="Override the item checkpoint")
     parser.add_argument("--confidence", type=float, help="Override item confidence")
     parser.add_argument(
         "--with-people",
         action="store_true",
         help="Also run the separate person detector",
+    )
+    parser.add_argument(
+        "--person-interval",
+        type=int,
+        default=2,
+        help="Run person detection every N frames; reuse the latest boxes between runs",
+    )
+    parser.add_argument(
+        "--with-tracking",
+        action="store_true",
+        help="Assign ByteTrack IDs to person detections",
+    )
+    parser.add_argument(
+        "--with-behavior",
+        action="store_true",
+        help="Load the trained temporal behavior classifier",
+    )
+    parser.add_argument(
+        "--behavior-interval",
+        type=int,
+        default=12,
+        help="Run behavior inference every N frames in a background worker",
+    )
+    parser.add_argument(
+        "--dashboard-image-interval",
+        type=int,
+        default=2,
+        help="Write a new dashboard JPEG every N processed frames",
     )
     parser.add_argument("--max-frames", type=int, help="Stop after this many frames")
     parser.add_argument(
@@ -108,6 +213,16 @@ def parse_args():
         parser.error("--no-display requires --max-frames or --dashboard-session")
     if args.confidence is not None and not 0 <= args.confidence <= 1:
         parser.error("--confidence must be between 0 and 1")
+    if args.image_size < 32:
+        parser.error("--image-size must be at least 32")
+    if args.person_interval < 1:
+        parser.error("--person-interval must be at least 1")
+    if args.behavior_interval < 1:
+        parser.error("--behavior-interval must be at least 1")
+    if args.dashboard_image_interval < 1:
+        parser.error("--dashboard-image-interval must be at least 1")
+    if args.with_tracking:
+        args.with_people = True
     if args.report is not None and args.report.suffix.lower() != ".json":
         parser.error("--report must use a .json extension")
     return args
@@ -172,6 +287,13 @@ def main():
     capture = None
     item_detector = None
     person_detector = None
+    cached_people = None
+    cached_people_frame_id = None
+    person_tracker = None
+    behavior_classifier = None
+    behavior_worker = None
+    behavior_result = None
+    behavior_error = None
     frames = 0
     inference_errors = 0
     exit_code = 0
@@ -215,6 +337,7 @@ def main():
             model_path=args.model,
             confidence_threshold=args.confidence,
             device=args.device,
+            image_size=args.image_size,
         )
         item_detector.warmup()
         if args.report is not None:
@@ -222,10 +345,34 @@ def main():
         if args.with_people:
             from src.models.person_detector import YOLOPersonDetector
 
-            person_detector = YOLOPersonDetector(device=args.device)
+            person_detector = YOLOPersonDetector(
+                device=args.device, image_size=args.image_size
+            )
             person_detector.warmup()
             if args.report is not None:
                 model_info["people"] = describe_model(person_detector)
+        if args.with_tracking:
+            from src.tracking_analysis.person_tracker import PersonTracker
+
+            person_tracker = PersonTracker(weights=None, device=args.device or "cpu")
+            person_tracker.reset()
+        if args.with_behavior:
+            from src.behavior.models.behavior_classifier import BehaviorClassifier
+
+            behavior_classifier = BehaviorClassifier(
+                checkpoint_path=str(REPO_ROOT / "models/behavior/best_model.pt"),
+                device=args.device,
+            )
+            if behavior_classifier.device.type == "cuda":
+                import torch
+
+                torch.backends.cudnn.benchmark = True
+                torch.backends.cuda.matmul.allow_tf32 = True
+            behavior_worker = BehaviorInferenceWorker(behavior_classifier)
+            print(
+                f"Behavior model ready on {behavior_classifier.device}; "
+                f"{behavior_classifier.required_buffer_size} frames needed before its first score."
+            )
 
         print(
             f"Running {capture_config.source_type.replace('_', ' ')} "
@@ -254,14 +401,73 @@ def main():
             dimensions = {"width": int(frame.shape[1]), "height": int(frame.shape[0])}
             prediction_start = time.perf_counter()
             items = item_detector.predict(frame, frame_id=frame_id, timestamp=timestamp)
-            people = (
-                person_detector.predict(frame, frame_id=frame_id, timestamp=timestamp)
-                if person_detector is not None
-                else None
+            people_fresh = False
+            if person_detector is not None and (
+                cached_people is None or frames % args.person_interval == 0
+            ):
+                people = person_detector.predict(
+                    frame, frame_id=frame_id, timestamp=timestamp
+                )
+                people_fresh = True
+                if people["model_status"] == "ok":
+                    cached_people = people["detections"]
+                    cached_people_frame_id = frame_id
+            elif person_detector is not None:
+                people = {
+                    "frame_id": frame_id,
+                    "timestamp": timestamp,
+                    "detections": cached_people or [],
+                    "inference_time_ms": 0.0,
+                    "model_status": "ok",
+                    "error": None,
+                    "dropped_detections": 0,
+                    "cached": True,
+                }
+            else:
+                people = None
+            if behavior_classifier is not None:
+                behavior_classifier.ingest_frame(frame, timestamp=timestamp)
+                if (
+                    frames + 1 >= behavior_classifier.required_buffer_size
+                    and (frames + 1) % args.behavior_interval == 0
+                ):
+                    behavior_worker.request()
+                behavior_result, behavior_error = behavior_worker.snapshot()
+
+            tracked_people = []
+            if person_tracker is not None:
+                replay_boxes = (
+                    [detection["bbox"] for detection in people["detections"]]
+                    if people is not None and people["model_status"] == "ok"
+                    else []
+                )
+                tracked_people = person_tracker.observe(
+                    frame, timestamp_s=timestamp, replay_boxes=replay_boxes
+                )
+            person_detections = (
+                people["detections"]
+                if people is not None and people["model_status"] == "ok"
+                else []
             )
+            displayed_people = (
+                attach_track_ids(person_detections, tracked_people)
+                if person_tracker is not None
+                else [dict(detection) for detection in person_detections]
+            )
+            if cached_people_frame_id is not None:
+                displayed_people = [
+                    {
+                        **detection,
+                        "inference_frame_id": cached_people_frame_id,
+                        "age_frames": max(0, frame_id - cached_people_frame_id),
+                    }
+                    for detection in displayed_people
+                ]
             latencies.append((time.perf_counter() - prediction_start) * 1000)
             for name, result in (("items", items), ("people", people)):
-                if result is not None and result["model_status"] == "ok":
+                if result is not None and result["model_status"] == "ok" and (
+                    name != "people" or people_fresh
+                ):
                     counts[name] += len(result["detections"])
             failures = [
                 f"{name}: {result.get('error')}"
@@ -279,7 +485,9 @@ def main():
                 annotated = frame.copy()
                 if people is not None and people["model_status"] == "ok":
                     annotated = draw_detections(
-                        annotated, people["detections"], color=(255, 160, 40)
+                        annotated,
+                        displayed_people,
+                        color=(255, 160, 40),
                     )
                 annotated = draw_detections(
                     annotated,
@@ -311,11 +519,22 @@ def main():
                     if result is not None and result["model_status"] == "ok"
                     for detection in result["detections"]
                 ]
+                if person_detector is not None and people is not None:
+                    evidence = [
+                        {**detection, "source": "person_detection"}
+                        for detection in displayed_people
+                    ] + [
+                        {**detection, "source": "object_detection"}
+                        for detection in items["detections"]
+                        if items["model_status"] == "ok"
+                    ]
                 now = time.perf_counter()
                 elapsed = max(now - loop_start, 1e-9) if loop_start is not None else 0.0
                 try:
                     dashboard_writer.publish_frame(
-                        annotated,
+                        annotated
+                        if frames % args.dashboard_image_interval == 0
+                        else None,
                         capture={
                             "status": "connected"
                             if capture_config.is_live_camera
@@ -332,8 +551,14 @@ def main():
                             "person_detection": person_detector.model_status
                             if person_detector
                             else "not_connected",
-                            "behavior_classification": "not_connected",
-                            "tracking": "not_connected",
+                            "behavior_classification": "error"
+                            if behavior_error
+                            else "ready"
+                            if behavior_classifier
+                            else "not_connected",
+                            "tracking": "ready"
+                            if person_tracker
+                            else "not_connected",
                         },
                         performance={
                             "processing_fps": frames / elapsed if elapsed else 0.0,
@@ -347,18 +572,29 @@ def main():
                             if latencies
                             else 0.0,
                             "dropped_frames": 0,
+                            "minimum_fps_target": 30,
                         },
                         current_frame={
                             "frame_id": int(frame_id),
                             "timestamp_s": float(timestamp),
                             "timestamp_source": metadata["timestamp_source"],
                             "detections": evidence,
+                            "behavior": behavior_result,
+                            "tracking": {
+                                "active_tracks": len(tracked_people),
+                                "status": "ready" if person_tracker else "not_connected",
+                            },
                         },
                         assessment={
                             "level": "UNASSESSED",
                             "reason": "This detector demo does not apply the multi-model threat-assessment policy.",
                         },
                     )
+                    if behavior_error:
+                        print(
+                            f"Behavior inference error: {behavior_error}",
+                            file=sys.stderr,
+                        )
                 except Exception as exc:
                     print(
                         f"Dashboard feed disabled: {type(exc).__name__}: {exc}",
@@ -392,6 +628,8 @@ def main():
             processing_seconds = time.perf_counter() - loop_start
         if capture is not None:
             capture.close()
+        if behavior_worker is not None:
+            behavior_worker.close()
         if dashboard_writer is not None:
             try:
                 dashboard_writer.close(

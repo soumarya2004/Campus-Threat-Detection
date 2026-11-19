@@ -9,6 +9,7 @@ import json
 import math
 import os
 import threading
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -30,8 +31,21 @@ def _json_bytes(value: Any) -> bytes:
 
 def _atomic_write(path: Path, data: bytes) -> None:
     temporary = path.with_name(f".{path.name}.{uuid4().hex}.tmp")
-    temporary.write_bytes(data)
-    os.replace(temporary, path)
+    try:
+        temporary.write_bytes(data)
+        for attempt in range(7):
+            try:
+                os.replace(temporary, path)
+                return
+            except PermissionError:
+                if attempt == 6:
+                    raise
+                time.sleep(0.02 * (attempt + 1))
+    finally:
+        try:
+            temporary.unlink(missing_ok=True)
+        except OSError:
+            pass
 
 
 def _safe_child(root: Path, relative: str | None) -> Path | None:
@@ -110,7 +124,7 @@ class DashboardSessionWriter:
         if level not in ASSESSMENT_LEVELS:
             raise ValueError(f"Unknown assessment level: {level!r}")
 
-        image_name = None
+        image_name = "latest.jpg" if (self.directory / "latest.jpg").is_file() else None
         if frame is not None:
             if not isinstance(frame, np.ndarray) or frame.dtype != np.uint8:
                 raise ValueError("dashboard frames must be uint8 OpenCV images")

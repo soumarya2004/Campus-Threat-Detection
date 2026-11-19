@@ -288,7 +288,11 @@ class BehaviorClassifier:
         if self.device.type == "cuda":
             torch.cuda.synchronize(self.device)
         t0 = time.perf_counter()
-        with torch.no_grad():
+        with torch.inference_mode(), torch.autocast(
+            device_type="cuda",
+            dtype=torch.float16,
+            enabled=self.device.type == "cuda",
+        ):
             logits = self.model(clip_tensor)
             raw_prob = float(torch.sigmoid(logits).squeeze().cpu().item())
         if self.device.type == "cuda":
