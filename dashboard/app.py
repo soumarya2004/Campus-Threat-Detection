@@ -339,7 +339,7 @@ def render() -> None:
     with st.sidebar:
         st.header("Session")
         session_value = st.text_input("Output folder", "outputs/dashboard/latest")
-        refresh = st.slider("Refresh interval (seconds)", 1, 10, 2)
+        refresh = st.slider("Dashboard refresh interval (seconds)", 1, 10, 1)
         st.caption(
             "The viewer reads output files only. It does not start model inference."
         )
