@@ -8,12 +8,15 @@ from numbers import Integral
 MOVEMENT_FIELDS = (
     "event_id", "frame_id", "timestamp_s", "track_id",
     "x1", "y1", "x2", "y2", "center_x_px", "center_y_px",
-    "raw_speed_px_s", "speed_px_s", "vx_px_s", "vy_px_s",
-    "direction_deg", "direction_change_deg", "movement_status",
+    "raw_speed_px_s", "speed_px_s", "acceleration_px_s2",
+    "body_heights_per_s", "motion_band", "abrupt_turn",
+    "vx_px_s", "vy_px_s", "direction_deg", "direction_change_deg",
+    "movement_status",
 )
 PAIR_FIELDS = (
     "event_id", "frame_id", "timestamp_s", "track_id_a", "track_id_b",
     "distance_px", "distance_change_px", "interaction_status", "is_close",
+    "possible_following",
 )
 PROXIMITY_FIELDS = (
     "event_id", "track_id_a", "track_id_b", "proximity_episode_id",
@@ -29,6 +32,8 @@ class _Observation:
     x: float
     y: float
     direction_deg: float | None = None
+    speed_px_s: float | None = None
+    height_px: float | None = None
 
 
 @dataclass
@@ -63,7 +68,13 @@ class MovementAnalyzer:
         x1, y1, x2, y2 = map(float, bbox)
         if not all(map(isfinite, (x1, y1, x2, y2))) or x1 > x2 or y1 > y2:
             raise ValueError("The bounding box must have finite, ordered coordinates.")
-        current = _Observation(frame_id, timestamp_s, (x1 + x2) / 2, (y1 + y2) / 2)
+        current = _Observation(
+            frame_id,
+            timestamp_s,
+            (x1 + x2) / 2,
+            (y1 + y2) / 2,
+            height_px=max(1.0, y2 - y1),
+        )
         row = {
             "event_id": event_id,
             "frame_id": frame_id,
@@ -77,6 +88,10 @@ class MovementAnalyzer:
             "center_y_px": current.y,
             "raw_speed_px_s": None,
             "speed_px_s": None,
+            "acceleration_px_s2": None,
+            "body_heights_per_s": None,
+            "motion_band": "unknown",
+            "abrupt_turn": False,
             "vx_px_s": None,
             "vy_px_s": None,
             "direction_deg": None,
@@ -116,6 +131,7 @@ class MovementAnalyzer:
                 row["movement_status"] = "outlier"
             else:
                 current.direction_deg = degrees(atan2(vy, vx)) if raw_speed else None
+                current.speed_px_s = raw_speed
                 row.update(
                     speed_px_s=raw_speed,
                     vx_px_s=vx,
@@ -123,9 +139,24 @@ class MovementAnalyzer:
                     direction_deg=current.direction_deg,
                     movement_status="ok",
                 )
+                body_heights_per_s = raw_speed / current.height_px
+                row["body_heights_per_s"] = body_heights_per_s
+                row["motion_band"] = (
+                    "near_stationary"
+                    if body_heights_per_s < 0.08
+                    else "low_image_motion"
+                    if body_heights_per_s < 0.50
+                    else "high_image_motion"
+                )
+                if previous.speed_px_s is not None:
+                    row["acceleration_px_s2"] = (raw_speed - previous.speed_px_s) / dt
                 if current.direction_deg is not None and previous.direction_deg is not None:
                     row["direction_change_deg"] = (
                         (current.direction_deg - previous.direction_deg + 180) % 360 - 180
+                    )
+                    row["abrupt_turn"] = (
+                        abs(row["direction_change_deg"]) >= 75
+                        and body_heights_per_s >= 0.08
                     )
 
         state.last_observed = current
@@ -193,6 +224,23 @@ def analyze_interactions(
                     status = "stable"
 
             close = None if distance is None else distance <= proximity_px
+            possible_following = False
+            speed_a, speed_b = person_a["speed_px_s"], person_b["speed_px_s"]
+            if (
+                distance is not None
+                and distance <= proximity_px * 2
+                and change is not None
+                and abs(change) <= distance_change_px * 2
+                and speed_a is not None
+                and speed_b is not None
+                and speed_a >= 10
+                and speed_b >= 10
+            ):
+                dot = (
+                    person_a["vx_px_s"] * person_b["vx_px_s"]
+                    + person_a["vy_px_s"] * person_b["vy_px_s"]
+                )
+                possible_following = dot / (speed_a * speed_b) >= 0.85
             pair = {
                 "event_id": event_id,
                 "frame_id": frame_id,
@@ -203,6 +251,7 @@ def analyze_interactions(
                 "distance_change_px": change,
                 "interaction_status": status,
                 "is_close": close,
+                "possible_following": possible_following,
             }
             pair_rows.append(pair)
             previous_pairs[key] = pair

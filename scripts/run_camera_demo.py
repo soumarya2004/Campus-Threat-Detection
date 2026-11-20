@@ -1,11 +1,8 @@
-"""Show the Person 1 detectors on a local webcam. Press Q or Escape to stop.
-
-This is a standalone demonstration, not the team's camera or tracking service.
-Person boxes and item boxes remain separate; no ownership or threat is inferred.
-"""
+"""Run local campus camera detection, tracking, temporal analysis, and review alerts."""
 
 import argparse
 import json
+import math
 import sys
 import threading
 import time
@@ -32,6 +29,11 @@ from src.models.object_detector import YOLOObjectDetector  # noqa: E402
 from src.tracking_analysis.item_association import (  # noqa: E402
     link_people_to_detected_items,
 )
+from src.tracking_analysis.analytics import (  # noqa: E402
+    MovementAnalyzer,
+    analyze_interactions,
+)
+from src.monitoring.threat_assessment import ThreatAssessmentEngine  # noqa: E402
 
 
 class BehaviorInferenceWorker:
@@ -302,7 +304,7 @@ def main():
     inference_errors = 0
     exit_code = 0
     window_open = False
-    window = "Campus detector | green: items | blue: people | Q: quit"
+    window = "Campus Threat Detection | review candidates | Q: quit"
     wall_start = time.perf_counter()
     loop_start = None
     processing_seconds = 0.0
@@ -317,6 +319,9 @@ def main():
     stop_reason = "max_frames"
     backend = None
     dashboard_writer = None
+    movement_analyzer = None
+    previous_motion_rows = []
+    assessment_engine = ThreatAssessmentEngine()
 
     def describe_model(detector):
         info = detector.get_model_info()
@@ -361,6 +366,7 @@ def main():
 
             person_tracker = PersonTracker(weights=None, device=args.device or "cpu")
             person_tracker.reset()
+            movement_analyzer = MovementAnalyzer()
         if args.with_behavior:
             from src.behavior.models.behavior_classifier import BehaviorClassifier
 
@@ -447,7 +453,7 @@ def main():
             item_detections = (
                 items["detections"] if items["model_status"] == "ok" else []
             )
-            candidate_people = link_people_to_detected_items(
+            linked_people = link_people_to_detected_items(
                 person_detections, item_detections
             )
             tracked_people = []
@@ -455,13 +461,99 @@ def main():
                 tracked_people = person_tracker.observe(
                     frame,
                     timestamp_s=timestamp,
-                    replay_boxes=[detection["bbox"] for detection in candidate_people],
+                    replay_boxes=[detection["bbox"] for detection in person_detections],
                 )
-            displayed_people = (
-                attach_track_ids(candidate_people, tracked_people)
+            tracked_detections = (
+                attach_track_ids(person_detections, tracked_people)
                 if person_tracker is not None
-                else candidate_people
+                else []
             )
+            linked_candidates = (
+                attach_track_ids(linked_people, tracked_people)
+                if person_tracker is not None
+                else linked_people
+            )
+            event_id = 1
+            motion_rows = []
+            if movement_analyzer is not None:
+                motion_rows = [
+                    movement_analyzer.observe(
+                        event_id,
+                        int(frame_id),
+                        float(timestamp),
+                        int(detection["track_id"]),
+                        detection["bbox"],
+                    )
+                    for detection in tracked_detections
+                    if detection.get("track_id") is not None
+                ]
+            fps_for_analysis = metadata.get("fps")
+            if not isinstance(fps_for_analysis, (int, float)) or fps_for_analysis <= 0:
+                fps_for_analysis = 30.0
+            frame_diagonal = math.hypot(frame.shape[1], frame.shape[0])
+            pair_rows, _ = analyze_interactions(
+                previous_motion_rows + motion_rows,
+                float(fps_for_analysis),
+                proximity_px=frame_diagonal * 0.15,
+                distance_change_px=frame_diagonal * 0.01,
+            )
+            current_interactions = [
+                row for row in pair_rows if row["frame_id"] == int(frame_id)
+            ]
+            previous_motion_rows = motion_rows
+            assessment, alert_event = assessment_engine.update(
+                frame_id=int(frame_id),
+                timestamp_s=float(timestamp),
+                item_detections=item_detections,
+                behavior=behavior_result,
+                interaction_rows=current_interactions,
+                item_model_ok=items["model_status"] == "ok",
+                person_model_ok=people is not None
+                and people["model_status"] == "ok",
+            )
+            linked_track_ids = {
+                detection.get("track_id")
+                for detection in linked_candidates
+                if detection.get("track_id") is not None
+            }
+            interaction_track_ids = set()
+            if assessment["signals"]["repeated_close_approach"]:
+                persistent_pairs = {
+                    tuple(pair)
+                    for pair in assessment["signals"]["repeated_close_approach_pairs"]
+                }
+                interaction_track_ids = {
+                    track_id
+                    for row in current_interactions
+                    if row["is_close"] is True
+                    and tuple(sorted((row["track_id_a"], row["track_id_b"])))
+                    in persistent_pairs
+                    for track_id in (row["track_id_a"], row["track_id_b"])
+                }
+            displayed_people = []
+            for detection in tracked_detections:
+                track_id = detection.get("track_id")
+                reasons = []
+                if track_id in linked_track_ids:
+                    reasons.append("near detected item")
+                if track_id in interaction_track_ids:
+                    reasons.append("repeated close approach")
+                if not reasons:
+                    continue
+                displayed_people.append(
+                    {
+                        **detection,
+                        "associated_items": next(
+                            (
+                                candidate.get("associated_items", [])
+                                for candidate in linked_candidates
+                                if candidate.get("track_id") == track_id
+                            ),
+                            [],
+                        ),
+                        "candidate_reason": "; ".join(reasons),
+                    }
+                )
             if cached_people_frame_id is not None:
                 displayed_people = [
                     {
@@ -501,18 +593,18 @@ def main():
                     annotated,
                     items["detections"] if items["model_status"] == "ok" else [],
                 )
-                label = (
-                    "INFERENCE ERROR"
-                    if failures
-                    else "Object detections - no threat decision"
-                )
+                label = f"Threat assessment: {assessment['level']}"
                 cv2.putText(
                     annotated,
                     label,
                     (10, 25),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.6,
-                    (0, 0, 255) if failures else (255, 255, 255),
+                    (0, 0, 255)
+                    if assessment["level"] == "HIGH_RISK" or failures
+                    else (0, 200, 255)
+                    if assessment["level"] == "SUSPICIOUS"
+                    else (255, 255, 255),
                     2,
                     cv2.LINE_AA,
                 )
@@ -595,30 +687,34 @@ def main():
                             "timestamp_source": metadata["timestamp_source"],
                             "detections": evidence,
                             "behavior": behavior_result,
+                            "movement": motion_rows,
+                            "interactions": current_interactions,
                             "tracking": {
                                 "active_tracks": len(
                                     {
                                         item.get("track_id")
-                                        for item in displayed_people
+                                        for item in tracked_detections
                                         if item.get("track_id") is not None
                                     }
                                 ),
+                                "highlighted_candidates": len(displayed_people),
                                 "status": (
                                     "not_connected"
                                     if not person_tracker
                                     else "active"
-                                    if candidate_people
+                                    if displayed_people and item_detections
+                                    else "interaction_review"
+                                    if assessment["signals"]["repeated_close_approach"]
                                     else "item_detected_no_person_link"
                                     if item_detections
                                     else "waiting_for_item"
                                 ),
                             },
                         },
-                        assessment={
-                            "level": "UNASSESSED",
-                            "reason": "This detector demo does not apply the multi-model threat-assessment policy.",
-                        },
+                        assessment=assessment,
                     )
+                    if alert_event:
+                        dashboard_writer.record_event(alert_event)
                     if behavior_error:
                         print(
                             f"Behavior inference error: {behavior_error}",
@@ -685,7 +781,7 @@ def main():
     if args.report is not None:
         report = {
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
-            "purpose": "Detector runtime on shared live-camera or recorded-video input; not an accuracy or threat-assessment test.",
+            "purpose": "Local camera demo with unvalidated multi-signal review assessment; not an accuracy study or confirmed incident record.",
             "passed": exit_code == 0 and inference_errors == 0 and frames > 0,
             "camera": {
                 "index": capture_config.source

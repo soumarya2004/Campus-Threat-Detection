@@ -81,6 +81,8 @@ def draw_detections(
             label = f"Candidate #{detection['track_id']}"
             if associated_items:
                 label += f" near {associated_items}"
+            elif detection.get("candidate_reason"):
+                label += f" · {detection['candidate_reason']}"
 
         cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
         cv2.putText(

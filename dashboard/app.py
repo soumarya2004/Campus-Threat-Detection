@@ -87,13 +87,17 @@ def render_status(snapshot: dict) -> None:
     elif level == "SUSPICIOUS":
         st.warning("SUSPICIOUS — review the available evidence.")
     elif level == "NORMAL":
-        st.success("NORMAL — assessment supplied by the upstream policy.")
+        st.success("NORMAL — no suspicious signals were produced by the available models.")
     else:
         st.info(
-            "UNASSESSED — no final threat policy output was supplied. Missing predictions are not negative predictions."
+            "UNASSESSED — required model evidence is missing or warming up. Missing predictions are not negative predictions."
         )
     if assessment.get("reason"):
         st.caption(assessment["reason"])
+    if assessment.get("evidence_categories"):
+        st.caption(
+            "Signals: " + ", ".join(assessment["evidence_categories"])
+        )
 
     columns = st.columns(5)
     columns[0].metric("Camera / video", label(capture.get("status")))
@@ -136,7 +140,7 @@ def render_status(snapshot: dict) -> None:
         behavior = behavior or {}
         probability = behavior.get("violence_probability")
         behavior_state = behavior.get("model_status", "buffering")
-        behavior_cols = st.columns(3)
+        behavior_cols = st.columns(4)
         behavior_cols[0].metric(
             "Behavior score",
             f"{probability:.1%}"
@@ -148,8 +152,22 @@ def render_status(snapshot: dict) -> None:
             label(behavior_state),
         )
         behavior_cols[2].metric(
-            "Item-linked candidate tracks",
+            "Clip action status",
+            "Violence indication"
+            if behavior.get("is_violence")
+            else "No indication"
+            if behavior_state == "valid"
+            else label(behavior_state),
+        )
+        behavior_cols[3].metric(
+            "Tracked people",
             str(tracking.get("active_tracks", 0)),
+            delta=f"{tracking.get('highlighted_candidates', 0)} highlighted candidates",
+            delta_color="off",
+        )
+        st.caption(
+            "The behavior model scores the clip, not a specific person. "
+            "Boxes highlight item-linked or repeatedly close-approaching candidates."
         )
 
     image_path = snapshot.get("latest_image")
@@ -180,12 +198,63 @@ def render_status(snapshot: dict) -> None:
                     else None,
                     "Track ID": detection.get("track_id"),
                     "Linked items": ", ".join(detection.get("associated_items", [])),
+                    "Review reason": detection.get("candidate_reason", ""),
                 }
             )
         if rows:
             st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
         else:
             st.caption("No valid detection records were supplied for this frame.")
+
+    movement = current.get("movement")
+    st.markdown("**Movement analysis (image space)**")
+    if isinstance(movement, list) and movement:
+        movement_rows = [
+            {
+                "Track ID": row.get("track_id"),
+                "Speed (px/s)": row.get("speed_px_s"),
+                "Speed (body heights/s)": row.get("body_heights_per_s"),
+                "Acceleration (px/s²)": row.get("acceleration_px_s2"),
+                "Motion band": row.get("motion_band"),
+                "Direction (degrees)": row.get("direction_deg"),
+                "Direction change (degrees)": row.get("direction_change_deg"),
+                "Abrupt turn signal": row.get("abrupt_turn"),
+                "Status": row.get("movement_status"),
+            }
+            for row in movement
+            if isinstance(row, dict)
+        ]
+        if movement_rows:
+            st.dataframe(pd.DataFrame(movement_rows), hide_index=True, width="stretch")
+    else:
+        st.caption("No tracked movement rows are available in this frame.")
+
+    interactions = current.get("interactions")
+    st.markdown("**Person interactions**")
+    if isinstance(interactions, list) and interactions:
+        interaction_rows = [
+            {
+                "Track A": row.get("track_id_a"),
+                "Track B": row.get("track_id_b"),
+                "Distance (px)": row.get("distance_px"),
+                "Distance change (px)": row.get("distance_change_px"),
+                "Signal": row.get("interaction_status"),
+                "Close": row.get("is_close"),
+                "Possible following": row.get("possible_following"),
+            }
+            for row in interactions
+            if isinstance(row, dict)
+        ]
+        if interaction_rows:
+            st.dataframe(
+                pd.DataFrame(interaction_rows), hide_index=True, width="stretch"
+            )
+    else:
+        st.caption("No person-pair interactions are available in this frame.")
+    st.caption(
+        "Speeds and distances are measured in image pixels; they are not calibrated "
+        "real-world distances or proof of aggression."
+    )
 
 
 def render_event_log(snapshot: dict) -> None:
@@ -211,6 +280,7 @@ def render_event_log(snapshot: dict) -> None:
             "Time": event.get("recorded_at_utc", ""),
             "Event": event.get("event_id", ""),
             "Level": event.get("level", "UNASSESSED"),
+            "Change": event.get("phase", ""),
             "Evidence": ", ".join(map(str, event.get("evidence_categories", []))),
             "Start (s)": event.get("start_s"),
             "End (s)": event.get("end_s"),
@@ -340,10 +410,10 @@ def render_evaluation(report: dict | None) -> None:
 def render_video_upload() -> None:
     st.subheader("Recorded video demo")
     st.caption(
-        "Drop a short video to generate an annotated output with object detections, "
-        "item-linked person candidate tracks, and a behavior-model score. The "
-        "proximity link does not identify who committed violence; the behavior "
-        "score is clip-level. Predictions are evidence for human review."
+        "Drop a short video for annotated object detections, persistent person IDs, "
+        "movement and interaction signals, a clip-level behavior score, and a "
+        "multi-signal assessment. Highlighted boxes are review candidates, not "
+        "confirmed perpetrators."
     )
     st.caption(
         "The clip is processed on the server running this dashboard. Use the "
@@ -413,7 +483,7 @@ def render_video_upload() -> None:
             "Object detections", f"{previous_result['object_detections']:,}"
         )
         second_row[0].metric(
-            "Linked person candidates", f"{previous_result['person_detections']:,}"
+            "Highlighted candidates", f"{previous_result['person_detections']:,}"
         )
         second_row[1].metric("Active tracks", previous_result["active_tracks"])
         second_row[2].metric(
@@ -422,6 +492,42 @@ def render_video_upload() -> None:
             if previous_result["peak_behavior_score"] is not None
             else "Warming up",
         )
+        assessment = previous_result.get("assessment") or {}
+        assessment_level = assessment.get("level", "UNASSESSED")
+        if assessment_level == "HIGH_RISK":
+            st.error("HIGH RISK — operator review required; this is not a verified incident.")
+        elif assessment_level == "SUSPICIOUS":
+            st.warning("SUSPICIOUS — review the model evidence and annotated clip.")
+        elif assessment_level == "NORMAL":
+            st.success("NORMAL — no suspicious signals were produced by the available models.")
+        else:
+            st.info("UNASSESSED — required model evidence was unavailable or still buffering.")
+        if assessment.get("reason"):
+            st.caption(assessment["reason"])
+        st.caption(
+            f"Movement rows: {previous_result.get('movement_rows', 0):,} · "
+            f"Person-pair rows: {previous_result.get('interaction_rows', 0):,} · "
+            "Repeated close approaches are screen-space signals, not proof of aggression."
+        )
+        events = previous_result.get("assessment_events") or []
+        if events:
+            st.markdown("**Assessment timeline**")
+            st.dataframe(
+                pd.DataFrame(
+                    [
+                        {
+                            "Time (s)": event.get("end_s"),
+                            "Level": event.get("level"),
+                            "Change": event.get("phase"),
+                            "Evidence": ", ".join(event.get("evidence_categories", [])),
+                            "Summary": event.get("summary"),
+                        }
+                        for event in events
+                    ]
+                ),
+                hide_index=True,
+                width="stretch",
+            )
         st.download_button(
             "Download annotated video",
             data=previous_result["video_bytes"],

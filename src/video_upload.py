@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 import subprocess
 import tempfile
@@ -53,6 +54,8 @@ def _draw_detections(cv2, frame, detections: list[dict], color, *, show_tracks=F
             label = f"Candidate #{detection['track_id']}"
             if item_names:
                 label += f" near {item_names}"
+            elif detection.get("candidate_reason"):
+                label += f" · {detection['candidate_reason']}"
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
         cv2.putText(
             frame,
@@ -81,6 +84,8 @@ def process_uploaded_video(
     from src.behavior.models.behavior_classifier import BehaviorClassifier
     from src.models.object_detector import YOLOObjectDetector
     from src.models.person_detector import YOLOPersonDetector
+    from src.monitoring.threat_assessment import ThreatAssessmentEngine
+    from src.tracking_analysis.analytics import MovementAnalyzer, analyze_interactions
     from src.tracking_analysis.item_association import link_people_to_detected_items
     from src.tracking_analysis.person_tracker import PersonTracker
 
@@ -135,6 +140,8 @@ def process_uploaded_video(
             )
             tracker = PersonTracker(weights=None, device=device)
             tracker.reset()
+            movement_analyzer = MovementAnalyzer()
+            assessment_engine = ThreatAssessmentEngine()
 
             writer = cv2.VideoWriter(
                 str(intermediate_path),
@@ -153,6 +160,16 @@ def process_uploaded_video(
             latest_people: list[dict] = []
             behavior_result = None
             peak_behavior_score = None
+            previous_motion_rows = []
+            assessment_events = []
+            movement_rows_total = 0
+            interaction_rows_total = 0
+            repeated_approach_frames = 0
+            latest_assessment = {
+                "level": "UNASSESSED",
+                "reason": "The clip has not produced a valid assessment yet.",
+                "evidence_categories": [],
+            }
             started = time.perf_counter()
 
             while True:
@@ -175,31 +192,6 @@ def process_uploaded_video(
                 else:
                     people = {"model_status": "ok", "detections": latest_people}
 
-                item_detections = (
-                    objects["detections"] if objects["model_status"] == "ok" else []
-                )
-                candidate_people = link_people_to_detected_items(
-                    people["detections"] if people["model_status"] == "ok" else [],
-                    item_detections,
-                )
-                person_detections_total += len(candidate_people)
-                tracked_people = tracker.observe(
-                    frame,
-                    timestamp_s=timestamp,
-                    replay_boxes=[item["bbox"] for item in candidate_people],
-                )
-                displayed_people = _attach_track_ids(
-                    candidate_people,
-                    tracked_people,
-                )
-                active_tracks = len(
-                    {
-                        item.get("track_id")
-                        for item in displayed_people
-                        if item.get("track_id") is not None
-                    }
-                )
-
                 behavior_classifier.ingest_frame(frame, timestamp=timestamp)
                 if (
                     frame_index + 1 >= behavior_classifier.required_buffer_size
@@ -210,6 +202,123 @@ def process_uploaded_video(
                         score = behavior_result.get("violence_probability")
                         if isinstance(score, (int, float)):
                             peak_behavior_score = max(peak_behavior_score or 0.0, score)
+
+                item_detections = (
+                    objects["detections"] if objects["model_status"] == "ok" else []
+                )
+                candidate_people = link_people_to_detected_items(
+                    people["detections"] if people["model_status"] == "ok" else [],
+                    item_detections,
+                )
+                tracked_people = tracker.observe(
+                    frame,
+                    timestamp_s=timestamp,
+                    replay_boxes=[
+                        item["bbox"]
+                        for item in (
+                            people["detections"]
+                            if people["model_status"] == "ok"
+                            else []
+                        )
+                    ],
+                )
+                tracked_detections = _attach_track_ids(
+                    people["detections"] if people["model_status"] == "ok" else [],
+                    tracked_people,
+                )
+                linked_candidates = _attach_track_ids(
+                    candidate_people,
+                    tracked_people,
+                )
+                motion_rows = [
+                    movement_analyzer.observe(
+                        1,
+                        frame_index,
+                        timestamp,
+                        int(item["track_id"]),
+                        item["bbox"],
+                    )
+                    for item in tracked_detections
+                    if item.get("track_id") is not None
+                ]
+                frame_diagonal = math.hypot(width, height)
+                pair_rows, _ = analyze_interactions(
+                    previous_motion_rows + motion_rows,
+                    source_fps,
+                    proximity_px=frame_diagonal * 0.15,
+                    distance_change_px=frame_diagonal * 0.01,
+                )
+                current_interactions = [
+                    row for row in pair_rows if row["frame_id"] == frame_index
+                ]
+                previous_motion_rows = motion_rows
+                assessment, alert_event = assessment_engine.update(
+                    frame_id=frame_index,
+                    timestamp_s=timestamp,
+                    item_detections=item_detections,
+                    behavior=behavior_result,
+                    interaction_rows=current_interactions,
+                    item_model_ok=objects["model_status"] == "ok",
+                    person_model_ok=people["model_status"] == "ok",
+                )
+                latest_assessment = assessment
+                if alert_event:
+                    assessment_events.append(alert_event)
+                if assessment["signals"]["repeated_close_approach"]:
+                    repeated_approach_frames += 1
+                interaction_rows_total += len(current_interactions)
+                movement_rows_total += len(motion_rows)
+                linked_track_ids = {
+                    item.get("track_id")
+                    for item in linked_candidates
+                    if item.get("track_id") is not None
+                }
+                interaction_track_ids = set()
+                if assessment["signals"]["repeated_close_approach"]:
+                    persistent_pairs = {
+                        tuple(pair)
+                        for pair in assessment["signals"]["repeated_close_approach_pairs"]
+                    }
+                    interaction_track_ids = {
+                        track_id
+                        for row in current_interactions
+                        if row["is_close"] is True
+                        and tuple(sorted((row["track_id_a"], row["track_id_b"])))
+                        in persistent_pairs
+                        for track_id in (row["track_id_a"], row["track_id_b"])
+                    }
+                displayed_people = []
+                for item in tracked_detections:
+                    track_id = item.get("track_id")
+                    reasons = []
+                    if track_id in linked_track_ids:
+                        reasons.append("near detected item")
+                    if track_id in interaction_track_ids:
+                        reasons.append("repeated close approach")
+                    if not reasons:
+                        continue
+                    displayed_people.append(
+                        {
+                            **item,
+                            "associated_items": next(
+                                (
+                                    candidate.get("associated_items", [])
+                                    for candidate in linked_candidates
+                                    if candidate.get("track_id") == track_id
+                                ),
+                                [],
+                            ),
+                            "candidate_reason": "; ".join(reasons),
+                        }
+                    )
+                person_detections_total += len(displayed_people)
+                active_tracks = len(
+                    {
+                        item.get("track_id")
+                        for item in tracked_detections
+                        if item.get("track_id") is not None
+                    }
+                )
 
                 inference_errors += int(objects["model_status"] != "ok")
                 if objects["model_status"] == "ok":
@@ -222,7 +331,7 @@ def process_uploaded_video(
                 _draw_detections(cv2, annotated, objects["detections"], (0, 0, 255))
                 cv2.putText(
                     annotated,
-                    f"Item-linked tracks: {active_tracks}",
+                    f"Threat assessment: {assessment['level']}",
                     (12, 28),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.7,
@@ -248,6 +357,16 @@ def process_uploaded_video(
                     annotated,
                     behavior_text,
                     (12, 58),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.65,
+                    (255, 255, 255),
+                    2,
+                    cv2.LINE_AA,
+                )
+                cv2.putText(
+                    annotated,
+                    f"Tracks: {active_tracks} | highlighted candidates: {len(displayed_people)}",
+                    (12, 88),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.65,
                     (255, 255, 255),
@@ -316,6 +435,11 @@ def process_uploaded_video(
                 "person_detections": person_detections_total,
                 "active_tracks": active_tracks,
                 "peak_behavior_score": peak_behavior_score,
+                "assessment": latest_assessment,
+                "assessment_events": assessment_events,
+                "movement_rows": movement_rows_total,
+                "interaction_rows": interaction_rows_total,
+                "repeated_close_approach_frames": repeated_approach_frames,
                 "behavior_status": (
                     behavior_result.get("model_status", "buffering")
                     if behavior_result
