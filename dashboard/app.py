@@ -420,13 +420,22 @@ def render_video_upload() -> None:
         "laptop-local dashboard for private footage."
     )
 
-    with st.form("recorded_video_form"):
-        uploaded_video = st.file_uploader(
-            "Choose or drop a video",
-            type=["mp4", "mov", "avi", "mkv", "webm"],
-            help="Short clips finish sooner and are easier to present.",
+    uploaded_video = st.file_uploader(
+        "Choose or drop a video",
+        type=["mp4", "mov", "avi", "mkv", "webm"],
+        help="Short clips finish sooner and are easier to present.",
+        key="recorded_video_upload",
+    )
+    process_video = st.button(
+        "Process video",
+        type="primary",
+        disabled=uploaded_video is None,
+        help="Upload a video first to enable processing.",
+    )
+    if uploaded_video is None:
+        st.info(
+            "Upload a video above to enable processing. The annotated output will appear below."
         )
-        process_video = st.form_submit_button("Process video", type="primary")
 
     video_bytes = uploaded_video.getvalue() if uploaded_video is not None else None
     upload_digest = (
