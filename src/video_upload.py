@@ -17,11 +17,11 @@ _ALLOWED_SUFFIXES = {".avi", ".mkv", ".mov", ".mp4", ".webm"}
 def _attach_track_ids(
     detections: list[dict], tracks: list[tuple[int, tuple]]
 ) -> list[dict]:
-    """Associate current person boxes with the tracker output by IoU."""
-    output = []
-    for detection in detections:
+    """Associate current person boxes to distinct tracker IDs by IoU."""
+    output = [dict(detection) for detection in detections]
+    matches = []
+    for detection_index, detection in enumerate(detections):
         x1, y1, x2, y2 = detection["bbox"]
-        best_id, best_iou = None, 0.0
         for track_id, box in tracks:
             tx1, ty1, tx2, ty2 = box
             intersection = max(0.0, min(x2, tx2) - max(x1, tx1)) * max(
@@ -31,12 +31,17 @@ def _attach_track_ids(
             track_area = max(0.0, tx2 - tx1) * max(0.0, ty2 - ty1)
             union = area + track_area - intersection
             iou = intersection / union if union else 0.0
-            if iou > best_iou:
-                best_id, best_iou = track_id, iou
-        item = dict(detection)
-        if best_iou >= 0.3:
-            item["track_id"] = best_id
-        output.append(item)
+            if iou >= 0.3:
+                matches.append((iou, detection_index, int(track_id)))
+
+    assigned_detections = set()
+    assigned_tracks = set()
+    for _, detection_index, track_id in sorted(matches, reverse=True):
+        if detection_index in assigned_detections or track_id in assigned_tracks:
+            continue
+        output[detection_index]["track_id"] = track_id
+        assigned_detections.add(detection_index)
+        assigned_tracks.add(track_id)
     return output
 
 

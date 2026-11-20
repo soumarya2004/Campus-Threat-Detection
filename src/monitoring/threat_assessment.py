@@ -43,6 +43,11 @@ class ThreatAssessmentEngine:
         self._episode_level = "NORMAL"
         self._episode_start_s: float | None = None
 
+    def clear_temporal_signals(self) -> None:
+        """Drop pre-disconnect item and interaction evidence after a stream gap."""
+        self._item_history.clear()
+        self._interaction_history.clear()
+
     def update(
         self,
         *,

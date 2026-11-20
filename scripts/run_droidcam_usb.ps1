@@ -126,7 +126,7 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "Inference device: $device"
 Push-Location $repoRoot
 try {
-    & $pythonExe scripts\run_camera_demo.py --stream-url $streamUrl --with-people --with-tracking --with-behavior --behavior-interval 12 --person-interval 2 --image-size 320 --dashboard-image-interval 4 --device $device --no-display --dashboard-session $sessionPath
+    & $pythonExe scripts\run_camera_demo.py --stream-url $streamUrl --with-people --with-tracking --with-behavior --behavior-interval 12 --person-interval 2 --image-size 320 --dashboard-image-interval 4 --reconnect-attempts 10 --reconnect-delay 1 --device $device --no-display --dashboard-session $sessionPath
     exit $LASTEXITCODE
 } finally {
     Pop-Location

@@ -83,11 +83,11 @@ class BehaviorInferenceWorker:
 
 
 def attach_track_ids(detections, tracked_people):
-    """Copy person detections and associate ByteTrack IDs by box overlap."""
-    output = []
-    for detection in detections:
+    """Associate current person boxes to distinct ByteTrack IDs by IoU."""
+    output = [dict(detection) for detection in detections]
+    matches = []
+    for detection_index, detection in enumerate(detections):
         x1, y1, x2, y2 = detection["bbox"]
-        best_id, best_iou = None, 0.0
         for track_id, box in tracked_people:
             tx1, ty1, tx2, ty2 = box
             intersection = max(0.0, min(x2, tx2) - max(x1, tx1)) * max(
@@ -97,12 +97,17 @@ def attach_track_ids(detections, tracked_people):
             track_area = max(0.0, tx2 - tx1) * max(0.0, ty2 - ty1)
             union = area + track_area - intersection
             iou = intersection / union if union else 0.0
-            if iou > best_iou:
-                best_id, best_iou = track_id, iou
-        item = dict(detection)
-        if best_iou >= 0.3:
-            item["track_id"] = best_id
-        output.append(item)
+            if iou >= 0.3:
+                matches.append((iou, detection_index, int(track_id)))
+
+    assigned_detections = set()
+    assigned_tracks = set()
+    for _, detection_index, track_id in sorted(matches, reverse=True):
+        if detection_index in assigned_detections or track_id in assigned_tracks:
+            continue
+        output[detection_index]["track_id"] = track_id
+        assigned_detections.add(detection_index)
+        assigned_tracks.add(track_id)
     return output
 
 
@@ -322,6 +327,8 @@ def main():
     movement_analyzer = None
     previous_motion_rows = []
     assessment_engine = ThreatAssessmentEngine()
+    analysis_event_id = 1
+    last_capture_reconnect_count = 0
 
     def describe_model(detector):
         info = detector.get_model_info()
@@ -342,6 +349,7 @@ def main():
         capture = CameraSource(capture_config)
         capture.open()
         backend = capture.backend
+        last_capture_reconnect_count = capture.reconnect_count
 
         item_detector = YOLOObjectDetector(
             model_path=args.model,
@@ -409,6 +417,22 @@ def main():
                 )
             frame_id = metadata["frame_id"]
             timestamp = metadata["timestamp_s"]
+            reconnect_count = int(metadata.get("reconnect_count", 0))
+            if reconnect_count > last_capture_reconnect_count:
+                last_capture_reconnect_count = reconnect_count
+                analysis_event_id += 1
+                cached_people = None
+                cached_people_frame_id = None
+                previous_motion_rows = []
+                if person_tracker is not None:
+                    person_tracker.reset()
+                if movement_analyzer is not None:
+                    movement_analyzer = MovementAnalyzer()
+                assessment_engine.clear_temporal_signals()
+                print(
+                    f"Camera stream reconnected ({reconnect_count}); "
+                    "person tracking history was restarted."
+                )
             dimensions = {"width": int(frame.shape[1]), "height": int(frame.shape[0])}
             prediction_start = time.perf_counter()
             items = item_detector.predict(frame, frame_id=frame_id, timestamp=timestamp)
@@ -473,7 +497,7 @@ def main():
                 if person_tracker is not None
                 else linked_people
             )
-            event_id = 1
+            event_id = analysis_event_id
             motion_rows = []
             if movement_analyzer is not None:
                 motion_rows = [
