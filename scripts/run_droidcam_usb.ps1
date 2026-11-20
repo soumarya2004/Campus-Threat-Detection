@@ -61,11 +61,6 @@ if ($DeviceSerial) {
     throw "More than one authorized Android device is connected. Re-run with -DeviceSerial <serial>."
 }
 
-& $adbExe -s $serial forward tcp:4747 tcp:4747
-if ($LASTEXITCODE -ne 0) {
-    throw "Could not forward phone port 4747. Check the USB debugging connection."
-}
-
 $streamUrl = "http://127.0.0.1:4747/video/480p"
 $probe = @"
 import sys
@@ -85,16 +80,37 @@ if not content_type.lower().startswith('multipart/x-mixed-replace'):
 print('USB DroidCam MJPEG stream is ready.')
 response.close()
 "@
-& $pythonExe -c $probe
-if ($LASTEXITCODE -ne 0) {
-    throw "USB camera stream preflight failed."
+
+function Test-UsbCameraStream {
+    & $adbExe -s $serial forward tcp:4747 tcp:4747
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "Could not forward phone port 4747. Check the USB debugging connection."
+        return $false
+    }
+    for ($probeAttempt = 1; $probeAttempt -le 3; $probeAttempt++) {
+        $probeOutput = & $pythonExe -c $probe
+        $probeExitCode = $LASTEXITCODE
+        foreach ($line in $probeOutput) {
+            Write-Host $line
+        }
+        if ($probeExitCode -eq 0) {
+            return $true
+        }
+        if ($probeAttempt -lt 3) {
+            Start-Sleep -Seconds 2
+        }
+    }
+    return $false
 }
 
-if (-not $sessionPath.StartsWith($dashboardRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
-    throw "Dashboard session path must remain inside outputs\dashboard."
-}
-if (Test-Path -LiteralPath $sessionPath) {
-    $backupName = "latest-previous-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+function Preserve-DashboardSession {
+    if (-not $sessionPath.StartsWith($dashboardRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Dashboard session path must remain inside outputs\dashboard."
+    }
+    if (-not (Test-Path -LiteralPath $sessionPath)) {
+        return
+    }
+    $backupName = "latest-previous-$(Get-Date -Format 'yyyyMMdd-HHmmss-fff')"
     $backupPath = [System.IO.Path]::GetFullPath((Join-Path $dashboardRoot $backupName))
     if (-not $backupPath.StartsWith($dashboardRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
         throw "Backup path must remain inside outputs\dashboard."
@@ -105,6 +121,14 @@ if (Test-Path -LiteralPath $sessionPath) {
     Move-Item -LiteralPath $sessionPath -Destination $backupPath
     Write-Host "Previous dashboard output preserved at $backupPath"
 }
+
+if (-not $sessionPath.StartsWith($dashboardRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Dashboard session path must remain inside outputs\dashboard."
+}
+if (-not (Test-UsbCameraStream)) {
+    throw "USB camera stream preflight failed. Keep DroidCam open on the phone and reconnect USB."
+}
+Preserve-DashboardSession
 
 $health = $false
 try {
@@ -124,10 +148,32 @@ if ($LASTEXITCODE -ne 0) {
     throw "Could not select a PyTorch inference device."
 }
 Write-Host "Inference device: $device"
-Push-Location $repoRoot
-try {
-    & $pythonExe scripts\run_camera_demo.py --stream-url $streamUrl --with-people --with-tracking --with-behavior --behavior-interval 12 --person-interval 2 --image-size 320 --dashboard-image-interval 4 --reconnect-attempts 10 --reconnect-delay 1 --device $device --no-display --dashboard-session $sessionPath
-    exit $LASTEXITCODE
-} finally {
-    Pop-Location
+$restartCount = 0
+$pipelineExitCode = 0
+while ($true) {
+    if ($restartCount -gt 0) {
+        $backoffSeconds = [Math]::Min(30, [Math]::Pow(2, [Math]::Min($restartCount - 1, 5)))
+        Write-Warning "Restarting the camera pipeline (recovery $restartCount) in $backoffSeconds seconds. Press Ctrl+C to stop."
+        Start-Sleep -Seconds $backoffSeconds
+        if (-not (Test-UsbCameraStream)) {
+            $restartCount++
+            continue
+        }
+        Preserve-DashboardSession
+    }
+
+    Write-Host "Starting camera pipeline (run $($restartCount + 1))."
+    Push-Location $repoRoot
+    try {
+        & $pythonExe scripts\run_camera_demo.py --stream-url $streamUrl --with-people --with-tracking --with-behavior --behavior-interval 12 --person-interval 2 --image-size 320 --dashboard-image-interval 4 --reconnect-attempts 10 --reconnect-delay 1 --device $device --no-display --dashboard-session $sessionPath
+        $pipelineExitCode = $LASTEXITCODE
+    } finally {
+        Pop-Location
+    }
+
+    if ($pipelineExitCode -eq 0 -or $pipelineExitCode -eq 130 -or $pipelineExitCode -eq -1073741510) {
+        break
+    }
+    $restartCount++
 }
+exit $pipelineExitCode
